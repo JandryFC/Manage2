@@ -1,0 +1,19 @@
+[
+  {
+    "libro": 1,
+    "modulo": [
+      {
+        "nombre": 1,
+        "unidades": [1, 2]
+      },
+      {
+        "nombre": 2,
+        "unidades": [1, 2]
+      }
+    ]
+  },
+  {
+    "libro": 2,
+    "modulo": [{ "nombre": 1, "unidades": [1, 2] }]
+  }
+]

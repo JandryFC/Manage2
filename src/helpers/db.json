@@ -1,0 +1,526 @@
+[
+  {
+    "options": [],
+    "body": [
+      {
+        "item": [
+          "Hello, I",
+          "___________",
+          "Carlos Heredia."
+        ],
+        "answer": [
+          [
+            "am",
+            true
+          ],
+          [
+            "is",
+            false
+          ]
+        ]
+      }
+    ],
+    "_id": "6133abb462a77824887c0f9a",
+    "task_id": "6133ab3762a77824887c0f96",
+    "type": "true_false",
+    "question": "Look at the pictures and select the correct answers.",
+    "img": "el-flirteo-tivo-corbis.jpg",
+    "__v": 0
+  },
+  {
+    "options": [],
+    "body": [
+      {
+        "item": [
+          "We",
+          "___________",
+          "Friends."
+        ],
+        "answer": [
+          [
+            "are",
+            true
+          ],
+          [
+            "is",
+            false
+          ]
+        ]
+      }
+    ],
+    "_id": "6133abe862a77824887c0f9e",
+    "task_id": "6133ab3762a77824887c0f96",
+    "type": "true_false",
+    "question": "Look at the pictures and select the correct answers.",
+    "img": "superpop-chihicas-300x225.jpg",
+    "__v": 0
+  },
+  {
+    "options": [],
+    "body": [
+      {
+        "item": [
+          "How",
+          "___________",
+          "you"
+        ],
+        "answer": [
+          [
+            "am",
+            false
+          ],
+          [
+            "are",
+            true
+          ]
+        ]
+      }
+    ],
+    "_id": "6133ac0062a77824887c0fa2",
+    "task_id": "6133ab3762a77824887c0f96",
+    "type": "true_false",
+    "question": "Look at the pictures and select the correct answers.",
+    "img": "chica-retr14573.jpg",
+    "__v": 0
+  },
+  {
+    "options": [],
+    "body": [
+      {
+        "item": [
+          "She",
+          "___________",
+          "next to the window"
+        ],
+        "answer": [
+          [
+            "is",
+            true
+          ],
+          [
+            "are",
+            false
+          ]
+        ]
+      }
+    ],
+    "_id": "6133ac1462a77824887c0fa6",
+    "task_id": "6133ab3762a77824887c0f96",
+    "type": "true_false",
+    "question": "Look at the pictures and select the correct answers.",
+    "img": "chica-vis2148755265.jpg",
+    "__v": 0
+  },
+  {
+    "options": [
+      {
+        "item": "We are best friends forever",
+        "answer": true
+      },
+      {
+        "item": "We is best friends forever",
+        "answer": false
+      },
+      {
+        "item": "We am best friends forever",
+        "answer": false
+      },
+      {
+        "item": "We isn’t best friends forever",
+        "answer": false
+      }
+    ],
+    "body": [],
+    "_id": "6133ac2a62a77824887c0faa",
+    "task_id": "6133ab3762a77824887c0f96",
+    "type": "opcion_correcta",
+    "question": "Choose the correct option",
+    "__v": 0
+  },
+  {
+    "options": [],
+    "body": [
+      {
+        "Item": [
+          "Peter and I",
+          "___________"
+        ],
+        "answer": [
+          [
+            "We",
+            true
+          ],
+          [
+            "They",
+            false
+          ]
+        ]
+      },
+      {
+        "item": [
+          "Maria and Isaac",
+          "___________"
+        ],
+        "respuesta": [
+          [
+            "We",
+            false
+          ],
+          [
+            "They",
+            true
+          ]
+        ]
+      },
+      {
+        "item": [
+          "Professors",
+          "___________"
+        ],
+        "answer": [
+          [
+            "He",
+            false
+          ],
+          [
+            "They",
+            true
+          ]
+        ]
+      },
+      {
+        "item": [
+          "Girl",
+          "___________"
+        ],
+        "answer": [
+          [
+            "She",
+            true
+          ],
+          [
+            "He",
+            false
+          ]
+        ]
+      },
+      {
+        "item": [
+          "The boys and the professor",
+          "___________"
+        ],
+        "answer": [
+          [
+            "They",
+            true
+          ],
+          [
+            "She",
+            false
+          ]
+        ]
+      }
+    ],
+    "_id": "6133ac5c62a77824887c0fae",
+    "task_id": "6133ab3762a77824887c0f96",
+    "type": "true_false",
+    "question": "Read the following names and select the correct subject pronoun",
+    "__v": 0
+  },
+  {
+    "options": [],
+    "body": [
+      {
+        "Item": [
+          "Cat",
+          "___________"
+        ],
+        "answer": [
+          [
+            "It",
+            true
+          ],
+          [
+            "I",
+            false
+          ]
+        ]
+      },
+      {
+        "item": [
+          "The dogs and I",
+          "___________"
+        ],
+        "respuesta": [
+          [
+            "We",
+            true
+          ],
+          [
+            "They",
+            false
+          ]
+        ]
+      },
+      {
+        "item": [
+          "Mark",
+          "___________"
+        ],
+        "answer": [
+          [
+            "He",
+            true
+          ],
+          [
+            "They",
+            false
+          ]
+        ]
+      },
+      {
+        "item": [
+          "Barbara",
+          "___________"
+        ],
+        "answer": [
+          [
+            "We",
+            false
+          ],
+          [
+            "She",
+            true
+          ]
+        ]
+      },
+      {
+        "item": [
+          "The student and Rebecca",
+          "___________"
+        ],
+        "answer": [
+          [
+            "They",
+            true
+          ],
+          [
+            "She",
+            false
+          ]
+        ]
+      }
+    ],
+    "_id": "6133ac7062a77824887c0fb2",
+    "task_id": "6133ab3762a77824887c0f96",
+    "type": "true_false",
+    "question": "Read the following names and select the correct subject pronoun",
+    "__v": 0
+  },
+  {
+    "options": [
+      {
+        "item": "She are my friend",
+        "answer": false
+      },
+      {
+        "item": "She is my friend",
+        "answer": true
+      },
+      {
+        "item": "She am my friend",
+        "answer": false
+      },
+      {
+        "item": "She is am my friend",
+        "answer": false
+      }
+    ],
+    "body": [],
+    "_id": "6133ac8162a77824887c0fb6",
+    "task_id": "6133ab3762a77824887c0f96",
+    "type": "opcion_correcta",
+    "question": "Choose the correct option",
+    "__v": 0
+  },
+  {
+    "options": [
+      {
+        "item": "LAZY",
+        "answer": false
+      },
+      {
+        "item": "TALL",
+        "answer": true
+      },
+      {
+        "item": "FRIENDLY",
+        "answer": false
+      },
+      {
+        "item": "BEAUTIFUL",
+        "answer": true
+      },
+      {
+        "item": "CHARMING",
+        "answer": false
+      },
+      {
+        "item": "SHORT",
+        "answer": true
+      },
+      {
+        "item": "HONEST",
+        "answer": false
+      },
+      {
+        "item": "ATTRACTIVE",
+        "answer": true
+      }
+    ],
+    "body": [],
+    "_id": "6133ace562a77824887c0fba",
+    "task_id": "6133ab3762a77824887c0f96",
+    "type": "opcion_correcta",
+    "question": "Read the article about Karen again. Select the words which describe appearance.",
+    "img": "CapturDFDSFa.JPG",
+    "__v": 0
+  },
+  {
+    "options": [
+      {
+        "item": "LAZY",
+        "answer": true
+      },
+      {
+        "item": "TALL",
+        "answer": false
+      },
+      {
+        "item": "FRIENDLY",
+        "answer": true
+      },
+      {
+        "item": "BEAUTIFUL",
+        "answer": false
+      },
+      {
+        "item": "CHARMING",
+        "answer": true
+      },
+      {
+        "item": "SHORT",
+        "answer": false
+      },
+      {
+        "item": "HONEST",
+        "answer": true
+      },
+      {
+        "item": "ATTRACTIVE",
+        "answer": false
+      }
+    ],
+    "body": [],
+    "_id": "6133acfa62a77824887c0fbe",
+    "task_id": "6133ab3762a77824887c0f96",
+    "type": "opcion_correcta",
+    "question": "Read the article about Karen again. Select the words which describe personality.",
+    "img": "CapturDFDSFa.JPG",
+    "__v": 0
+  },
+  {
+    "options": [
+      {
+        "item": "tall",
+        "answer": true
+      },
+      {
+        "item": "thin",
+        "answer": true
+      },
+      {
+        "item": "beautiful",
+        "answer": true
+      },
+      {
+        "item": "optimistic",
+        "answer": false
+      },
+      {
+        "item": "plump",
+        "answer": true
+      },
+      {
+        "item": "funny",
+        "answer": false
+      },
+      {
+        "item": "hardworking",
+        "answer": false
+      },
+      {
+        "item": "short",
+        "answer": true
+      },
+      {
+        "item": "intelligent",
+        "answer": false
+      }
+    ],
+    "body": [],
+    "_id": "6133ad4162a77824887c0fc2",
+    "task_id": "6133ab3762a77824887c0f96",
+    "type": "opcion_correcta",
+    "question": "Read the article about John again. Select the words which describe appearance",
+    "img": "Capturaqaaa.JPG",
+    "__v": 0
+  },
+  {
+    "options": [
+      {
+        "item": "tall",
+        "answer": false
+      },
+      {
+        "item": "thin",
+        "answer": false
+      },
+      {
+        "item": "beautiful",
+        "answer": false
+      },
+      {
+        "item": "optimistic",
+        "answer": true
+      },
+      {
+        "item": "plump",
+        "answer": false
+      },
+      {
+        "item": "funny",
+        "answer": true
+      },
+      {
+        "item": "hardworking",
+        "answer": true
+      },
+      {
+        "item": "short",
+        "answer": false
+      },
+      {
+        "item": "intelligent",
+        "answer": true
+      }
+    ],
+    "body": [],
+    "_id": "6133ad5062a77824887c0fc6",
+    "task_id": "6133ab3762a77824887c0f96",
+    "type": "opcion_correcta",
+    "question": "Read the article about John again. Select the words which describe personality.",
+    "img": "Capturaqaaa.JPG",
+    "__v": 0
+  }
+]
