@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import logo_utm from "../../assets/Logo_utm.png";
 import loading from "../../assets/loading.svg";
 import axios from "axios";
-import {mostrarAlertaSalir} from '../../components/Alert/Alert'
+import { mostrarAlertaSalir } from "../../components/Alert/Alert";
 const API_URL = "http://localhost:5000/";
 const API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYWlsIjoibWluZWNyYWZ0ZXJvc2ZvcmV2ZXIiLCJpYXQiOjE2MzY2NDY1NDZ9.kyTKHv2QbwwdWjjyUxmkIxzBnzq47_P6e1GgMqDoXpY";
@@ -10,6 +10,7 @@ const API_KEY =
 const Login = () => {
   const [isVisibleDato, setIsVisibleDato] = useState("hidden");
   const [dato, setDato] = useState("");
+  const [userStorage, setUserStorage] = useState({});
   const [form, setForm] = useState({
     mail: "",
     password: "",
@@ -36,13 +37,12 @@ const Login = () => {
     }, 10000);
   };
 
-
-  useEffect(async()=>{
-   const saved = localStorage.getItem('user');
-   if(saved){
-    mostrarAlertaSalir();
-   } 
-  })
+  useEffect(async () => {
+    const saved = localStorage.getItem("user");
+    if (saved) {
+      mostrarAlertaSalir();
+    }
+  }, []);
   const handleSubmit = async (event) => {
     event.preventDefault();
     setCargando(true);

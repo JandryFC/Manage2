@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import NavComponent from "../../components/NavComponent/NavComponent";
 import Book from "../../components/Libros/Libro";
+import CardPlus from "../../components/CardPlus/CardPlus";
 const API_URL = "http://localhost:5000/";
 const API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYWlsIjoibWluZWNyYWZ0ZXJvc2ZvcmV2ZXIiLCJpYXQiOjE2MzY2NDY1NDZ9.kyTKHv2QbwwdWjjyUxmkIxzBnzq47_P6e1GgMqDoXpY";
@@ -17,20 +18,20 @@ const Dashboard = () => {
   const getData = async () => {
     const response = await fetch(`${API_URL}user_progress/${USER._id}`, {
       method: "POST",
-      headers: {
-        token: USER.confirmationCode,
-      },
+      /* headers: {
+        token: API_KEY,
+      }, */
     });
     const data = await response.json();
+
     return data;
   };
-
-  useEffect(() => {
-    let llenarInfo = async () => {
-      let userInfo = await getData();
+  const llenarInfo = async () =>{
+    let userInfo = await getData();
+      console.log(userInfo)
       if (
-        userInfo.name === "JsonWebTokenError" ||
-        userInfo.name === "TokenExpiredError"
+        userInfo.name === "JsonWebTokenError"  ||
+        userInfo.name === "TokenExpiredError" 
       ) {
         window.location.href = "./";
       }
@@ -108,16 +109,15 @@ const Dashboard = () => {
 
       setuserProgress(await mergeBooks);
       setcargando(false);
-    };
-    llenarInfo();
 
-    console.log(userProgress);
-  }, []);
+  }
+
   useEffect(async () => {
+    llenarInfo();
     if (!USER) {
       window.location.href = "/";
     }
-  }, []);
+  }, [userProgress]);
 
   //libros >> modulo >> unidad
 
@@ -129,14 +129,18 @@ const Dashboard = () => {
           <h2 className="text-4xl font-bold">Libros</h2>
         </div>
         <div className="flex  flex-wrap justify-center space-x-4 my-4">
-          {userProgress.libros.map((e, i) => {
+          {userProgress && /*console.log(userProgress)  */ userProgress.libros.map((e, i) => {
             return (
               <div className="my-4">
                 <Book book_number={i + 1} />
               </div>
             );
-          })}
+          }) } 
         
+          
+          <div className="my-auto">
+            <CardPlus />
+          </div>
         </div>
       </div>
     </div>
