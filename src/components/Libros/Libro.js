@@ -14,7 +14,7 @@ const Libro = (props) => {
           quia, nulla! Maiores et perferendis eaque, exercitationem praesentium
           nihil.
         </p>
-        <div classNameName="my-3 space-x-3">
+        <div className="my-3 space-x-3">
           <a href={`/dashboard/book/${props.book_number}`}>
             <button className="bg-yellow-500 hover:bg-yellow-400 text-white font-bold py-2 px-4 rounded-full">
               Ver libro

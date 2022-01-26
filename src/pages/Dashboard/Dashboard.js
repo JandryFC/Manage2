@@ -3,6 +3,7 @@ import axios from "axios";
 import NavComponent from "../../components/NavComponent/NavComponent";
 import Book from "../../components/Libros/Libro";
 import CardPlus from "../../components/CardPlus/CardPlus";
+import shortid from "shortid";
 const API_URL = "http://localhost:5000/";
 const API_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYWlsIjoibWluZWNyYWZ0ZXJvc2ZvcmV2ZXIiLCJpYXQiOjE2MzY2NDY1NDZ9.kyTKHv2QbwwdWjjyUxmkIxzBnzq47_P6e1GgMqDoXpY";
@@ -114,10 +115,10 @@ const Dashboard = () => {
 
   useEffect(async () => {
     llenarInfo();
-    if (!USER) {
-      window.location.href = "/";
+    if(!USER){
+      window.location.href = '/';
     }
-  }, [userProgress]);
+  }, []);
 
   //libros >> modulo >> unidad
 
@@ -129,13 +130,18 @@ const Dashboard = () => {
           <h2 className="text-4xl font-bold">Libros</h2>
         </div>
         <div className="flex  flex-wrap justify-center space-x-4 my-4">
-          {userProgress && /*console.log(userProgress)  */ userProgress.libros.map((e, i) => {
+          {!cargando? /*console.log(userProgress)  */ 
+          <div>
+          {userProgress.libros.map((e, i) => {
             return (
-              <div className="my-4">
-                <Book book_number={i + 1} />
+              <div className="my-4" key={shortid.generate()}>
+                <Book book_number={i + 1} key={shortid.generate()}/>
               </div>
             );
-          }) } 
+          }) }
+          </div>
+          :<div>CARGANDO...</div>
+          } 
         
           
           <div className="my-auto">
