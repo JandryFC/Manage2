@@ -37,12 +37,6 @@ const Login = () => {
     }, 10000);
   };
 
-  useEffect(async () => {
-    const saved = localStorage.getItem("user");
-    if (saved) {
-      mostrarAlertaSalir();
-    }
-  }, []);
   const handleSubmit = async (event) => {
     event.preventDefault();
     setCargando(true);
@@ -58,6 +52,7 @@ const Login = () => {
         },
       }
     );
+    setCargando(false);
     let data = response.data;
 
     if (data.res === "USER NOT EXIST") {
@@ -190,6 +185,14 @@ const Login = () => {
           {/* termina */}
         </div>
       </div>
+      <script>
+      {window.onload = function() {
+        const saved = localStorage.getItem("user");
+        if (saved) {
+          mostrarAlertaSalir();
+        }
+      }}
+      </script>
     </div>
   );
 };
