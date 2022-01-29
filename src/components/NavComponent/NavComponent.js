@@ -28,7 +28,7 @@ class NavComponent extends React.Component {
           <div className="max-w-7xl mx-auto ">
             <div className="flex items-center justify-between h-16">
               <div className=" flex items-center">
-                <a className="flex-shrink-0" href="/">
+                <a className="flex-shrink-0" href="/dashboard">
                   <img className="" width="125px" src={logobn} alt="Workflow" />
                 </a>
                 {this.props.data && console.log(this.props.data.name)}

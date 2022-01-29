@@ -109,6 +109,8 @@ const Dashboard = () => {
       });
 
       setuserProgress(await mergeBooks);
+      console.log(userProgress)
+      localStorage.setItem('struct', JSON.stringify(userProgress));
       setcargando(false);
 
   }
@@ -145,7 +147,7 @@ const Dashboard = () => {
         
           
           <div className="my-auto">
-            <CardPlus />
+            <CardPlus tema="Libro"/>
           </div>
         </div>
       </div>

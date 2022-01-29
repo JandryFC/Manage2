@@ -1,6 +1,5 @@
 import React from "react";
-import shortid from "shortid";
-import Modulo from "../Modulos/Modulo";
+
 
 import "./Libro.css";
 

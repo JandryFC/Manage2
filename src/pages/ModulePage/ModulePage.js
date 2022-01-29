@@ -6,11 +6,12 @@ import shortid from "shortid";
 import {
     useParams
 } from "react-router-dom";
+import Unidad from "../../components/Unidades/Unidad";
 
-const LibroPage = () => {
-    let { book_number } = useParams();
+const UnidadPage = () => {
+    let { book_number, module_number } = useParams();
     const USER = JSON.parse(localStorage.getItem("user"));
-    const Data_libro = JSON.parse(localStorage.getItem('struct')).libros[parseInt(book_number) - 1]
+    const module_data = JSON.parse(localStorage.getItem('struct')).libros[parseInt(book_number) - 1].modulos[module_number-1]
 
     const [cargando, setcargando] = useState(false);
 
@@ -23,15 +24,15 @@ const LibroPage = () => {
         <NavComponent data={USER} />
         <div className="p-4">
             <div className="text-center">
-                <h2 className="text-4xl font-bold">Modulos del Libro {book_number}</h2>
+                <h2 className="text-4xl font-bold">Unidades del modulo {module_number} del Libro {book_number}</h2>
             </div>
             <div className="flex  flex-wrap justify-center space-x-4 my-4">
                 {!cargando ? /*console.log(userProgress)  */
                     <div>
-                        {Data_libro.modulos.map((e, i) => {
+                        {module_data.map((e, i) => {
                             return (
                                 <div className="my-4" key={shortid.generate()}>
-                                    <Modulo book_number={book_number} modulo_number={i + 1} key={shortid.generate()} />
+                                    <Unidad modulo_number={module_number} book_number={book_number} unidad_number={i+1} key={shortid.generate()} />
                                 </div>
                             );
                         })}
@@ -41,11 +42,11 @@ const LibroPage = () => {
 
 
                 <div className="my-auto">
-                    <CardPlus tema="Modulo" />
+                    <CardPlus tema="Unidad"/>
                 </div>
             </div>
         </div>
     </div>)
 }
 
-export default LibroPage;
+export default UnidadPage;

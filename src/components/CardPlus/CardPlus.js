@@ -8,7 +8,7 @@ const CardPlus = (props) => {
           <button className="  text-gray-800 font-bold py-2 px-9 ">
             <img src={plus} className="px-auto" width="50"/>
           </button>
-          <h2 className="text-gray-800 font-bold">Agregar Libro</h2>
+          <h2 className="text-gray-800 font-bold">Agregar {props.tema}</h2>
         </div>
       </div>
     </div>

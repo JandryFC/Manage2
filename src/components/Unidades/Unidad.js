@@ -1,17 +1,18 @@
 import React from 'react';
 
 
-const Modulo = (props) => {
+const Unidad = (props) => {
+
   return (<div className="max-w-sm rounded overflow-hidden shadow-lg">
     <div className="px-6 py-4">
-      <div className="font-bold text-xl mb-2">Modulo {props.modulo_number}</div>
+      <div className="font-bold text-xl mb-2">Unidad {props.unidad_number}</div>
       <p className="text-gray-700 text-base">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus
         quia, nulla! Maiores et perferendis eaque, exercitationem praesentium
         nihil.
       </p>
       <div className="my-3 space-x-3">
-        <a href={`/dashboard/book/${props.book_number}/module/${props.modulo_number}`}>
+        <a href={`/dashboard/book/${props.book_number}/module/${props.modulo_number}/unit/${props.unidad_number}`}>
           <button className="bg-yellow-500 hover:bg-yellow-400 text-white font-bold py-2 px-4 rounded-full">
             Ver Unidad
           </button>
@@ -35,4 +36,4 @@ const Modulo = (props) => {
   </div>);
 };
 
-export default Modulo;
+export default Unidad;
