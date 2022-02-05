@@ -120,7 +120,7 @@ const Dashboard = () => {
     if(!USER){
       window.location.href = '/';
     }
-  }, []);
+  });
 
   //libros >> modulo >> unidad
 
