@@ -26,6 +26,7 @@ const QuestionFormPage = (props) => {
     }, */}
         )
         var _question = await data_question.json()
+        
         setQuestion(await _question)
     }
 
