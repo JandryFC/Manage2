@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from "react";
-
+import axios from 'axios';
 import shortid from "shortid";
+const API_URL = "http://localhost:5000/";
+const API_KEY =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYWlsIjoibWluZWNyYWZ0ZXJvc2ZvcmV2ZXIiLCJpYXQiOjE2MzY2NDY1NDZ9.kyTKHv2QbwwdWjjyUxmkIxzBnzq47_P6e1GgMqDoXpY";
+
 
 const Opcion_correcta1 = (props) => {
 
     const [form, setForm] = useState({})
     const [question, setQuestion] = useState({});
+    var formData = new FormData() 
 
-    const handleChange = (e) => {
+    
+    const handleChange = async (e) => {
         const aux_question = question;
         const value = e.target.value;
 
@@ -15,7 +21,7 @@ const Opcion_correcta1 = (props) => {
             aux_question.question = value
 
         } if (e.target.name === "img") {
-            //Aqui va la llamada al api de google 
+            formData.set("files", e.target.files[0])
         } if (e.target.name === "answer") {
             aux_question.options.forEach((e, i) => {
                 aux_question.options[i].answer = false;
@@ -24,21 +30,32 @@ const Opcion_correcta1 = (props) => {
         }
 
         if (e.target.name.substr(0, 4) === "item") {
-            console.log("valor", e.target.name.substr(-1))
             let index = parseInt(e.target.name.substr(-1))
             aux_question.options[index].item = e.target.value
         }
-
         setQuestion(aux_question)
-        console.log(question)
+        formData.set("question", JSON.stringify(question))
     };
 
-    const handleForm = (e) => {
+
+    const handleForm = async (e) => {
         e.preventDefault();
-        const question = question;
+        const data_upload = await fetch(`${API_URL}editQuestion`,
+                {
+                    method: "PUT",
+                    body: formData,
+                    /*headers: {
+                         token: API_KEY, 
+                        "Content-type": "multipart/form-data",
+                    },*/
+                }
+            )
+            var upload = await data_upload.json()
+            console.log("data", upload)
     }
     useEffect(async () => {
-        setQuestion(props.question)
+        setQuestion(props.question) 
+        formData.set("question", JSON.stringify(question))
     })
     return (
 
@@ -108,7 +125,7 @@ const Opcion_correcta1 = (props) => {
                 </div>
 
                 <div className="flex items-center justify-between">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                    <button onClick={handleForm} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
                         Sign In
                     </button>
                     <a className="inline-block align-baseline font-bold text-md text-blue-500 hover:text-blue-800" href="#">
