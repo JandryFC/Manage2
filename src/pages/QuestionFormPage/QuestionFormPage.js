@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import NavComponent from "../../components/NavComponent/NavComponent";
 import Opcion_correcta1 from "../../components/FormQuestion/Opcion_correcta1";
+import Completar_texto from "../../components/FormQuestion/Completar_texto";
 import {
     useParams
 } from "react-router-dom";
@@ -42,7 +43,8 @@ const QuestionFormPage = (props) => {
         <div>
             <NavComponent data={USER} />
             <div className="">
-               <Opcion_correcta1 question={question} />
+              {/*  <Opcion_correcta1 question={question} /> */}
+               <Completar_texto question={question} />
             </div>
         </div>
     )

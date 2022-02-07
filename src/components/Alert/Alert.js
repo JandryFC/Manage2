@@ -38,6 +38,18 @@ export const mostrarAlertaEliminar = (tema) => {
 
     return value;
 }
+export const mostrarExitoEditar = async (titulo, text, icon) => {
+    var result_data =
+        await Swal.fire({
+            title: titulo,
+            text: text,
+            icon: icon,
+            showConfirmButton: true,
+        })
+        console.log(result_data);
+    return result_data;
+
+}
 
 export const mostrarEditarPregunta = (pregunta) => {
     Swal.fire({

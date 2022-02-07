@@ -11,7 +11,7 @@ import Unidad from "../../components/Unidades/Unidad";
 const UnidadPage = () => {
     let { book_number, module_number } = useParams();
     const USER = JSON.parse(localStorage.getItem("user"));
-    const module_data = JSON.parse(localStorage.getItem('struct')).libros[parseInt(book_number) - 1].modulos[module_number-1]
+    const module_data = JSON.parse(localStorage.getItem('struct')).libros[parseInt(book_number) - 1].modulos[module_number - 1]
 
     const [cargando, setcargando] = useState(false);
 
@@ -28,21 +28,17 @@ const UnidadPage = () => {
             </div>
             <div className="flex  flex-wrap justify-center space-x-4 my-4">
                 {!cargando ? /*console.log(userProgress)  */
-                    <div>
-                        {module_data.map((e, i) => {
-                            return (
-                                <div className="my-4" key={shortid.generate()}>
-                                    <Unidad modulo_number={module_number} book_number={book_number} unidad_number={i+1} key={shortid.generate()} />
-                                </div>
-                            );
-                        })}
-                    </div>
+                    module_data.map((e, i) => {
+                        return (
+                            <div className="my-4" key={shortid.generate()}>
+                                <Unidad modulo_number={module_number} book_number={book_number} unidad_number={i + 1} key={shortid.generate()} />
+                            </div>
+                        );
+                    })
                     : <div>CARGANDO...</div>
                 }
-
-
                 <div className="my-auto">
-                    <CardPlus tema="Unidad"/>
+                    <CardPlus tema="Unidad" />
                 </div>
             </div>
         </div>

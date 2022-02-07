@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from 'axios';
+import { useNavigate } from "react-router-dom"
 import shortid from "shortid";
+import { mostrarExitoEditar } from '../../components/Alert/Alert'
+
 const API_URL = "http://localhost:5000/";
 const API_KEY =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYWlsIjoibWluZWNyYWZ0ZXJvc2ZvcmV2ZXIiLCJpYXQiOjE2MzY2NDY1NDZ9.kyTKHv2QbwwdWjjyUxmkIxzBnzq47_P6e1GgMqDoXpY";
@@ -8,11 +10,11 @@ const API_KEY =
 
 const Opcion_correcta1 = (props) => {
 
-    const [form, setForm] = useState({})
     const [question, setQuestion] = useState({});
-    var formData = new FormData() 
+    var formData = new FormData()
+    var navigate = useNavigate()
 
-    
+
     const handleChange = async (e) => {
         const aux_question = question;
         const value = e.target.value;
@@ -41,30 +43,39 @@ const Opcion_correcta1 = (props) => {
     const handleForm = async (e) => {
         e.preventDefault();
         const data_upload = await fetch(`${API_URL}editQuestion`,
-                {
-                    method: "PUT",
-                    body: formData,
-                    /*headers: {
-                         token: API_KEY, 
-                        "Content-type": "multipart/form-data",
-                    },*/
-                }
-            )
-            var upload = await data_upload.json()
-            console.log("data", upload)
+            {
+                method: "PUT",
+                body: formData,
+                /*headers: {
+                     token: API_KEY, 
+                    "Content-type": "multipart/form-data",
+                },*/
+            }
+        )
+        var upload = await data_upload.json()
+        if (upload.msg === "CORRECT") {
+            var result = mostrarExitoEditar("Exito", "La pregunta fue almanceda correctamente", "success")
+            if (await result ) {
+                navigate(-1)
+            }
+
+        } else {
+            mostrarExitoEditar("Error", "Hubo un problema al agregar la pregunta", "error")
+        }
+
     }
     useEffect(async () => {
-        setQuestion(props.question) 
+        setQuestion(props.question)
         formData.set("question", JSON.stringify(question))
     })
     return (
 
-        <div className="w-full max-w-xl">
+        <div className="w-full max-w-xl m-auto py-5">
             {console.log(question)}
             <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <div className="mb-4">
-                    <h2 className="block text-center text-yellow-500 text-xl font-bold mb-2">
-                        Editar pregunta:
+                    <h2 className="block text-center text-yellow-500 text-2xl font-bold mb-2">
+                        Editar pregunta
                     </h2>
                 </div>
                 <div className="mb-4">
@@ -74,7 +85,7 @@ const Opcion_correcta1 = (props) => {
                 </div>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="question">
-                        Pregunta
+                        Pregunta:
                     </label>
                     <textarea id="question" name="question" onChange={handleChange} rows="4" className=" shadow appearance-none border border-gray-400 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" defaultValue={question.question}>
                     </textarea>
@@ -125,12 +136,10 @@ const Opcion_correcta1 = (props) => {
                 </div>
 
                 <div className="flex items-center justify-between">
-                    <button onClick={handleForm} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-                        Sign In
+                    <button onClick={handleForm} className="bg-green-500 hover:bg-greeb-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                        Actualizar
                     </button>
-                    <a className="inline-block align-baseline font-bold text-md text-blue-500 hover:text-blue-800" href="#">
-                        Forgot Password?
-                    </a>
+                   
                 </div>
             </form>
             <p className="text-center text-gray-500 text-xs">

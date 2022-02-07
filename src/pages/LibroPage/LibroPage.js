@@ -27,19 +27,15 @@ const LibroPage = () => {
             </div>
             <div className="flex  flex-wrap justify-center space-x-4 my-4">
                 {!cargando ? /*console.log(userProgress)  */
-                    <div>
-                        {Data_libro.modulos.map((e, i) => {
+                        Data_libro.modulos.map((e, i) => {
                             return (
                                 <div className="my-4" key={shortid.generate()}>
                                     <Modulo book_number={book_number} modulo_number={i + 1} key={shortid.generate()} />
                                 </div>
                             );
-                        })}
-                    </div>
+                        })
                     : <div>CARGANDO...</div>
                 }
-
-
                 <div className="my-auto">
                     <CardPlus tema="Modulo" />
                 </div>
