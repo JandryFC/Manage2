@@ -17,9 +17,9 @@ const Unidad = (props) => {
             Ver Unidad
           </button>
         </a>
-        <button className="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 rounded-full">
+       {/*  <button className="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 rounded-full">
           Eliminar Unidad
-        </button>
+        </button> */}
       </div>
     </div>
     <div className="px-6 pt-4 pb-2">

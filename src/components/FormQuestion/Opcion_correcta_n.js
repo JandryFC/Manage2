@@ -8,7 +8,7 @@ const API_KEY =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYWlsIjoibWluZWNyYWZ0ZXJvc2ZvcmV2ZXIiLCJpYXQiOjE2MzY2NDY1NDZ9.kyTKHv2QbwwdWjjyUxmkIxzBnzq47_P6e1GgMqDoXpY";
 
 
-const Opcion_correcta1 = (props) => {
+const Opcion_correcta_n = (props) => {
 
     const [question, setQuestion] = useState({});
     var formData = new FormData()
@@ -24,19 +24,18 @@ const Opcion_correcta1 = (props) => {
 
         } if (e.target.name === "img") {
             formData.set("files", e.target.files[0])
-        } if (e.target.name === "answer") {
-            aux_question.options.forEach((e, i) => {
-                aux_question.options[i].answer = false;
-            })
-            aux_question.options[value].answer = true;
+        } if (e.target.name.substr(0,6) === "answer") {
+            let index = parseInt(e.target.name.substr(-1))
+            aux_question.options[index].answer = e.target.checked;
         }
-
+        
         if (e.target.name.substr(0, 4) === "item") {
             let index = parseInt(e.target.name.substr(-1))
             aux_question.options[index].item = e.target.value
         }
         setQuestion(aux_question)
         formData.set("question", JSON.stringify(question))
+        console.log(question)
     };
 
 
@@ -66,6 +65,7 @@ const Opcion_correcta1 = (props) => {
     }
     useEffect(async () => {
         setQuestion(props.question)
+        console.log(question)
         formData.set("question", JSON.stringify(question))
     })
     return (
@@ -94,7 +94,7 @@ const Opcion_correcta1 = (props) => {
                         Imagen:
                         {!question.img ?
                             <span className="text-md  font-normal"> No existe imagen</span>
-                            :<a target="_blank" className="font-normal text-yellow-500" href={`https://drive.google.com/file/d/${question.img}/view`}>
+                            : <a target="_blank" className="font-normal text-yellow-500" href={`https://drive.google.com/file/d/${question.img}/view`}>
                             Ver Imagen
                         </a>}
                     </label>
@@ -110,29 +110,26 @@ const Opcion_correcta1 = (props) => {
                         {question.options ? question.options.map((e, i) => {
                             return (
 
-                                <div className=" mx-3 mb-6" key={shortid.generate()}>
-                                    <div className="w-full  px-3 ">
-                                        <label className="block text-gray-700 text-md font-bold mb-2" htmlFor={`respuesta${i + 1}`}>
-                                            Respuesta {i + 1}
+                                <div className="flex flex-wrap -mx-3 mb-2  " key={shortid.generate()}>
+                                    <div className="md:w-1/3 px-3 mb-6 md:mb-0 ">
+                                        <label className="block text-gray-700 text-md font-bold mb-2" htmlFor={`item${i + 1}`}>
+                                            Item {i + 1}:
                                         </label>
-                                        <input name={`item${i}`} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" defaultValue={e.item} id={`respuesta${i + 1}`} type="text" placeholder="Respuesta"></input>
+                                        <input name={`item${i}`} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" defaultValue={e.item} id={`item${i + 1}`} type="text" placeholder="item"></input>
+                                    </div>
+                                    <div className="  md:w-1/3 px-3  ">
+                                        <h2 className="block text-gray-700 text-md font-bold mb-2" >
+                                            Respuesta {i + 1}:
+                                        </h2>
+                                        <div className="form-check form-switch py-2">
+                                            <input onChange={handleChange} name={`answer${i}`} className="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-white bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm" type="checkbox" role="switch" id="flexSwitchCheckDefault" defaultChecked={e.answer} />
+                                            <label className="form-check-label inline-block text-gray-800" htmlFor="flexSwitchCheckDefault" > valor</label>
+                                        </div>
                                     </div>
 
                                 </div>
                             );
                         }) : <div>Cargando</div>}
-                    </div>
-                    <div className="inline-block relative w-64">
-                        <label htmlFor="respuesta_correcta" className="block text-gray-700 text-md font-bold mb-2">Respuesta correcta: </label>
-                        <select id="respuesta_correcta" name="answer" onChange={handleChange} className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
-                            {question.options ? question.options.map((e, i) => {
-                                return (<option value={i} key={shortid.generate()}>{`Respuesta ${i + 1}`}</option>)
-                            }) : <option>Sin opciones</option>
-                            }
-                        </select>
-                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                            <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
-                        </div>
                     </div>
                 </div>
 
@@ -151,4 +148,4 @@ const Opcion_correcta1 = (props) => {
 
 
 }
-export default Opcion_correcta1;
+export default Opcion_correcta_n;

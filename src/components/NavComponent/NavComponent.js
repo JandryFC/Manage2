@@ -31,7 +31,7 @@ class NavComponent extends React.Component {
                 <a className="flex-shrink-0" href="/dashboard">
                   <img className="" width="125px" src={logobn} alt="Workflow" />
                 </a>
-                {this.props.data && console.log(this.props.data.name)}
+             {/*    {this.props.data && console.log(this.props.data.name)} */}
                 {/* <div className="hidden md:block">
                   <div className=" ml-10 flex items-baseline space-x-4">
                     <a

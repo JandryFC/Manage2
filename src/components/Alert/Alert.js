@@ -21,20 +21,16 @@ export const mostrarAlertaSalir = () => {
     });
 }
 
-export const mostrarAlertaEliminar = (tema) => {
-    var value;
-    Swal.fire(
+export const mostrarAlertaEliminar = async (tema) => {
+    var value = await Swal.fire(
         {
             title: `Eliminar ${tema}`,
-            type: "warning",
+            icon: "warning",
             text: "¿Estas seguro que deseas eliminar?",
             confirmButtonText: "Continuar",
             showCancelButton: true,
         }
-    ).then((result) => {
-        value = result.value
-    });
-
+    )
 
     return value;
 }
@@ -46,7 +42,6 @@ export const mostrarExitoEditar = async (titulo, text, icon) => {
             icon: icon,
             showConfirmButton: true,
         })
-        console.log(result_data);
     return result_data;
 
 }

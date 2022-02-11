@@ -4,7 +4,7 @@ import {
     useParams
 } from "react-router-dom";
 import shortid from "shortid";
-import { mostrarAlertaEliminar, mostrarEditarPregunta } from '../../components/Alert/Alert'
+import { mostrarExitoEditar, mostrarAlertaEliminar } from '../../components/Alert/Alert'
 import DataTable from 'react-data-table-component';
 
 const API_URL = "http://localhost:5000/";
@@ -37,6 +37,8 @@ const columns = [
 const UnitPage = (props) => {
     let { book_number, module_number, unit_number } = useParams();
 
+    var modulo = parseInt(module_number) === 1 ? (parseInt(book_number) * 2) - 1 : parseInt(book_number) * 2;
+
     const [cargando, setcargando] = useState(true);
     const [selectedRows, setSelectedRows] = useState(false);
     const [toggleCleared, setToggleCleared] = React.useState(false);
@@ -49,37 +51,27 @@ const UnitPage = (props) => {
     const contextActions = React.useMemo(() => {
 
         const handleUpdate = async () => {
-            /* const data_question = await fetch(`${API_URL}question/find/${selectedRows[0]._id}`,
-                {
-                    method: "GET",
-                    /* headers: {
-              token: API_KEY,
-            }, }
-            )
-            var question = await data_question.json()
-            mostrarEditarPregunta(question)
-            console.log(question) */
             window.location = `/dashboard/editQuestion/${selectedRows[0]._id}`
         }
         const handleDelete = async () => {
 
-            if (mostrarAlertaEliminar("Pregunta")) {
+            const alerta = await mostrarAlertaEliminar("Pregunta");
+            if (await alerta) {
                 setToggleCleared(!toggleCleared);
-
-
-                const delete_response = await fetch(`${API_URL}question/delete/${book_number}/${module_number}/${unit_number}/${selectedRows[0]._id}/`, {
+                const delete_response = await fetch(`${API_URL}question/delete/${selectedRows[0]._id}/`, {
                     method: "GET",
                     /* headers: {
               token: API_KEY,
             }, */
                 });
                 const _delete = await delete_response.json();
-                console.log(_delete);
                 if (_delete.message) {
                     //se eliminó de la base de datos 
+                    var result = await mostrarExitoEditar("Exito", "La pregunta fue eliminada correctamente", "success")
                     await getQuestion();
                 } else {
                     //hubo un error al eliminar el dato
+                    var result = mostrarExitoEditar("Error", "Hubo un problema al eliminar la pregunta", "error")
                 }
             }
         };
@@ -98,7 +90,9 @@ const UnitPage = (props) => {
 
     const getQuestion = async () => {
 
-        const questionResponse = await fetch(`${API_URL}review/${book_number}/${module_number}/${unit_number}/`, {
+        
+
+        const questionResponse = await fetch(`${API_URL}review/${book_number}/${modulo}/${unit_number}/`, {
             method: "GET",
             /* headers: {
               token: API_KEY,
@@ -130,11 +124,11 @@ const UnitPage = (props) => {
         <div>
             <NavComponent data={USER} />
             <div className="m-5">
+                 <h2 className="text-3xl font-bold">Preguntas</h2>
                 <div className="text-left my-2">
                     <button key="new" className="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border border-green-500 rounded">
                         Agregar
                     </button>
-                    {/*  <h2 className="text-3xl font-bold">Preguntas</h2> */}
                 </div>
                 <div className="container-fluid rounded overflow-hidden shadow-lg border-2 border-gray-200 p-4 bg-white">
                     {!cargando ? /*console.log(userProgress)  */
