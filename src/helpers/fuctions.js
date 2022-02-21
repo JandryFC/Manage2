@@ -4,6 +4,24 @@ export const isValidEmail = (email) => {
     /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(String(email).toLowerCase());
 }
+export const transformTypeQuestion = (type) => {
+  switch (type) {
+    case "true_false":
+      return "Verdadero o falso"
+    case "ordenar":
+      return "Ordenar";
+    case "opcion_correcta_1":
+      return "Opción correcta ";
+    case "completar_texto":
+      return "Completar texto";
+    case "emparejar":
+      return "Emparejar";
+    case "opcion_correcta_n":
+      return "Opción correcta multiple";
+    case "emparejar_img":
+      return "Emparejar con imágenes";
+  }
+}
 
 //es gmail domain
 export const isUTM = (email) => {

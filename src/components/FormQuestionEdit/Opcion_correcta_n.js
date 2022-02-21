@@ -27,6 +27,7 @@ const Opcion_correcta_n = (props) => {
         } if (e.target.name.substr(0,6) === "answer") {
             let index = parseInt(e.target.name.substr(-1))
             aux_question.options[index].answer = e.target.checked;
+            document.getElementById(`label${index}`).innerHTML = e.target.checked? "Verdadero": "Falso"
         }
         
         if (e.target.name.substr(0, 4) === "item") {
@@ -111,7 +112,7 @@ const Opcion_correcta_n = (props) => {
                             return (
 
                                 <div className="flex flex-wrap -mx-3 mb-2  " key={shortid.generate()}>
-                                    <div className="md:w-1/3 px-3 mb-6 md:mb-0 ">
+                                    <div className="md:w-1/2 px-3 mb-6 md:mb-0 ">
                                         <label className="block text-gray-700 text-md font-bold mb-2" htmlFor={`item${i + 1}`}>
                                             Item {i + 1}:
                                         </label>
@@ -123,7 +124,7 @@ const Opcion_correcta_n = (props) => {
                                         </h2>
                                         <div className="form-check form-switch py-2">
                                             <input onChange={handleChange} name={`answer${i}`} className="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-white bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm" type="checkbox" role="switch" id="flexSwitchCheckDefault" defaultChecked={e.answer} />
-                                            <label className="form-check-label inline-block text-gray-800" htmlFor="flexSwitchCheckDefault" > valor</label>
+                                            <label id={`label${i}`} className="form-check-label inline-block text-gray-800" htmlFor="flexSwitchCheckDefault" > {e.answer?"Verdadero": "Falso"}</label>
                                         </div>
                                     </div>
 

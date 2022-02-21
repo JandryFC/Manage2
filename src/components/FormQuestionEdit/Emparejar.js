@@ -102,14 +102,14 @@ const Emparejar = (props) => {
                     {question.body ? question.body.map((e, i) => {
                         return (
 
-                            <div className="flex flex-wrap -mx-3 mb-2  " key={shortid.generate()}>
-                                <div className="md:w-1/3 px-3 mb-6 md:mb-0 ">
+                            <div className="flex flex-wrap mx-3 mb-2  " key={shortid.generate()}>
+                                <div className="w-1/2 px-3 mb-6 md:mb-0 ">
                                     <label className="block text-gray-700 text-md font-bold mb-2" htmlFor={`item${i + 1}`}>
                                         Item {i + 1}:
                                     </label>
                                     <input name={`item${i}`} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" defaultValue={e.item[0]} id={`item${i + 1}`} type="text" placeholder="item"></input>
                                 </div>
-                                <div className="  md:w-1/3 px-3 mb-6 md:mb-0 ">
+                                <div className=" w-1/2 px-3 mb-6 md:mb-0 ">
                                     <label className="block text-gray-700 text-md font-bold mb-2" htmlFor={`answer${i + 1}`}>
                                         Respuesta {i + 1}:
                                     </label>

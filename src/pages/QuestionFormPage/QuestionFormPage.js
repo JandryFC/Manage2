@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import NavComponent from "../../components/NavComponent/NavComponent";
-import Opcion_correcta1 from "../../components/FormQuestion/Opcion_correcta1";
-import Completar_texto from "../../components/FormQuestion/Completar_texto";
-import Emparejar_img from "../../components/FormQuestion/Emparejar_img";
-import True_false from "../../components/FormQuestion/True_false";
-import Opcion_correcta_n from "../../components/FormQuestion/Opcion_correcta_n";
-import Emparejar from "../../components/FormQuestion/Emparejar";
-import Ordenar from "../../components/FormQuestion/Ordenar";
+import Opcion_correcta1 from "../../components/FormQuestionEdit/Opcion_correcta1";
+import Completar_texto from "../../components/FormQuestionEdit/Completar_texto";
+import Emparejar_img from "../../components/FormQuestionEdit/Emparejar_img";
+import True_false from "../../components/FormQuestionEdit/True_false";
+import Opcion_correcta_n from "../../components/FormQuestionEdit/Opcion_correcta_n";
+import Emparejar from "../../components/FormQuestionEdit/Emparejar";
+import Ordenar from "../../components/FormQuestionEdit/Ordenar";
 import {
     useParams
 } from "react-router-dom";
