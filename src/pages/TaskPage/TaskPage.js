@@ -8,8 +8,8 @@ import { mostrarExitoEditar, mostrarAlertaEliminar } from '../../components/Aler
 import DataTable from 'react-data-table-component';
 import { transformTypeQuestion } from "../../helpers/fuctions"
 
-const API_URL = "http://localhost:5000/";
 const USER = JSON.parse(localStorage.getItem("user"));
+const API_URL = "http://localhost:5000/";
 const API_KEY =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYWlsIjoibWluZWNyYWZ0ZXJvc2ZvcmV2ZXIiLCJpYXQiOjE2MzY2NDY1NDZ9.kyTKHv2QbwwdWjjyUxmkIxzBnzq47_P6e1GgMqDoXpY";
 
@@ -129,13 +129,13 @@ const UnitPage = (props) => {
     return (
         <div>
             <NavComponent data={USER} />
-            <div className="m-5">
-                <h3 className="text-2xl font-semibold text-center text-gray-700 uppercase  my-3">Preguntas de la tarea  </h3>
-                <div className="container-fluid rounded overflow-hidden w-1/2 m-auto shadow-lg border-2 border-gray-200 p-4 bg-white">
-                    <div className=" my-2 ">
+            <div className="grid grid-col-2 ml-60">
+                <div className="flex justify-between p-4">
+                    <div>
+
                         <div className="dropdown relative">
                             <button
-                                className=" dropdown-toggle px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg active:text-white transition duration-150 ease-in-out flex items-center whitespace-nowrap"
+                                className=" dropdown-toggle px-4 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg active:text-white transition duration-150 ease-in-out flex items-center whitespace-nowrap"
                                 type="button"
                                 id="dropdownMenuButton5"
                                 data-bs-toggle="dropdown"
@@ -180,7 +180,7 @@ const UnitPage = (props) => {
                                     <a
                                         className=" dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
                                         href={`/dashboard/newQuestion/${task_number}/opcion_correcta_n`}
-                                    >Opción correcta mmultiple</a
+                                    >Opción correcta multiple</a
                                     >
                                 </li>
                                 <li>
@@ -207,12 +207,22 @@ const UnitPage = (props) => {
                             </ul>
                         </div>
                     </div>
+                    <div>
+                        <h3 className="uppercase tracking-wider text-xl font-bold">Preguntas de la Unidad {unit_number}</h3>
+                    </div>
+                    <div>
+                        {cargando ? <div className=" spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-green-500 " role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div> : <div> </div>}
 
-                    {!cargando ? /*console.log(userProgress)  */
+                    </div>
+                </div>
+                <div>
+                    {!cargando && /*console.log(userProgress)  */
                         <div className="">
 
                             <DataTable
-                                title="Lista de preguntas"
+                                title="Lista de Usuarios"
                                 columns={columns}
                                 data={data}
                                 fixedHeader={true}
@@ -226,7 +236,7 @@ const UnitPage = (props) => {
                                 clearSelectedRows={toggleCleared}
                             />
                         </div>
-                        : <div>CARGANDO...</div>
+
                     }
                 </div>
             </div>

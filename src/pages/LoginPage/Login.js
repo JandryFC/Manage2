@@ -12,12 +12,12 @@ const Login = () => {
   const [dato, setDato] = useState("");
   const [userStorage, setUserStorage] = useState({});
   const [form, setForm] = useState({
-    mail: "",
-    password: "",
+    rol: "Administrador"
   });
   const [cargando, setCargando] = useState(false);
 
   const handleChange = (e) => {
+    console.log(e.target.value)
     setForm({
       ...form,
       [e.target.name]: e.target.value,
@@ -39,6 +39,7 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     setCargando(true);
     let response = await axios.post(
       `${API_URL}signin`,
@@ -68,11 +69,13 @@ const Login = () => {
       );
     } else {
       let user = data.res;
-      if (user.rol != "Administrator") {
-        localStorage.setItem("user", JSON.stringify(user));
+      if (user.rol.find(e => e === form.rol)) {
+        localStorage.setItem("user", JSON.stringify({"_id": user._id, "rol_select": form.rol}));
         window.location.href = "./dashboard";
+      }else{
+        viewTextMessage(false, "Usuario no tiene rol " + form.rol);
       }
-      window.location.href = "/";
+      
     }
   };
 
@@ -133,6 +136,14 @@ const Login = () => {
             </div>
 
             <div className="flex items-center justify-between">
+            <div class="flex justify-center">
+              <div class="sm:w-40 ">
+                <select  onChange={handleChange} name="rol" value={form.rol} class="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                  <option value="Administrador" selected>Administrador</option>
+                  <option value="Docente">Docente</option>
+                </select>
+              </div>
+            </div>
               <div className="flex items-center">
                 <input
                   id="remember"
@@ -186,12 +197,12 @@ const Login = () => {
         </div>
       </div>
       <script>
-      {window.onload = function() {
-        const saved = localStorage.getItem("user");
-        if (saved) {
-          mostrarAlertaSalir();
-        }
-      }}
+        {window.onload = function () {
+          const saved = localStorage.getItem("user");
+          if (saved) {
+            mostrarAlertaSalir();
+          }
+        }}
       </script>
     </div>
   );

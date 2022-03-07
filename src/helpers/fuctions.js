@@ -31,7 +31,14 @@ export const isUTM = (email) => {
 
 export const llenarInfo = async (api, id) => {
   let libroActual = 1;
-  let totalLibro = 2;
+  const response_lib = await fetch(`${api}books`, {
+    method: "GET",
+    /* headers: {
+      token: API_KEY,
+    }, */
+  });
+  let bookinfo = await response_lib.json();
+  let totalLibro = bookinfo.res.length / 4;
   const response = await fetch(`${api}user_progress/${id}`, {
     method: "POST",
     /* headers: {
@@ -120,6 +127,16 @@ export const llenarInfo = async (api, id) => {
   return mergeBooks;
 }
 
+export const agregarLibro = async (api) => {
+  const response_lib = await fetch(`${api}books/new`, {
+    method: "GET",
+    /* headers: {
+      token: API_KEY,
+    }, */
+  });
+  return response_lib.json();
+
+}
 export var numeroALetras = (function () {
 
   // Código basado en https://gist.github.com/alfchee/e563340276f89b22042a

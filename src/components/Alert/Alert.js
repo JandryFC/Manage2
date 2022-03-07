@@ -21,6 +21,38 @@ export const mostrarAlertaSalir = () => {
     });
 }
 
+export const mostrarAlertaConfimacion = async (_title, _type, _text)=>{
+    let result = await Swal.fire(
+        {
+            title: _title,
+            type: _type,
+            text: _text,
+            confirmButtonText: "Continuar",
+            showCancelButton: true,
+        }
+    )
+   
+    return result;
+}
+export const selectnewRol = async (text, rolesDis) => {
+
+    const value = await Swal.fire({
+        title: text,
+        input: 'select',
+        inputOptions: rolesDis,
+        inputPlaceholder: 'Select a Rol',
+        showCancelButton: true,
+        inputValidator: (value) => {
+            return new Promise((resolve) => {
+                resolve()
+            })
+
+        }
+    })
+    return rolesDis[parseInt(value.value)];
+
+}
+
 export const mostrarAlertaEliminar = async (tema) => {
     var value = await Swal.fire(
         {
@@ -46,21 +78,3 @@ export const mostrarExitoEditar = async (titulo, text, icon) => {
 
 }
 
-export const mostrarEditarPregunta = (pregunta) => {
-    Swal.fire({
-        title: "Editar Pregunta",
-        html: `
-        <div>
-        <label for="swal-input1" >Data 1</label> 
-        <input id="swal-input1" class="swal2-input" type="file">
-        <div>
-        `,
-        focusConfirm: false,
-        preConfirm: () => {
-            return [
-                document.getElementById('swal-input1').value,
-            ]
-        }
-
-    })
-}

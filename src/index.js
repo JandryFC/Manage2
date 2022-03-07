@@ -4,6 +4,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'tw-elements';
+import TimeAgo from 'javascript-time-ago'
+
+import es from 'javascript-time-ago/locale/es-EC.json'
+import ru from 'javascript-time-ago/locale/ru.json'
+
+TimeAgo.addDefaultLocale(es)
+TimeAgo.addLocale(ru)
 
 ReactDOM.render(
   <React.StrictMode>
