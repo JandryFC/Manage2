@@ -37,22 +37,8 @@ const UnitPage = (props) => {
             })
             types = new Set(types);*/
             const _task = await taksresponse.json();
-            console.log(_task)
-            setData(_task);
-        } catch (e) {
-            mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
-            return;
-        }
-        try {
-            _unitresponse = await fetch(`${API_URL}books/${book_number}/${module_number}/${unit_number}`, {
-                method: "GET",
-                /* headers: {
-                    token: API_KEY,
-                }, */
-            })
-            const _unit = await _unitresponse.json();
-            console.log(_unit)
-            setIdUnit(_unit.data)
+            setData(_task.task);
+            setIdUnit(_task.id_unit)
         } catch (e) {
             mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
             return;
@@ -60,9 +46,7 @@ const UnitPage = (props) => {
 
         setTypeTask((typeTask) => [...typeTask, ...["writing", "vocabulary", "reading", "grammar"]])
         console.log(typeTask)
-
     }
-
     useEffect(async () => {
         getQuestion();
         setcargando(false);
