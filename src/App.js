@@ -12,6 +12,7 @@ import UnitPage from "./pages/UnitPage/UnitPage";
 import TaskPage from "./pages/TaskPage/TaskPage";
 import QuestionFormPage from "./pages/QuestionFormPage/QuestionFormPage";
 import NewQuestion from "./pages/NewQuestion/NewQuestion";
+import NewTaskPage from "./pages/NewTaskPage/NewTaskPage";
 /* router */
 
 function App() {
@@ -29,7 +30,7 @@ function App() {
           <Route exact path="/dashboard/book/:book_number/module/:module_number/unit/:unit_number/task/:task_number" element={<TaskPage/> } />
           <Route exact path="/dashboard/editQuestion/:_id" element={<QuestionFormPage />} />
           <Route exact path="/dashboard/newQuestion/:task_number/:type" element={<NewQuestion />} />
-          <Route exact path="/dashboard/newTask/:id_unit/:type" element={<NewQuestion />} />
+          <Route exact path="/dashboard/newTask/:id_unit/:type" element={<NewTaskPage />} />
 
             
 
