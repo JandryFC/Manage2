@@ -4,7 +4,7 @@ import {
     useParams
 } from "react-router-dom";
 import shortid from "shortid";
-import { mostrarExitoEditar, mostrarAlertaEliminar } from '../../components/Alert/Alert'
+import { mostrarExitoEditar, mostrarAlertaEliminar, mostrarAlertaConfimacion } from '../../components/Alert/Alert'
 import DataTable from 'react-data-table-component';
 import { transformTypeQuestion } from "../../helpers/fuctions"
 
@@ -95,25 +95,58 @@ const UnitPage = (props) => {
 
     const getQuestion = async () => {
 
+        try {
+            const questionResponse = await fetch(`${API_URL}question/view/${book_number}/${modulo}/${unit_number}/${task_number}`, {
+                method: "GET",
+                /* headers: {
+                  token: API_KEY,
+                }, */
+            })
+            const _question = await questionResponse.json();
+            const _questionTable = _question.map((e) => {
+                return {
+                    _id: e._id,
+                    question: e.question,
+                    type: transformTypeQuestion(e.type),
+                }
+            })
+            setcargando(false);
+            setData(await _questionTable);
+        } catch (e) {
+            mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
+            setcargando(false);
+            return;
+        }
 
 
-        const questionResponse = await fetch(`${API_URL}question/view/${book_number}/${modulo}/${unit_number}/${task_number}`, {
-            method: "GET",
-            /* headers: {
-              token: API_KEY,
-            }, */
-        })
-        const _question = await questionResponse.json();
-        console.log(_question)
-        const _questionTable = _question.map((e) => {
-            return {
-                _id: e._id,
-                question: e.question,
-                type: transformTypeQuestion(e.type),
+    }
+    const deleteAll = async () => {
+        let result = mostrarAlertaConfimacion("Eliminar Tarea", "warning", "¿Está seguro de eliminar esta tarea?")
+        if ((await result).value) {
+            setcargando(true);
+
+            let responseAll = null;
+            try {
+                responseAll = await fetch(`${API_URL}tasks/delete/${task_number}`, {
+                    method: "GET",
+                    /* headers: {
+                      token: API_KEY,
+                    }, */
+                })
+                const _task = await responseAll.json();
+                setcargando(false);
+                if (_task.msg === "CORRECT") {
+                    window.location = `/dashboard/book/${book_number}/module/${module_number}/unit/${unit_number}`
+                } else {
+                    const e = new Error("No se pudo eliminar")
+                }
+            } catch (e) {
+                mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
+                setcargando(false);
+                return;
             }
-        })
-        setcargando(false);
-        setData(await _questionTable);
+        }
+
     }
 
     useEffect(async () => {
@@ -213,7 +246,7 @@ const UnitPage = (props) => {
                     <div>
                         {cargando ? <div className=" spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-green-500 " role="status">
                             <span className="visually-hidden">Loading...</span>
-                        </div> : <div> </div>}
+                        </div> : <div> <button onClick={deleteAll} type="button" class="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">Eliminar todo</button></div>}
 
                     </div>
                 </div>
