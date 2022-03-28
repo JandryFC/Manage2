@@ -30,10 +30,7 @@ function App() {
           <Route exact path="/dashboard/book/:book_number/module/:module_number/unit/:unit_number/task/:task_number" element={<TaskPage/> } />
           <Route exact path="/dashboard/editQuestion/:_id" element={<QuestionFormPage />} />
           <Route exact path="/dashboard/newQuestion/:task_number/:type" element={<NewQuestion />} />
-          <Route exact path="/dashboard/newTask/:id_unit/:type" element={<NewTaskPage />} />
-
-            
-
+          <Route exact path="/dashboard/book/:book_number/module/:module_number/unit/:unit_number/newTask/:type" element={<NewTaskPage />} />
           <Route element={<NotFound />} />
         </Routes>
       </BrowserRouter>

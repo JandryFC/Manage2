@@ -7,13 +7,10 @@ import { mostrarExitoEditar } from '../../components/Alert/Alert'
 import { useForm } from "react-hook-form";
 
 const USER = JSON.parse(localStorage.getItem("user"));
-const API_URL = "http://localhost:5000/";
-const API_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYWlsIjoibWluZWNyYWZ0ZXJvc2ZvcmV2ZXIiLCJpYXQiOjE2MzY2NDY1NDZ9.kyTKHv2QbwwdWjjyUxmkIxzBnzq47_P6e1GgMqDoXpY";
 
 const NewTaskPage = () => {
 
-    let { id_unit, type } = useParams();
+    let { unit_number, type, book_number, module_number, } = useParams();
     var formData = new FormData();
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [task, setTask] = useState({})
@@ -27,16 +24,15 @@ const NewTaskPage = () => {
             [name]: value,
         });
     }
-    const handleForm = async  () => {
+    const handleForm = async () => {
         setEnviar(true);
-        console.log(task);
-        formData.set("task", JSON.stringify({...task, id_unidad: id_unit, type_task: type }))
-        formData.set("files", task.file_upload[0]);
+        formData.set("task", JSON.stringify({ ...task, id_unidad: unit_number, type_task: type }))
+        formData.set("files", Object.keys(task).find(x => x === "file_upload") ? task.file_upload[0] : null);
         let responseTask = null
         try {
-            responseTask = await fetch(`${API_URL}tasks/create`, {
+            responseTask = await fetch(`${process.env.REACT_APP_API_URL}tasks/create`, {
                 method: "POST",
-                body: formData, 
+                body: formData,
                 /* headers: {
                   token: API_KEY,
                 }, */
@@ -44,11 +40,16 @@ const NewTaskPage = () => {
 
         } catch (e) {
             mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
-             setEnviar(false);
+            setEnviar(false);
             return;
         }
         let _task = await responseTask.json()
-        console.log(_task)
+        if (_task.msg === "CORRECT") {
+            await mostrarExitoEditar("Exito", "Tarea agregada correctamente", "success")
+        } else {
+            await mostrarExitoEditar("Error", "No se pudo agregar la tarea", "error")
+        }
+        window.location = `/dashboard/book/${book_number}/module/${module_number}/unit/${unit_number}`
     }
     return (
         <div className="">
@@ -112,7 +113,7 @@ const NewTaskPage = () => {
                                                             Seleccionado {task.file_upload.length} archivos
                                                         </p>
                                                     )
-                                                } 
+                                                }
 
                                             </div>
                                         </div>

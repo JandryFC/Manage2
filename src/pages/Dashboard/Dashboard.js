@@ -1,16 +1,9 @@
 import React, { useState, useEffect } from "react";
 import NavComponent from "../../components/NavComponent/NavComponent";
-import SideBar from "../../components/SideBar/SideBar";
-import Book from "../../components/Libros/Libro";
-import CardPlus from "../../components/CardPlus/CardPlus";
-import shortid from "shortid";
 import { agregarLibro } from '../../helpers/fuctions'
 import { mostrarExitoEditar, mostrarAlertaConfimacion } from '../../components/Alert/Alert'
 
 import cargando_img1 from '../../assets/undraw_book_lover_re_rwjy (1).svg'
-const API_URL = "http://localhost:5000/";
-const API_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYWlsIjoibWluZWNyYWZ0ZXJvc2ZvcmV2ZXIiLCJpYXQiOjE2MzY2NDY1NDZ9.kyTKHv2QbwwdWjjyUxmkIxzBnzq47_P6e1GgMqDoXpY";
 
 const Dashboard = () => {
   const USER = JSON.parse(localStorage.getItem("user"));
@@ -21,7 +14,7 @@ const Dashboard = () => {
     let result = mostrarAlertaConfimacion("Agregar Libro", "warning", "¿Estaá seguro de agregar un nuevo libro?")
     if ((await result).value) {
       try {
-        const lib_ = agregarLibro(API_URL)
+        const lib_ = agregarLibro(process.env.REACT_APP_API_URL)
       } catch (e) {
         mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
         return;

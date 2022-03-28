@@ -5,9 +5,6 @@ import { mostrarExitoEditar, mostrarAlertaEliminar, selectnewRol } from '../../c
 import ReactTimeAgo from 'react-time-ago'
 import DataTable from 'react-data-table-component';
 const USER = JSON.parse(localStorage.getItem("user"));
-const API_URL = "http://localhost:5000/";
-const API_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYWlsIjoibWluZWNyYWZ0ZXJvc2ZvcmV2ZXIiLCJpYXQiOjE2MzY2NDY1NDZ9.kyTKHv2QbwwdWjjyUxmkIxzBnzq47_P6e1GgMqDoXpY";
 
 const columns = [
     {
@@ -78,7 +75,7 @@ const PrivilegesPage = () => {
     const getUsers = async () => {
         let responseUser = null
         try {
-            responseUser = await fetch(`${API_URL}user`, {
+            responseUser = await fetch(`${process.env.REACT_APP_API_URL}user`, {
                 method: "GET",
                 /* headers: {
                   token: API_KEY,
@@ -131,7 +128,7 @@ const PrivilegesPage = () => {
                 let updateUser = null;
                 if (rolAdd) {
                     try {
-                        updateUser = await fetch(`${API_URL}user/update/rol`, {
+                        updateUser = await fetch(`${process.env.REACT_APP_API_URL}user/update/rol`, {
                             method: "POST",
                             /* headers: {
                                 token: API_KEY,
@@ -169,7 +166,7 @@ const PrivilegesPage = () => {
             if (rolAdd) {
 
                 try {
-                    updateUser = await fetch(`${API_URL}user/update/rol`, {
+                    updateUser = await fetch(`${process.env.REACT_APP_API_URL}user/update/rol`, {
                         method: "POST",
                         /* headers: {
                             token: API_KEY,

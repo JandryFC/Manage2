@@ -1,22 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom"
 import shortid from "shortid";
-import { mostrarExitoEditar } from '../../components/Alert/Alert'
-
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
-
-
-const API_URL = "http://localhost:5000/";
-const API_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYWlsIjoibWluZWNyYWZ0ZXJvc2ZvcmV2ZXIiLCJpYXQiOjE2MzY2NDY1NDZ9.kyTKHv2QbwwdWjjyUxmkIxzBnzq47_P6e1GgMqDoXpY";
-
+/* import { mostrarExitoEditar } from '../../components/Alert/Alert' */
 
 const Ordenar = (props) => {
 
     const [question, setQuestion] = useState({});
     var formData = new FormData()
     var navigate = useNavigate()
-
 
     const handleChange = async (e) => {
 

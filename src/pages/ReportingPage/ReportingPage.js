@@ -6,36 +6,13 @@ import { mostrarExitoEditar } from '../../components/Alert/Alert'
 
 import cargando_img1 from '../../assets/report.svg'
 const USER = JSON.parse(localStorage.getItem("user"));
-const API_URL = "http://localhost:5000/";
-const API_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYWlsIjoibWluZWNyYWZ0ZXJvc2ZvcmV2ZXIiLCJpYXQiOjE2MzY2NDY1NDZ9.kyTKHv2QbwwdWjjyUxmkIxzBnzq47_P6e1GgMqDoXpY";
-
 
 const ReportingPage = (props) => {
-    const [users, setUsers] = useState([])
+   
     const [cargando, setCargando] = useState(true);
     const [report, setReport] = useState("")
 
-    const getUsers = async () => {
-        let responseUser = null
-        try {
-            responseUser = await fetch(`${API_URL}user`, {
-                method: "GET",
-                /* headers: {
-                  token: API_KEY,
-                }, */
-            })
-
-        } catch (e) {
-            mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
-            setCargando(false);
-            return;
-        }
-
-        let _users = await responseUser.json()
-        setUsers(await _users)
-        setCargando(false);
-    }
+    
     const selectReport = (e) => {
         setCargando(true)
         console.log(e.target.id)
@@ -51,8 +28,6 @@ const ReportingPage = (props) => {
             window.location.href = '/dashboard';
         }
     })
-
-
     return (
         <div>
             <NavComponent data={USER} />
@@ -83,11 +58,11 @@ const ReportingPage = (props) => {
 
                                 <li>
                                     <a
-                                        onClick={selectReport} id="reporting_user" className=" dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
+                                        onClick={selectReport} id="usuario" className=" dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
                                     >Reportes de Usuarios</a>
                                 </li>
                                 <li>
-                                    <a id="reporting_task" onClick={selectReport}
+                                    <a id="tarea" onClick={selectReport}
                                         className=" dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
                                     >Reporte de Tareas</a>
                                 </li>
@@ -95,7 +70,7 @@ const ReportingPage = (props) => {
                         </div>
                     </div>
                     <div>
-                        <h3 className="uppercase  tracking-wider text-xl font-bold">Sistema de Reportes </h3>
+                        <h3 className="uppercase  tracking-wider text-xl font-bold">Sistema de Reportes {report!== ""? ` de ${report}`: ""}</h3>
                     </div>
                     <div>
                         {cargando ? <div className=" spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-green-500 " role="status">
@@ -104,28 +79,24 @@ const ReportingPage = (props) => {
 
                     </div>
                 </div>
-                <div className="flex justify-center p-4">
+                <div className="flex justify-center">
                     {!cargando ?
                         <div className="">
                             {
                                 (() => {
                                     switch (report) {
-                                        case "reporting_user":
+                                        case "usuario":
                                             return <ReportingUser />
                                             break;
-                                        case "reporting_task":
+                                        case "tarea":
                                             return <ReportingTask />
                                             break;
                                     }
                                 })()
-                                
                             }
-
                         </div>
-
                         :
                         <div className="py-4 space-y-2">
-
                             <img src={cargando_img1} className="mr-0 pr-0" width="400px" />
                             <h2 className="text-center font-extralight italic  text-gray-700 text-2xl ">Escoge un reporte</h2>
                         </div>

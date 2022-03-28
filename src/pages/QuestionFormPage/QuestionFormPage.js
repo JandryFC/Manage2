@@ -13,10 +13,6 @@ import {
 
 
 const USER = JSON.parse(localStorage.getItem("user"));
-const API_URL = "http://localhost:5000/";
-const API_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYWlsIjoibWluZWNyYWZ0ZXJvc2ZvcmV2ZXIiLCJpYXQiOjE2MzY2NDY1NDZ9.kyTKHv2QbwwdWjjyUxmkIxzBnzq47_P6e1GgMqDoXpY";
-
 
 const QuestionFormPage = (props) => {
 
@@ -24,7 +20,7 @@ const QuestionFormPage = (props) => {
     const { _id } = useParams()
     var formPage = null;
     const getQuestion = async () => {
-        const data_question = await fetch(`${API_URL}question/find/${_id}`,
+        const data_question = await fetch(`${process.env.REACT_APP_API_URL}question/find/${_id}`,
             {
                 method: "GET",
             /* headers: {

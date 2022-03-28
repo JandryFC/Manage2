@@ -3,15 +3,11 @@ import NavComponent from "../../components/NavComponent/NavComponent";
 import {
     useParams
 } from "react-router-dom";
-import shortid from "shortid";
 import { mostrarExitoEditar, mostrarAlertaEliminar, mostrarAlertaConfimacion } from '../../components/Alert/Alert'
 import DataTable from 'react-data-table-component';
 import { transformTypeQuestion } from "../../helpers/fuctions"
 
 const USER = JSON.parse(localStorage.getItem("user"));
-const API_URL = "http://localhost:5000/";
-const API_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYWlsIjoibWluZWNyYWZ0ZXJvc2ZvcmV2ZXIiLCJpYXQiOjE2MzY2NDY1NDZ9.kyTKHv2QbwwdWjjyUxmkIxzBnzq47_P6e1GgMqDoXpY";
 
 const columns = [
     {
@@ -63,7 +59,7 @@ const UnitPage = (props) => {
             const alerta = await mostrarAlertaEliminar("Pregunta");
             if (await alerta) {
                 setToggleCleared(!toggleCleared);
-                const delete_response = await fetch(`${API_URL}question/delete/${selectedRows[0]._id}/`, {
+                const delete_response = await fetch(`${process.env.REACT_APP_API_URL}question/delete/${selectedRows[0]._id}/`, {
                     method: "GET",
                     /* headers: {
               token: API_KEY,
@@ -96,7 +92,7 @@ const UnitPage = (props) => {
     const getQuestion = async () => {
 
         try {
-            const questionResponse = await fetch(`${API_URL}question/view/${book_number}/${modulo}/${unit_number}/${task_number}`, {
+            const questionResponse = await fetch(`${process.env.REACT_APP_API_URL}question/view/${book_number}/${modulo}/${unit_number}/${task_number}`, {
                 method: "GET",
                 /* headers: {
                   token: API_KEY,
@@ -127,7 +123,7 @@ const UnitPage = (props) => {
 
             let responseAll = null;
             try {
-                responseAll = await fetch(`${API_URL}tasks/delete/${task_number}`, {
+                responseAll = await fetch(`${process.env.REACT_APP_API_URL}tasks/delete/${task_number}`, {
                     method: "GET",
                     /* headers: {
                       token: API_KEY,

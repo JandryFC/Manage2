@@ -9,11 +9,6 @@ import shortid from "shortid";
 import { llenarInfo, agregarLibro } from '../../helpers/fuctions'
 import { mostrarExitoEditar, mostrarAlertaConfimacion } from '../Alert/Alert'
 
-const API_URL = "http://localhost:5000/";
-const API_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYWlsIjoibWluZWNyYWZ0ZXJvc2ZvcmV2ZXIiLCJpYXQiOjE2MzY2NDY1NDZ9.kyTKHv2QbwwdWjjyUxmkIxzBnzq47_P6e1GgMqDoXpY";
-
-
 const NavComponent = (props) => {
 
   const [user, setUser] = useState({
@@ -39,7 +34,7 @@ const NavComponent = (props) => {
     let result = mostrarAlertaConfimacion("Agregar Libro", "warning", "¿Estaá seguro de agregar un nuevo libro?")
     if ((await result).value) {
       try {
-        const lib_ = agregarLibro(API_URL)
+        const lib_ = agregarLibro(process.env.REACT_APP_API_URL)
       } catch (e) {
         mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
         return;
@@ -70,7 +65,7 @@ const NavComponent = (props) => {
   const getUserResponse = async () => {
     let user_id = props.data._id;
     try {
-      user_response = await fetch(`${API_URL}user/${user_id}`,
+      user_response = await fetch(`${process.env.REACT_APP_API_URL}user/${user_id}`,
         {
           method: "GET",
           /*headers: {
@@ -94,7 +89,7 @@ const NavComponent = (props) => {
     setRoles((roles) => [...cambiarRoles(user_response)])
     let _libros = null
     try {
-      _libros = await llenarInfo(API_URL, user_response._id)
+      _libros = await llenarInfo(process.env.REACT_APP_API_URL, user_response._id)
     } catch (e) {
       mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
       return;

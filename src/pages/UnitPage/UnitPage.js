@@ -4,13 +4,9 @@ import {
     useParams
 } from "react-router-dom";
 import shortid from "shortid";
-import { mostrarExitoEditar, mostrarAlertaEliminar } from '../../components/Alert/Alert'
-import DataTable from 'react-data-table-component';
+import { mostrarExitoEditar } from '../../components/Alert/Alert'
 
-const API_URL = "http://localhost:5000/";
 const USER = JSON.parse(localStorage.getItem("user"));
-const API_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYWlsIjoibWluZWNyYWZ0ZXJvc2ZvcmV2ZXIiLCJpYXQiOjE2MzY2NDY1NDZ9.kyTKHv2QbwwdWjjyUxmkIxzBnzq47_P6e1GgMqDoXpY";
 
 
 const UnitPage = (props) => {
@@ -26,7 +22,7 @@ const UnitPage = (props) => {
     const getQuestion = async () => {
         let taksresponse = null, _unitresponse = null
         try {
-            taksresponse = await fetch(`${API_URL}task/view/${book_number}/${module_number}/${unit_number}/`, {
+            taksresponse = await fetch(`${process.env.REACT_APP_API_URL}task/view/${book_number}/${module_number}/${unit_number}/`, {
                 method: "GET",
                 /* headers: {
                   token: API_KEY,
@@ -89,7 +85,7 @@ const UnitPage = (props) => {
                                     return (
                                         <li key={shortid.generate()}>
                                             <a
-                                                href={`/dashboard/newTask/${idUnit}/${e}`} className="capitalize dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
+                                                href={`/dashboard/book/${book_number}/module/${module_number}/unit/${unit_number}/newTask/${e}`} className="capitalize dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
                                             > {e}</a>
                                         </li>
                                     )

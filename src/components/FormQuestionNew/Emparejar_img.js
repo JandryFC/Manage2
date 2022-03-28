@@ -7,12 +7,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { useForm } from "react-hook-form";
 
-
-const API_URL = "http://localhost:5000/";
-const API_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYWlsIjoibWluZWNyYWZ0ZXJvc2ZvcmV2ZXIiLCJpYXQiOjE2MzY2NDY1NDZ9.kyTKHv2QbwwdWjjyUxmkIxzBnzq47_P6e1GgMqDoXpY";
-
-
 const Emparejar_img = (props) => {
     const [question, setQuestion] = useState(props.question);
     var formData = new FormData();
@@ -34,7 +28,7 @@ const Emparejar_img = (props) => {
         setEnviar(true);
         let data_upload = null;
         try {
-            data_upload = await fetch(`${API_URL}question/new`,
+            data_upload = await fetch(`${process.env.REACT_APP_API_URL}question/new`,
                 {
                     method: "POST",
                     body: formData,

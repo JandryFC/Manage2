@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import NavComponent from "../../components/NavComponent/NavComponent";
-import CardPlus from "../../components/CardPlus/CardPlus";
-import Modulo from "../../components/Modulos/Modulo";
 import { llenarInfo } from '../../helpers/fuctions'
 import shortid from "shortid";
 import {
@@ -9,9 +7,6 @@ import {
 } from "react-router-dom";
 import Unidad from "../../components/Unidades/Unidad";
 
-const API_URL = "http://localhost:5000/";
-const API_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYWlsIjoibWluZWNyYWZ0ZXJvc2ZvcmV2ZXIiLCJpYXQiOjE2MzY2NDY1NDZ9.kyTKHv2QbwwdWjjyUxmkIxzBnzq47_P6e1GgMqDoXpY";
 
 const UnidadPage = () => {
     let { book_number, module_number } = useParams();
@@ -20,7 +15,7 @@ const UnidadPage = () => {
     const [cargando, setcargando] = useState(true);
 
     const getData = async () => {
-        let data = await llenarInfo(API_URL, USER._id);
+        let data = await llenarInfo(process.env.REACT_APP_API_URL, USER._id);
         let unidad = data.libros[parseInt(book_number) - 1].modulos[module_number - 1];
         setModule(await unidad);
         setcargando(false);

@@ -3,10 +3,6 @@ import { useNavigate } from "react-router-dom"
 import shortid from "shortid";
 import { mostrarExitoEditar } from '../../components/Alert/Alert'
 
-const API_URL = "http://localhost:5000/";
-const API_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYWlsIjoibWluZWNyYWZ0ZXJvc2ZvcmV2ZXIiLCJpYXQiOjE2MzY2NDY1NDZ9.kyTKHv2QbwwdWjjyUxmkIxzBnzq47_P6e1GgMqDoXpY";
-
 
 const Opcion_correcta_n = (props) => {
 
@@ -42,7 +38,7 @@ const Opcion_correcta_n = (props) => {
 
     const handleForm = async (e) => {
         e.preventDefault();
-        const data_upload = await fetch(`${API_URL}editQuestion`,
+        const data_upload = await fetch(`${process.env.REACT_APP_API_URL}editQuestion`,
             {
                 method: "PUT",
                 body: formData,

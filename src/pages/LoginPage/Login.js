@@ -3,9 +3,6 @@ import logo_utm from "../../assets/Logo_utm.png";
 import loading from "../../assets/loading.svg";
 import axios from "axios";
 import { mostrarAlertaSalir } from "../../components/Alert/Alert";
-const API_URL = "http://localhost:5000/";
-const API_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYWlsIjoibWluZWNyYWZ0ZXJvc2ZvcmV2ZXIiLCJpYXQiOjE2MzY2NDY1NDZ9.kyTKHv2QbwwdWjjyUxmkIxzBnzq47_P6e1GgMqDoXpY";
 
 const Login = () => {
   const [isVisibleDato, setIsVisibleDato] = useState("hidden");
@@ -42,14 +39,14 @@ const Login = () => {
 
     setCargando(true);
     let response = await axios.post(
-      `${API_URL}signin`,
+      `${process.env.REACT_APP_API_URL}signin`,
       {
         mail: form.mail,
         password: form.password,
       },
       {
         headers: {
-          token: API_KEY,
+          token: process.env.REACT_APP_SECRET_TOKEN,
         },
       }
     );

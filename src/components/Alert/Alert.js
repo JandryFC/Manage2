@@ -21,6 +21,8 @@ export const mostrarAlertaSalir = () => {
     });
 }
 
+/* export const  mostrarGrafico =  */
+
 export const mostrarAlertaConfimacion = async (_title, _type, _text)=>{
     let result = await Swal.fire(
         {

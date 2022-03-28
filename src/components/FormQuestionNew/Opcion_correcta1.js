@@ -6,20 +6,17 @@ import { transformTypeQuestion } from '../../helpers/fuctions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 import { useForm } from "react-hook-form";
-import {
+/* import {
     useParams
 } from "react-router-dom";
-const API_URL = "http://localhost:5000/";
-const API_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtYWlsIjoibWluZWNyYWZ0ZXJvc2ZvcmV2ZXIiLCJpYXQiOjE2MzY2NDY1NDZ9.kyTKHv2QbwwdWjjyUxmkIxzBnzq47_P6e1GgMqDoXpY";
-
+ */
 
 const Opcion_correcta1 = (props) => {
 
     const [question, setQuestion] = useState(props.question);
     var formData = new FormData()
     var navigate = useNavigate()
-    const [disableForm, setDisableForm] = useState(true)
+    /* const [disableForm, setDisableForm] = useState(true) */
     const [items, setItems] = useState([])
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [enviar, setEnviar] = useState(false);
@@ -56,7 +53,7 @@ const Opcion_correcta1 = (props) => {
         let data_upload = null;
         try {
 
-            data_upload = await fetch(`${API_URL}question/new`,
+            data_upload = await fetch(`${process.env.REACT_APP_API_URL}question/new`,
                 {
                     method: "POST",
                     body: formData,
