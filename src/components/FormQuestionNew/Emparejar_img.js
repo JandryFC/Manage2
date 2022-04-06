@@ -32,10 +32,9 @@ const Emparejar_img = (props) => {
                 {
                     method: "POST",
                     body: formData,
-                    /*headers: {
-                         token: API_KEY, 
-                        "Content-type": "multipart/form-data",
-                    },*/
+                    headers: {
+                         token: process.env.REACT_APP_SECRET_TOKEN
+                    },
                 }
             )
         } catch (e) {
@@ -157,7 +156,7 @@ const Emparejar_img = (props) => {
                                                 </a>
                                             }
                                         </label>
-                                        <input {...register(`img_answer${i}`, { required: true })} onChange={handleChange} name={`img${i}`} accept="image/*" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" defaultValue={e.item[0]} type="file" id={`img_answer${i + 1}`} id="imagen"></input>
+                                        <input {...register(`img_answer${i}`, { required: true })} onChange={handleChange} name={`img${i}`} accept="image/*" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" defaultValue={e.item[0]} type="file" id={`img_answer${i + 1}`}></input>
 
                                         {errors[`img_answer${i}`] &&
                                             (

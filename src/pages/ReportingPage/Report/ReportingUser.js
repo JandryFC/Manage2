@@ -8,7 +8,6 @@ import image_cargando from '../../../assets/undraw_charts_re_5qe9.svg'
 import image_charts from '../../../assets/undraw_growing_re_olpi.svg'
 import validator from 'validator'
 import { Chart as ChartJS, registerables } from 'chart.js';
-import { Chart } from 'react-chartjs-2'
 import { Pie } from 'react-chartjs-2';
 ChartJS.register(...registerables);
 
@@ -32,10 +31,10 @@ const ReportingUser = () => {
         try {
             responseUser = await fetch(`${process.env.REACT_APP_API_URL}user/date`, {
                 method: "POST",
-                body: formData
-                /* headers: {
-                  token: API_KEY,
-                }, */
+                body: formData,
+                headers: {
+                  token: process.env.REACT_APP_SECRET_TOKEN,
+                },
             })
 
         } catch (e) {

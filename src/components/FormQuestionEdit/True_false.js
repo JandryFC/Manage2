@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"
 import shortid from "shortid";
 import { mostrarExitoEditar } from '../../components/Alert/Alert'
@@ -8,7 +8,6 @@ const True_false = (props) => {
     const [question, setQuestion] = useState({});
     var formData = new FormData()
     var navigate = useNavigate()
-    const [checked, setCheked] = useState([])
     
     const handleChange = async (e) => {
         const aux_question = question;
@@ -49,10 +48,9 @@ const True_false = (props) => {
             {
                 method: "PUT",
                 body: formData,
-                /*headers: {
-                     token: API_KEY, 
-                    "Content-type": "multipart/form-data",
-                },*/
+                headers: {
+                     token: process.env.REACT_APP_SECRET_TOKEN, 
+                },
             }
         )
         var upload = await data_upload.json()

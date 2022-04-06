@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import NavComponent from "../../components/NavComponent/NavComponent";
 import Opcion_correcta1 from "../../components/FormQuestionNew/Opcion_correcta1";
 import Completar_texto from "../../components/FormQuestionNew/Completar_texto";

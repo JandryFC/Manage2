@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"
 import shortid from "shortid";
 import { mostrarExitoEditar } from '../../components/Alert/Alert'
@@ -57,9 +57,9 @@ const Opcion_correcta1 = (props) => {
                 {
                     method: "POST",
                     body: formData,
-                   /* headers: {
-                        "Content-type": "multipart/form-data",
-                    },*/
+                   headers: {
+                       token: process.env.REACT_APP_SECRET_TOKEN
+                    },
                 }
             )
         } catch (e) {

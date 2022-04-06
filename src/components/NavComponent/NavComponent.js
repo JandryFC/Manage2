@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
-import { faAngleDown, faBook, faBookOpen, faBookmark, faPlus, faBookBible, faBaby } from '@fortawesome/free-solid-svg-icons'
+import { faAngleDown, faBook, faBookOpen, faBookmark, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import userLogo from "../../assets/user.png";
 import logobn from "../../assets/Logo_utm1.png";
@@ -34,7 +34,7 @@ const NavComponent = (props) => {
     let result = mostrarAlertaConfimacion("Agregar Libro", "warning", "¿Estaá seguro de agregar un nuevo libro?")
     if ((await result).value) {
       try {
-        const lib_ = agregarLibro(process.env.REACT_APP_API_URL)
+        agregarLibro(process.env.REACT_APP_API_URL)
       } catch (e) {
         mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
         return;
@@ -68,10 +68,9 @@ const NavComponent = (props) => {
       user_response = await fetch(`${process.env.REACT_APP_API_URL}user/${user_id}`,
         {
           method: "GET",
-          /*headers: {
-               token: API_KEY, 
-              "Content-type": "multipart/form-data",
-          },*/
+          headers: {
+               token: process.env.REACT_APP_SECRET_TOKEN, 
+          },
         }
       )
     } catch (e) {

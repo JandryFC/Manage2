@@ -56,10 +56,9 @@ const True_false = (props) => {
                 {
                     method: "POST",
                     body: formData,
-                    /*headers: {
-                         token: API_KEY, 
-                        "Content-type": "multipart/form-data",
-                    },*/
+                    headers: {
+                         token: process.env.REACT_APP_SECRET_TOKEN, 
+                    },
                 }
             )
         } catch (e) {

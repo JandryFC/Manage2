@@ -23,10 +23,10 @@ const QuestionFormPage = (props) => {
         const data_question = await fetch(`${process.env.REACT_APP_API_URL}question/find/${_id}`,
             {
                 method: "GET",
-            /* headers: {
-      token: API_KEY,
-    }, */}
-        )
+                headers: {
+                    token: process.env.REACT_APP_SECRET_TOKEN,
+                },
+            })
         var _question = await data_question.json()
 
         setQuestion(await _question)

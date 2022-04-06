@@ -20,12 +20,12 @@ const Opcion_correcta_n = (props) => {
 
         } if (e.target.name === "img") {
             formData.set("files", e.target.files[0])
-        } if (e.target.name.substr(0,6) === "answer") {
+        } if (e.target.name.substr(0, 6) === "answer") {
             let index = parseInt(e.target.name.substr(-1))
             aux_question.options[index].answer = e.target.checked;
-            document.getElementById(`label${index}`).innerHTML = e.target.checked? "Verdadero": "Falso"
+            document.getElementById(`label${index}`).innerHTML = e.target.checked ? "Verdadero" : "Falso"
         }
-        
+
         if (e.target.name.substr(0, 4) === "item") {
             let index = parseInt(e.target.name.substr(-1))
             aux_question.options[index].item = e.target.value
@@ -42,16 +42,15 @@ const Opcion_correcta_n = (props) => {
             {
                 method: "PUT",
                 body: formData,
-                /*headers: {
-                     token: API_KEY, 
-                    "Content-type": "multipart/form-data",
-                },*/
+                headers: {
+                    token: process.env.REACT_APP_SECRET_TOKEN,
+                },
             }
         )
         var upload = await data_upload.json()
         if (upload.msg === "CORRECT") {
             var result = mostrarExitoEditar("Exito", "La pregunta fue almanceda correctamente", "success")
-            if (await result ) {
+            if (await result) {
                 navigate(-1)
             }
 
@@ -92,8 +91,8 @@ const Opcion_correcta_n = (props) => {
                         {!question.img ?
                             <span className="text-md  font-normal"> No existe imagen</span>
                             : <a target="_blank" className="font-normal text-yellow-500" href={`https://drive.google.com/file/d/${question.img}/view`}>
-                            Ver Imagen
-                        </a>}
+                                Ver Imagen
+                            </a>}
                     </label>
                     <input onChange={handleChange} name="img" accept="image/*" className="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="file" id="imagen"></input>
 
@@ -120,7 +119,7 @@ const Opcion_correcta_n = (props) => {
                                         </h2>
                                         <div className="form-check form-switch py-2">
                                             <input onChange={handleChange} name={`answer${i}`} className="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-white bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm" type="checkbox" role="switch" id="flexSwitchCheckDefault" defaultChecked={e.answer} />
-                                            <label id={`label${i}`} className="form-check-label inline-block text-gray-800" htmlFor="flexSwitchCheckDefault" > {e.answer?"Verdadero": "Falso"}</label>
+                                            <label id={`label${i}`} className="form-check-label inline-block text-gray-800" htmlFor="flexSwitchCheckDefault" > {e.answer ? "Verdadero" : "Falso"}</label>
                                         </div>
                                     </div>
 
@@ -134,7 +133,7 @@ const Opcion_correcta_n = (props) => {
                     <button onClick={handleForm} className="bg-green-500 hover:bg-greeb-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
                         Actualizar
                     </button>
-                   
+
                 </div>
             </form>
             <p className="text-center text-gray-500 text-xs">

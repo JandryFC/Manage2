@@ -61,9 +61,9 @@ const UnitPage = (props) => {
                 setToggleCleared(!toggleCleared);
                 const delete_response = await fetch(`${process.env.REACT_APP_API_URL}question/delete/${selectedRows[0]._id}/`, {
                     method: "GET",
-                    /* headers: {
-              token: API_KEY,
-            }, */
+                    headers: {
+                        token: process.env.REACT_APP_SECRET_TOKEN,
+                    },
                 });
                 const _delete = await delete_response.json();
                 if (_delete.message) {
@@ -94,9 +94,9 @@ const UnitPage = (props) => {
         try {
             const questionResponse = await fetch(`${process.env.REACT_APP_API_URL}question/view/${book_number}/${modulo}/${unit_number}/${task_number}`, {
                 method: "GET",
-                /* headers: {
-                  token: API_KEY,
-                }, */
+                headers: {
+                  token: process.env.REACT_APP_SECRET_TOKEN,
+                },
             })
             const _question = await questionResponse.json();
             const _questionTable = _question.map((e) => {
@@ -125,9 +125,9 @@ const UnitPage = (props) => {
             try {
                 responseAll = await fetch(`${process.env.REACT_APP_API_URL}tasks/delete/${task_number}`, {
                     method: "GET",
-                    /* headers: {
-                      token: API_KEY,
-                    }, */
+                    headers: {
+                      token: process.env.REACT_APP_SECRET_TOKEN,
+                    },
                 })
                 const _task = await responseAll.json();
                 setcargando(false);

@@ -42,10 +42,9 @@ const Completar_texto = (props) => {
             {
                 method: "PUT",
                 body: formData,
-                /*headers: {
-                     token: API_KEY, 
-                    "Content-type": "multipart/form-data",
-                },*/
+                headers: {
+                     token: process.env.REACT_APP_SECRET_TOKEN, 
+                },
             }
         )
         var upload = await data_upload.json()

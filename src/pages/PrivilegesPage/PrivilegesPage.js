@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from "react";
 import NavComponent from "../../components/NavComponent/NavComponent";
-import { mostrarExitoEditar, mostrarAlertaEliminar, selectnewRol } from '../../components/Alert/Alert'
+import { mostrarExitoEditar, selectnewRol } from '../../components/Alert/Alert'
 import ReactTimeAgo from 'react-time-ago'
 import DataTable from 'react-data-table-component';
 const USER = JSON.parse(localStorage.getItem("user"));
@@ -77,9 +77,9 @@ const PrivilegesPage = () => {
         try {
             responseUser = await fetch(`${process.env.REACT_APP_API_URL}user`, {
                 method: "GET",
-                /* headers: {
-                  token: API_KEY,
-                }, */
+                headers: {
+                    token: process.env.REACT_APP_SECRET_TOKEN,
+                },
             })
 
         } catch (e) {
@@ -98,8 +98,8 @@ const PrivilegesPage = () => {
                 name: e.name,
                 lastname: e.lastname,
                 mail: e.mail,
-                rol: e.rol.reduce((e1, e2) => { return `${e1}, ${e2}` }), 
-                createdAt:  <ReactTimeAgo date={new Date(e.createdAt)} locale="es-EC"/>
+                rol: e.rol.reduce((e1, e2) => { return `${e1}, ${e2}` }),
+                createdAt: <ReactTimeAgo date={new Date(e.createdAt)} locale="es-EC" />
 
             }
         })
@@ -130,11 +130,9 @@ const PrivilegesPage = () => {
                     try {
                         updateUser = await fetch(`${process.env.REACT_APP_API_URL}user/update/rol`, {
                             method: "POST",
-                            /* headers: {
-                                token: API_KEY,
-                            },*/
                             headers: {
-                                'Content-Type': 'application/json'
+                                'Content-Type': 'application/json',
+                                token: process.env.REACT_APP_SECRET_TOKEN,
                             },
                             body: JSON.stringify({
                                 rol: rolAdd,
@@ -169,9 +167,9 @@ const PrivilegesPage = () => {
                     updateUser = await fetch(`${process.env.REACT_APP_API_URL}user/update/rol`, {
                         method: "POST",
                         /* headers: {
-                            token: API_KEY,
                         },*/
                         headers: {
+                            token: process.env.REACT_APP_SECRET_TOKEN,
                             'Content-Type': 'application/json'
                         },
                         body: JSON.stringify({

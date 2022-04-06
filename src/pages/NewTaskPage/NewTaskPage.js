@@ -33,9 +33,9 @@ const NewTaskPage = () => {
             responseTask = await fetch(`${process.env.REACT_APP_API_URL}tasks/create`, {
                 method: "POST",
                 body: formData,
-                /* headers: {
-                  token: API_KEY,
-                }, */
+                headers: {
+                  token: process.env.REACT_APP_SECRET_TOKEN,
+                },
             })
 
         } catch (e) {

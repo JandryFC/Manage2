@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import NavComponent from "../../components/NavComponent/NavComponent";
 import ReportingUser from './Report/ReportingUser'
 import ReportingTask from './Report/ReportingTask'
-import { mostrarExitoEditar } from '../../components/Alert/Alert'
 
 import cargando_img1 from '../../assets/report.svg'
 const USER = JSON.parse(localStorage.getItem("user"));

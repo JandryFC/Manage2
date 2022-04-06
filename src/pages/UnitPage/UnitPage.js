@@ -24,9 +24,9 @@ const UnitPage = (props) => {
         try {
             taksresponse = await fetch(`${process.env.REACT_APP_API_URL}task/view/${book_number}/${module_number}/${unit_number}/`, {
                 method: "GET",
-                /* headers: {
-                  token: API_KEY,
-                }, */
+                headers: {
+                  token: process.env.REACT_APP_SECRET_TOKEN,
+                },
             })
             /*  let types = _task.map(e => {
                 return e.type
