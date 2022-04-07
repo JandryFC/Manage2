@@ -133,7 +133,7 @@ const Completar_texto = (props) => {
                 </div>
             </form>
             <p className="text-center text-gray-500 text-xs">
-                &copy;2020 Acme Corp. All rights reserved.
+                &copy;Universidad Ténica de Manabí.
             </p>
         </div>
     )
