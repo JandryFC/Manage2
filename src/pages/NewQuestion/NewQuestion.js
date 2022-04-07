@@ -44,8 +44,8 @@ const NewQuestion =(props) =>{
                             return <Completar_texto  question={question} />
                         case "emparejar":
                             return <Emparejar  question={question} />
-                        case "ordenar":
-                            return <Ordenar  question={question} />
+                        /* case "ordenar":
+                            return <Ordenar  question={question} /> */
                         case "opcion_correcta_n":
                             return <Opcion_correcta_n  question={question} />
                     }

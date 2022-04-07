@@ -62,7 +62,9 @@ const QuestionFormPage = (props) => {
                                 return <Emparejar question={question} />
 
                             case "ordenar":
-                                return <Ordenar question={question} />
+                                window.location.href = "/ErrorQuestion";
+                                return;
+                                /* return <Ordenar question={question} /> */
                             case "opcion_correcta_n":
                                 return <Opcion_correcta_n question={question} />
 
