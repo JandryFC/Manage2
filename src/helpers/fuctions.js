@@ -49,7 +49,7 @@ export const nFormatter = (num, digits) => {
 }
 export const llenarInfo = async (api, id) => {
   let libroActual = 1;
-  const response_lib = await fetch(`${api}books`, {
+  const response_lib = await fetch(`${api}book/`, {
     method: "GET",
     headers: {
       token: process.env.REACT_APP_SECRET_TOKEN,
@@ -57,7 +57,7 @@ export const llenarInfo = async (api, id) => {
   });
   let bookinfo = await response_lib.json();
   let totalLibro = bookinfo.res.length / 4;
-  const response = await fetch(`${api}user_progress/${id}`, {
+  const response = await fetch(`${api}progress/${id}`, {
     method: "POST",
     headers: {
       token: process.env.REACT_APP_SECRET_TOKEN,
@@ -142,7 +142,7 @@ export const llenarInfo = async (api, id) => {
 }
 
 export const agregarLibro = async (api) => {
-  const response_lib = await fetch(`${api}books/new`, {
+  const response_lib = await fetch(`${api}book/new`, {
     method: "GET",
     headers: {
       token: process.env.REACT_APP_SECRET_TOKEN,

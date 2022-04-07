@@ -183,7 +183,6 @@ const ReportingTask = () => {
                 </div>
                 <div>
                     {/* Fecha inicio */}
-                    {console.log(progress)}
                     <div date-rangepicker="true" className="flex items-center">
                         <div className="relative">
                             <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
@@ -234,7 +233,7 @@ const ReportingTask = () => {
                                 <div className=" col-span-2 border  rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center">
                                     <div className="text-center">
 
-                                        <button type="button" onClick={graficando} id="graficaProgresso" class="inline-block font-bold px-6 py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">Gráfica Progreso de Tareas</button>
+                                        <button type="button" id="graficaProgresso"  className="inline-block font-bold px-6 py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">Gráfica Progreso de Tareas</button>
                                     </div>
                                 </div>
                                 <div className="col-span-2  border  rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center ">
@@ -261,13 +260,13 @@ const ReportingTask = () => {
                                 <div className="col-span-2  border  rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center ">
                                     <div className="text-center">
 
-                                        <button type="button" onClick={graficando} id="graficaTipos" class="inline-block font-bold px-6 py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">Gráfica Tipos de Tareas</button>
+                                        <button type="button" onClick={graficando} id="graficaTipos"  className="inline-block font-bold px-6 py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">Gráfica Tipos de Tareas</button>
                                     </div>
                                 </div>
                             </div>
                             <div className=" py-10 pr-10  grid grid-cols-1 ">
                                 <div className="border  rounded-lg border-gray-200">
-                                    {grafica ? <div class="object-contain h-72 w-72 mx-auto py-2 ">{grafica} </div>
+                                    {grafica ? <div  className="object-contain h-72 w-72 mx-auto py-2 ">{grafica} </div>
                                         : <div className=" py-10 grid grid-cols-1 gap-4 content-center" >
                                             <div className="mx-auto">
                                                 <img src={image_charts} width="375" />

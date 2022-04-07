@@ -73,6 +73,7 @@ const NavComponent = (props) => {
           },
         }
       )
+      console.log("response", user_response)
     } catch (e) {
       mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
       return;
@@ -89,7 +90,9 @@ const NavComponent = (props) => {
     let _libros = null
     try {
       _libros = await llenarInfo(process.env.REACT_APP_API_URL, user_response._id)
+      console.log(_libros)
     } catch (e) {
+
       mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
       return;
     }

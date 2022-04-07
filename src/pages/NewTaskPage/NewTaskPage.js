@@ -30,7 +30,7 @@ const NewTaskPage = () => {
         formData.set("files", Object.keys(task).find(x => x === "file_upload") ? task.file_upload[0] : null);
         let responseTask = null
         try {
-            responseTask = await fetch(`${process.env.REACT_APP_API_URL}tasks/create`, {
+            responseTask = await fetch(`${process.env.REACT_APP_API_URL}task/create`, {
                 method: "POST",
                 body: formData,
                 headers: {

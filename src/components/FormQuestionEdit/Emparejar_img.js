@@ -44,7 +44,7 @@ const Emparejar_img = (props) => {
     }
     const handleForm = async (e) => {
         e.preventDefault();
-        const data_upload = await fetch(`${process.env.REACT_APP_API_URL}editQuestion`,
+        const data_upload = await fetch(`${process.env.REACT_APP_API_URL}question/update`,
             {
                 method: "PUT",
                 body: formData,
@@ -73,6 +73,7 @@ const Emparejar_img = (props) => {
                         Editar pregunta
                     </h2>
                 </div>
+                <div className='overflow-y-auto h-95'>
                 <div className="mb-4">
                     <h2 className="block text-gray-700 text-md font-bold mb-2">
                         Tipo pregunta: <span className="text-md  font-normal">{question.type}</span>
@@ -152,6 +153,7 @@ const Emparejar_img = (props) => {
                             );
                         }) : <div>Cargando</div>}
                     </div>
+                </div>
                 </div>
 
                 <div className="flex items-center justify-between">

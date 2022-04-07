@@ -75,7 +75,7 @@ const PrivilegesPage = () => {
     const getUsers = async () => {
         let responseUser = null
         try {
-            responseUser = await fetch(`${process.env.REACT_APP_API_URL}user`, {
+            responseUser = await fetch(`${process.env.REACT_APP_API_URL}user/`, {
                 method: "GET",
                 headers: {
                     token: process.env.REACT_APP_SECRET_TOKEN,

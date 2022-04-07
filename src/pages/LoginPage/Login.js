@@ -14,7 +14,6 @@ const Login = () => {
   const [cargando, setCargando] = useState(false);
 
   const handleChange = (e) => {
-    console.log(e.target.value)
     setForm({
       ...form,
       [e.target.name]: e.target.value,
@@ -39,7 +38,7 @@ const Login = () => {
 
     setCargando(true);
     let response = await axios.post(
-      `${process.env.REACT_APP_API_URL}signin`,
+      `${process.env.REACT_APP_API_URL}user/signin`,
       {
         mail: form.mail,
         password: form.password,
@@ -133,10 +132,10 @@ const Login = () => {
             </div>
 
             <div className="flex items-center justify-between">
-            <div class="flex justify-center">
-              <div class="sm:w-40 ">
-                <select  onChange={handleChange} name="rol" value={form.rol} class="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
-                  <option value="Administrador" selected>Administrador</option>
+            <div className="flex justify-center">
+              <div className="sm:w-40 ">
+                <select  onChange={handleChange} name="rol" value={form.rol} className="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" aria-label="Default select example">
+                  <option value="Administrador" >Administrador</option>
                   <option value="Docente">Docente</option>
                 </select>
               </div>

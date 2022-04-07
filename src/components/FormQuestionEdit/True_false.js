@@ -44,7 +44,7 @@ const True_false = (props) => {
     };
     const handleForm = async (e) => {
         e.preventDefault();
-        const data_upload = await fetch(`${process.env.REACT_APP_API_URL}editQuestion`,
+        const data_upload = await fetch(`${process.env.REACT_APP_API_URL}question/update`,
             {
                 method: "PUT",
                 body: formData,
@@ -87,6 +87,7 @@ const True_false = (props) => {
                         Tipo pregunta: <span className="text-md  font-normal">{question.type}</span>
                     </h2>
                 </div>
+                <div className='overflow-y-auto h-95'>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="question">
                         Pregunta:
@@ -136,6 +137,7 @@ const True_false = (props) => {
                             );
                         }) : <div>Cargando</div>}
                     </div>
+                </div>
                 </div>
 
                 <div className="flex items-center justify-between">

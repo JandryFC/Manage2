@@ -37,7 +37,7 @@ const Opcion_correcta1 = (props) => {
 
     const handleForm = async (e) => {
         e.preventDefault();
-        const data_upload = await fetch(`${process.env.REACT_APP_API_URL}editQuestion`,
+        const data_upload = await fetch(`${process.env.REACT_APP_API_URL}question/update`,
             {
                 method: "PUT",
                 body: formData,
@@ -71,6 +71,7 @@ const Opcion_correcta1 = (props) => {
                         Editar pregunta
                     </h2>
                 </div>
+                <div className='overflow-y-auto h-95'>
                 <div className="mb-4">
                     <h2 className="block text-gray-700 text-md font-bold mb-2">
                         Tipo pregunta: <span className="text-md  font-normal">{question.type}</span>
@@ -128,6 +129,7 @@ const Opcion_correcta1 = (props) => {
                             <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
                         </div>
                     </div>
+                </div>
                 </div>
 
                 <div className="flex items-center justify-between">

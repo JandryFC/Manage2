@@ -123,7 +123,7 @@ const UnitPage = (props) => {
 
             let responseAll = null;
             try {
-                responseAll = await fetch(`${process.env.REACT_APP_API_URL}tasks/delete/${task_number}`, {
+                responseAll = await fetch(`${process.env.REACT_APP_API_URL}task/delete/${task_number}`, {
                     method: "GET",
                     headers: {
                       token: process.env.REACT_APP_SECRET_TOKEN,
@@ -242,7 +242,7 @@ const UnitPage = (props) => {
                     <div>
                         {cargando ? <div className=" spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-green-500 " role="status">
                             <span className="visually-hidden">Loading...</span>
-                        </div> : <div> <button onClick={deleteAll} type="button" class="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">Eliminar todo</button></div>}
+                        </div> : <div> <button onClick={deleteAll} type="button" className="inline-block px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">Eliminar todo</button></div>}
 
                     </div>
                 </div>

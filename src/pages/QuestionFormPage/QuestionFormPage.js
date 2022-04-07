@@ -20,7 +20,7 @@ const QuestionFormPage = (props) => {
     const { _id } = useParams()
     var formPage = null;
     const getQuestion = async () => {
-        const data_question = await fetch(`${process.env.REACT_APP_API_URL}question/find/${_id}`,
+        const data_question = await fetch(`${process.env.REACT_APP_API_URL}question/${_id}`,
             {
                 method: "GET",
                 headers: {

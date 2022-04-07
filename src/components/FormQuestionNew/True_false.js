@@ -102,10 +102,11 @@ const True_false = (props) => {
         <div className="w-full max-w-xl m-auto py-5">
             <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit(handleForm)}>
                 <div className="mb-4">
-                    <h2 className="block text-center text-yellow-500 text-2xl font-bold mb-2">
-                        Crear pregunta:
+                    <h2 className="block text-center uppercase text-yellow-500 text-2xl font-bold mb-2">
+                        Crear pregunta
                     </h2>
                 </div>
+                <div className='overflow-y-auto h-95'>
                 <div className="mb-4">
                     <h2 className="block text-gray-700 text-md font-bold mb-2">
                         Tipo pregunta: <span className="text-md  font-normal">{transformTypeQuestion(question.type)}</span>
@@ -188,10 +189,11 @@ const True_false = (props) => {
                         }) : <div>No existen items </div>}
                     </div>
                 </div>
+                </div>
 
                 <div className="flex items-center justify-between">
                     <button className="bg-green-500 hover:bg-greeb-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-                        Actualizar
+                        Guardar
                     </button>
                     {enviar && (
                         <div className=" spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-yellow-500" role="status">
