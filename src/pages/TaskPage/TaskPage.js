@@ -59,12 +59,19 @@ const UnitPage = (props) => {
             const alerta = await mostrarAlertaEliminar("Pregunta");
             if (await alerta) {
                 setToggleCleared(!toggleCleared);
-                const delete_response = await fetch(`${process.env.REACT_APP_API_URL}question/delete/${selectedRows[0]._id}/`, {
-                    method: "GET",
-                    headers: {
-                        token: process.env.REACT_APP_SECRET_TOKEN,
-                    },
-                });
+                let delete_response = null;
+                try {
+                    delete_response = await fetch(`${process.env.REACT_APP_API_URL}question/delete/${selectedRows[0]._id}/`, {
+                        method: "GET",
+                        headers: {
+                            token: process.env.REACT_APP_SECRET_TOKEN,
+                        },
+                    });
+
+                } catch (e) {
+                    mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
+                    return;
+                }
                 const _delete = await delete_response.json();
                 if (_delete.message) {
                     //se eliminó de la base de datos 
@@ -95,7 +102,7 @@ const UnitPage = (props) => {
             const questionResponse = await fetch(`${process.env.REACT_APP_API_URL}question/view/${book_number}/${modulo}/${unit_number}/${task_number}`, {
                 method: "GET",
                 headers: {
-                  token: process.env.REACT_APP_SECRET_TOKEN,
+                    token: process.env.REACT_APP_SECRET_TOKEN,
                 },
             })
             const _question = await questionResponse.json();
@@ -126,7 +133,7 @@ const UnitPage = (props) => {
                 responseAll = await fetch(`${process.env.REACT_APP_API_URL}task/delete/${task_number}`, {
                     method: "GET",
                     headers: {
-                      token: process.env.REACT_APP_SECRET_TOKEN,
+                        token: process.env.REACT_APP_SECRET_TOKEN,
                     },
                 })
                 const _task = await responseAll.json();

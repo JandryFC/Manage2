@@ -7,6 +7,7 @@ import True_false from "../../components/FormQuestionEdit/True_false";
 import Opcion_correcta_n from "../../components/FormQuestionEdit/Opcion_correcta_n";
 import Emparejar from "../../components/FormQuestionEdit/Emparejar";
 import Ordenar from "../../components/FormQuestionEdit/Ordenar";
+import { mostrarExitoEditar, selectnewRol } from '../../components/Alert/Alert'
 import {
     useParams
 } from "react-router-dom";
@@ -20,15 +21,21 @@ const QuestionFormPage = (props) => {
     const { _id } = useParams()
     var formPage = null;
     const getQuestion = async () => {
-        const data_question = await fetch(`${process.env.REACT_APP_API_URL}question/${_id}`,
-            {
-                method: "GET",
-                headers: {
-                    token: process.env.REACT_APP_SECRET_TOKEN,
-                },
-            })
-        var _question = await data_question.json()
+        let data_question = null
+        try {
+            data_question = await fetch(`${process.env.REACT_APP_API_URL}question/${_id}`,
+                {
+                    method: "GET",
+                    headers: {
+                        token: process.env.REACT_APP_SECRET_TOKEN,
+                    },
+                })
+        } catch (e) {
+            mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
+            return;
 
+        }
+        var _question = await data_question.json()
         setQuestion(await _question)
     }
 
@@ -64,7 +71,7 @@ const QuestionFormPage = (props) => {
                             case "ordenar":
                                 window.location.href = "/ErrorQuestion";
                                 return;
-                                /* return <Ordenar question={question} /> */
+                            /* return <Ordenar question={question} /> */
                             case "opcion_correcta_n":
                                 return <Opcion_correcta_n question={question} />
 
