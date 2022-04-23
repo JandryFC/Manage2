@@ -11,9 +11,11 @@ import TaskPage from "./pages/TaskPage/TaskPage";
 import QuestionFormPage from "./pages/QuestionFormPage/QuestionFormPage";
 import NewQuestion from "./pages/NewQuestion/NewQuestion";
 import NewTaskPage from "./pages/NewTaskPage/NewTaskPage";
+import React, { useState, useEffect } from "react";
 /* router */
 
 function App() {
+
   return (
     <div className="App h-screen">
       <BrowserRouter>
@@ -21,7 +23,7 @@ function App() {
           <Route exact path="/" element={<Login />} />
           <Route exact path="/dashboard" element={<Dashboard />} />
           <Route exact path="/privileges" element={<PrivilegesPage/> } />
-          <Route exact path="/Reporting" element={<ReportingPage /> } />
+          <Route exact path="/Reporting" element={<ReportingPage  /> } />
           <Route exact path="/dashboard/book/:book_number/module/:module_number/unit/:unit_number" element={<UnitPage />} />
           <Route exact path="/dashboard/book/:book_number/module/:module_number/unit/:unit_number/task/:task_number" element={<TaskPage/> } />
           <Route exact path="/dashboard/editQuestion/:_id" element={<QuestionFormPage />} />

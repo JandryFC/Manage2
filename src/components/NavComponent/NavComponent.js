@@ -10,7 +10,6 @@ import { llenarInfo, agregarLibro } from '../../helpers/fuctions'
 import { mostrarExitoEditar, mostrarAlertaConfimacion } from '../Alert/Alert'
 
 const NavComponent = (props) => {
-
   const [user, setUser] = useState({
   });
   const [libros, setLibros] = useState({});

@@ -1,8 +1,8 @@
 
 import React, { useState, useEffect } from "react";
-import NavComponent from "../../components/NavComponent/NavComponent";
 import { mostrarExitoEditar, selectnewRol } from '../../components/Alert/Alert'
 import ReactTimeAgo from 'react-time-ago'
+import NavComponent from "../../components/NavComponent/NavComponent";
 import DataTable from 'react-data-table-component';
 const USER = JSON.parse(localStorage.getItem("user"));
 
@@ -56,6 +56,7 @@ const columns = [
     },
 
 ];
+
 const PrivilegesPage = () => {
 
     const [users, setUsers] = useState([])
@@ -157,12 +158,12 @@ const PrivilegesPage = () => {
                 }
             }
         }
+        
         const handleEditRol = async () => {
             const rolesUser = selectedRows[0].rol.split(", ");
             const rolAdd = await selectnewRol("Eliminar Roles", rolesUser.filter(x => x !== "Estudiante"));
             let updateUser = null
             if (rolAdd) {
-
                 try {
                     updateUser = await fetch(`${process.env.REACT_APP_API_URL}user/update/rol`, {
                         method: "POST",
