@@ -11,8 +11,8 @@ const USER = JSON.parse(localStorage.getItem("user"));
 
 const columns = [
     {
-        name: 'Id',
-        selector: row => row._id,
+        name: 'Nº',
+        selector: row => row.id,
         sortable: true,
         compact: true,
         minWidth: "5vh",
@@ -44,10 +44,13 @@ const UnitPage = (props) => {
     const [selectedRows, setSelectedRows] = useState(false);
     const [toggleCleared, setToggleCleared] = React.useState(false);
     const [data, setData] = useState([]);
+    const [longitud, setLongitud] = useState();
+    const [longitud2, setLongitud2] = useState();
 
     const handleRowSelected = React.useCallback(state => {
         setSelectedRows(state.selectedRows);
     }, []);
+    
 
     const contextActions = React.useMemo(() => {
 
@@ -73,6 +76,7 @@ const UnitPage = (props) => {
                     return;
                 }
                 const _delete = await delete_response.json();
+
                 if (_delete.message) {
                     //se eliminó de la base de datos 
                     var result = await mostrarExitoEditar("Exito", "La pregunta fue eliminada correctamente", "success")
@@ -106,15 +110,19 @@ const UnitPage = (props) => {
                 },
             })
             const _question = await questionResponse.json();
+            let number = 0
             const _questionTable = _question.map((e) => {
+                number = number + 1
                 return {
                     _id: e._id,
+                    id:number,
                     question: e.question,
                     type: transformTypeQuestion(e.type),
                 }
             })
             setcargando(false);
             setData(await _questionTable);
+            
         } catch (e) {
             mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
             setcargando(false);
@@ -154,12 +162,20 @@ const UnitPage = (props) => {
 
     useEffect(async () => {
         getQuestion()
+        setLongitud( data.length)
     }, []);
 
     useEffect(async () => {
         if (!USER) {
             window.location.href = '/';
         }
+        setLongitud2( data.length)
+        if(longitud !== longitud2){
+            getQuestion()
+            setLongitud( data.length)
+
+        }
+
     });
 
     return (

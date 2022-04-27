@@ -43,12 +43,12 @@ const True_false = (props) => {
                 document.getElementById(`label${i}`).innerHTML = "False"
             }
         }
-        console.log(aux_question)
         setQuestion(aux_question)
         formData.set("question", JSON.stringify(question))
     };
     const handleForm = async (form) => {
         formData.set("files", form.imagen[0]);
+        formData.set("question", JSON.stringify(question))
         setEnviar(true);
         let data_upload = null;
         try {
@@ -134,6 +134,11 @@ const True_false = (props) => {
 
                             </div>
                             <div className="mb-4">
+                                
+
+                                <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="respuesta">
+                                    Respuestas:{/*  {question.options.length}  */}
+                                </label>
                                 <div className="flex space-x-2 justify-center">
                                     <div>
 
@@ -142,11 +147,6 @@ const True_false = (props) => {
                                         </button>
                                     </div>
                                 </div>
-
-                                <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="respuesta">
-                                    Respuestas:{/*  {question.options.length}  */}
-                                </label>
-
 
                                 <div className="overflow-auto h-52">
                                     {items ? items.map((e, i) => {
@@ -168,10 +168,10 @@ const True_false = (props) => {
                                                         Respuesta {i + 1}:
                                                     </h2>
                                                     <div className="form-check form-switch py-2">
-                                                        <input {...register(`answer${i}`, { required: true })} onChange={handleChange} name={`answer${i}`} className="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-white bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm" type="checkbox" role="switch" id="flexSwitchCheckDefault" defaultChecked={e.answer[0][1]} />
+                                                        <input {...register(`answer${i}`, { required: false })} onChange={handleChange} name={`answer${i}`} className="form-check-input appearance-none w-9 -ml-10 rounded-full float-left h-5 align-top bg-white bg-no-repeat bg-contain bg-gray-300 focus:outline-none cursor-pointer shadow-sm" type="checkbox" role="switch" id="flexSwitchCheckDefault" defaultChecked={e.answer[0][1]} />
                                                         <label id={`label${i}`} className="form-check-label inline-block text-gray-800" htmlFor="flexSwitchCheckDefault" > {question.body[i].answer[0][1] ? "Verdadero" : "Falso"}</label>
                                                     </div>
-                                                    {console.log(e.answer[0][1])}
+
                                                     {errors[`answer${i}`] &&
                                                         (
                                                             <h2 className="text-red-500 text-md">Campo requerido</h2>

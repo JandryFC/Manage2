@@ -96,8 +96,8 @@ const PrivilegesPage = () => {
             return {
                 _id: e._id,
                 cedula: e.cedula,
-                name: e.name,
-                lastname: e.lastname,
+                name: e.name.toUpperCase() ,
+                lastname: e.lastname.toUpperCase() ,
                 mail: e.mail,
                 rol: e.rol.reduce((e1, e2) => { return `${e1}, ${e2}` }),
                 createdAt: <ReactTimeAgo date={new Date(e.createdAt)} locale="es-EC" />
@@ -217,40 +217,42 @@ const PrivilegesPage = () => {
     return (
         <div>
             <NavComponent data={USER} />
-            <div className="grid grid-col-2 ml-60">
-                <div className="flex justify-between p-4">
-                    <div></div>
-                    <div>
-                        <h3 className="uppercase  tracking-wider text-xl font-bold">Usuarios con Privilegios </h3>
-                    </div>
-                    <div>
-                        {cargando ? <div className=" spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-green-500 " role="status">
-                            <span className="visually-hidden">Loading...</span>
-                        </div> : <div> </div>}
-
-                    </div>
-                </div>
-                <div>
-                    {!cargando && /*console.log(userProgress)  */
-                        <div className="">
-
-                            <DataTable
-                                title="Lista de Usuarios"
-                                columns={columns}
-                                data={users}
-                                fixedHeader={true}
-                                fixedHeaderScrollHeight="350px"
-                                pagination
-                                selectableRows
-
-                                contextActions={contextActions}
-                                selectableRowsSingle={true}
-                                onSelectedRowsChange={handleRowSelected}
-                                clearSelectedRows={toggleCleared}
-                            />
+            <div className="grid grid-cols-1 my-4 px-10 "> 
+                <div className="grid grid-col-2 ml-60">
+                    <div className="flex justify-between p-4">
+                        <div></div>
+                        <div>
+                            <h3 className="uppercase  tracking-wider text-xl font-bold">Usuarios con Privilegios </h3>
                         </div>
+                        <div>
+                            {cargando ? <div className=" spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-green-500 " role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div> : <div> </div>}
 
-                    }
+                        </div>
+                    </div>
+                    <div className="p-5"> 
+                        {!cargando && /*console.log(userProgress)  */
+                            <div className="">
+
+                                <DataTable
+                                    title="Lista de Usuarios"
+                                    columns={columns}
+                                    data={users}
+                                    fixedHeader={true}
+                                    fixedHeaderScrollHeight="350px"
+                                    pagination
+                                    selectableRows
+
+                                    contextActions={contextActions}
+                                    selectableRowsSingle={true}
+                                    onSelectedRowsChange={handleRowSelected}
+                                    clearSelectedRows={toggleCleared}
+                                />
+                            </div>
+
+                        }
+                    </div>
                 </div>
             </div>
         </div>

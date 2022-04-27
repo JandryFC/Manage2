@@ -24,11 +24,11 @@ const Opcion_correcta1 = (props) => {
     const handleChange = async (e) => {
         const aux_question = question;
         const value = e.target.value;
+
         if (e.target.name === "question") {
             aux_question.question = value
 
         } if (e.target.name === "imagen") {
-            console.log(e.target.files[0])
             formData.set("files", e.target.files[0])
         } if (e.target.name === "answer") {
 
@@ -42,13 +42,13 @@ const Opcion_correcta1 = (props) => {
             let index = parseInt(e.target.name.substr(-1))
             aux_question.options[index].item = e.target.value
         }
-        formData.set("question", JSON.stringify(aux_question))
+        //formData.set("question", JSON.stringify(aux_question))
         setQuestion(aux_question)
     };
 
     const handleForm = async (form) => {
-        console.log(form)
-        formData.set("files", form.imagen);
+        formData.set("question", JSON.stringify(question))
+        formData.set("files", form.imagen[0]);
         setEnviar(true);
         let data_upload = null;
         try {
@@ -62,12 +62,15 @@ const Opcion_correcta1 = (props) => {
                     },
                 }
             )
+
         } catch (e) {
             mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
             setEnviar(false);
+            
             return;
         }
         var upload = await data_upload.json()
+
         setEnviar(false);
         if (upload.msg === "CORRECT") {
             var result = mostrarExitoEditar("Exito", "La pregunta fue almanceda correctamente", "success")
@@ -76,7 +79,8 @@ const Opcion_correcta1 = (props) => {
             }
 
         } else {
-            mostrarExitoEditar("Error", "Hubo un problema al agregar la pregunta", "error")
+            //mostrarExitoEditar("Error", "Hubo un problema al agregar la pregunta", "error")
+            console.log('no hubo futuro')
         }
     }
 
@@ -134,6 +138,11 @@ const Opcion_correcta1 = (props) => {
 
                             </div>
                             <div className="mb-4">
+                                
+
+                                <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="respuesta">
+                                    Respuestas:{/*  {question.options.length}  */}
+                                </label>
                                 <div className="flex space-x-2 justify-center">
                                     <div>
 
@@ -142,11 +151,6 @@ const Opcion_correcta1 = (props) => {
                                         </button>
                                     </div>
                                 </div>
-
-                                <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="respuesta">
-                                    Respuestas:{/*  {question.options.length}  */}
-                                </label>
-
 
                                 <div className="overflow-auto h-52">
                                     {items ? items.map((e, i) => {

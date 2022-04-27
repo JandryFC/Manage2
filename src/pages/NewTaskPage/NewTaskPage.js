@@ -26,7 +26,18 @@ const NewTaskPage = () => {
     }
     const handleForm = async () => {
         setEnviar(true);
-        formData.set("task", JSON.stringify({ ...task, id_unidad: unit_number, type_task: type }))
+        let unit_id = 1
+        const modulo = window.location.href.split('/')[window.location.href.split('/').length - 5];
+        const unidad = window.location.href.split('/')[window.location.href.split('/').length - 3];
+
+        if(unidad === '1'){
+            unit_id=(modulo*2)-1
+        }else{
+            unit_id=(modulo*2)
+        }
+
+        
+        formData.set("task", JSON.stringify({ ...task, id_unidad: unit_id, type_task: type }))
         formData.set("files", Object.keys(task).find(x => x === "file_upload") ? task.file_upload[0] : null);
         let responseTask = null
         try {
@@ -44,6 +55,7 @@ const NewTaskPage = () => {
             return;
         }
         let _task = await responseTask.json()
+
         if (_task.msg === "CORRECT") {
             await mostrarExitoEditar("Exito", "Tarea agregada correctamente", "success")
         } else {

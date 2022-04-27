@@ -43,6 +43,7 @@ const Completar_texto = (props) => {
 
     const handleForm = async (form) => {
         formData.set("files", form.imagen[0]);
+        formData.set("question", JSON.stringify(question))
         setEnviar(true);
         let data_upload = null;
         try {
@@ -127,6 +128,12 @@ const Completar_texto = (props) => {
 
                             </div>
                             <div className="mb-4">
+                                
+
+                                <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="respuesta">
+                                    Respuestas:{/*  {question.options.length}  */}
+                                </label>
+
                                 <div className="flex space-x-2 justify-center">
                                     <div>
 
@@ -135,12 +142,7 @@ const Completar_texto = (props) => {
                                         </button>
                                     </div>
                                 </div>
-
-                                <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="respuesta">
-                                    Respuestas:{/*  {question.options.length}  */}
-                                </label>
-
-
+                                
                                 <div className="overflow-auto h-52">
                                     {items ? items.map((e, i) => {
                                         return (

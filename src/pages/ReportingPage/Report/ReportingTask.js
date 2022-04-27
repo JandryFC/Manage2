@@ -6,14 +6,20 @@ import "react-datepicker/dist/react-datepicker.css";
 import { nFormatter } from '../../../helpers/fuctions'
 import image_cargando from '../../../assets/undraw_charts_re_5qe9.svg'
 import image_charts from '../../../assets/undraw_growing_re_olpi.svg'
+import { llenarInfo, agregarLibro } from '../../../helpers/fuctions'
+
 
 import { Chart as ChartJS, registerables } from 'chart.js';
 import { Pie, Bar } from 'react-chartjs-2';
 ChartJS.register(...registerables);
 
 const ReportingTask = () => {
+    const [book, setBook] = useState([]);
     const [task, setTask] = useState([]);
+    const [question, setQuestion] = useState([]);
     const [progress, setProgress] = useState([]);
+
+
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [checked, setChecked] = useState(false);
@@ -27,11 +33,13 @@ const ReportingTask = () => {
         setCargando(true)
         let responseTask = null;
         let responseProgress = null;
+        let responseQuestion = null;
+        let responseBook = null;
         formData.set("endDate", endDate)
         formData.set("startDate", startDate)
         formData.set("mode", checked ? "DATA" : "NO_DATE");
         try {
-            responseTask = await fetch(`${process.env.REACT_APP_API_URL}task/date`, {
+            responseTask = await fetch(`${process.env.REACT_APP_API_URL}task/task/date`, {
                 method: "GET",
                 headers: {
                   token: process.env.REACT_APP_SECRET_TOKEN,
@@ -46,22 +54,62 @@ const ReportingTask = () => {
                 },
             })
 
+            responseQuestion = await fetch(`${process.env.REACT_APP_API_URL}evaluation/`, {
+                method: 'GET',
+                //body: formData,
+                headers: {
+                    'token':process.env.REACT_APP_SECRET_TOKEN,
+                  },
+            });
+            responseBook = await fetch(`${process.env.REACT_APP_API_URL}book/`, {
+                method: "GET",
+                headers: {
+                  token: process.env.REACT_APP_SECRET_TOKEN,
+                },
+              });
+              
+
         } catch (e) {
             mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
             setCargando(false);
             return;
         }
-
+        
         let _task = await responseTask.json()
+
         let _userProgress = await responseProgress.json();
-        if (_task.data.length == 0 || _userProgress.data.length == 0) {
+        let _question = await responseQuestion.json();
+        let _book = await responseBook.json();
+
+        if (_task.data.length == 0 || _userProgress.data.length == 0 || (_book.res.length/4) == 0) {
             mostrarExitoEditar("Atención", "No existen datos a mostrar", "warning")
         } else {
             setProgress(_userProgress.data.map(e => { return { name: `${e.name} ${e.lastname}`, progress: e.progress } }))
             setTask(_task.data)
+            setQuestion(_question)
+            setBook(_book.res)
         }
         setCargando(false);
     }
+
+    const getData = async(idlibro) => {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}evaluation/`, {
+            method: 'GET',
+            headers: {
+                'token':process.env.REACT_APP_SECRET_TOKEN,
+              },
+        });
+        const data = await response.json();
+        
+        return data;
+    }
+
+    React.useEffect(() => {
+      
+      // getTask();
+      //console.log(question)
+         
+    }, [])
 
     const handleChange = (event) => {
         const target = event.target;
@@ -71,6 +119,7 @@ const ReportingTask = () => {
     }
 
     const generarReporte = () => {
+        
         getTask();
     }
 
@@ -158,7 +207,60 @@ const ReportingTask = () => {
                     }} />)
 
                 break;
-
+            case "graficaPreguntas":
+                    setGrafica(<Pie
+                        options={
+                            {
+                                responsive: true,
+                                plugins: {
+                                    title: {
+                                        display: true,
+                                        text: "Tipos de Preguntas",
+                                        fontSize: 25,
+                                    },
+                                    legend: {
+                                        display: true,
+                                        position: "bottom"
+                                    }
+                                }
+                            }
+                        } data={{
+                            labels: ['Opción Única', 'Opción Múltiple', 'Verdadero o Falso','Emparejar', 'Ordenar','Completar'],
+                            datasets: [
+                                {
+                                    label: 'Tipos de Preguntas',
+                                    data: [
+                                        question.filter(e => e.type === "opcion_correcta_1").length,
+                                        question.filter(e => e.type === "opcion_correcta_n").length,
+                                        question.filter(e => e.type === "true_false").length,
+                                        question.filter(e => e.type === "emparejar").length + task.filter(e => e.type === "emparejar_img").length,
+                                        question.filter(e => e.type === "ordenar").length,
+                                        question.filter(e => e.type === "completar_texto").length
+                                    ],
+                                    backgroundColor: [
+                                        'rgba(50,  205, 50, 0.2)',
+                                        'rgba(54, 162, 235, 0.2)',
+                                        'rgba(255, 206, 86, 0.2)',
+                                        'rgba(255, 159, 64, 0.2)',
+                                        'rgba(255, 99, 132, 0.2)',
+                                        'rgba(128, 0,  128, 0.2)'
+                                    ],
+                                    borderColor: [
+                                        'rgba(50,  205, 50, 1)',
+                                        'rgba(54, 162, 235, 1)',
+                                        'rgba(255, 206, 86, 1)',
+                                        'rgba(255, 159, 64, 1)',
+                                        'rgba(255, 99, 132, 1)',
+                                        'rgba(128, 0,  128, 1)'
+                                    ],
+                                    borderWidth: 1,
+                                },
+                            ],
+    
+                        }} />)
+    
+                    break;
+    
             default:
                 break;
         }
@@ -167,14 +269,14 @@ const ReportingTask = () => {
 
     return (
         <div className="w-full">
-            <div className="flex justify-between">
+            <div className="flex justify-between px-20">
                 <div className="px-3 py-2 ">
                     <div className="flex justify-center">
                         <div>
                             <div className="form-check">
                                 <input onChange={handleChange} className="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="flexCheckDefault" />
-                                <label className="form-check-label inline-block text-gray-800" htmlFor="flexCheckDefault">
-                                    Todas las Tareas
+                                <label className="text-sm form-check-label inline-block text-gray-800" htmlFor="flexCheckDefault">
+                                    VER TODO
                                 </label>
                             </div>
 
@@ -212,8 +314,8 @@ const ReportingTask = () => {
                     <button type="button" onClick={generarReporte} className="inline-block px-6 py-2.5 bg-yellow-300 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-yellow-400 hover:shadow-lg focus:bg-yellow-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-400 active:shadow-lg transition duration-150 ease-in-out">Generar</button>
                 </div>
             </div>
-            <div className="grid grid-cols-1 my-4">
-                <div className="shadow-lg bg-white rounded-lg h-96 overflow-hidden">
+            <div className="grid grid-cols-1 my-4 px-20">
+                <div className="shadow-lg bg-white rounded-lg  overflow-hidden">
                     {task.length == 0 ?
                         <div className="p-10 grid grid-cols-1 gap-4 content-center" id="chartBar">
                             <div className="mx-auto">
@@ -221,52 +323,87 @@ const ReportingTask = () => {
                                 <h3 className="text-xl  text-center text-gray-600 my-4">Seleccione la información</h3>
                             </div>
                         </div>
-                        : <div className="grid grid-cols-2 gap-4">
-                            <div className="p-10 grid grid-cols-3 gap-4" id="chartBar">
+                        : <div className=" grid grid-cols-2 gap-2">
+                            <div className="p-5 grid grid-cols-3 gap-4 " id="chartBar">
+                            <div className=" border  rounded-lg border-gray-200   grid grid-cols-1 gap-4 content-center ">
+                                    <div className="text-center">
+                                        <h3 className="text-2xl uppercase text-yellow-500">{(book.length) / 4} </h3>
+                                        <h3 className="uppercase text-sm text-gray-500">Libros</h3>
+                                    </div>
+                                </div>
                                 <div className=" border  rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center ">
                                     <div className="text-center">
-                                        <h3 className="text-3xl uppercase text-yellow-500">{nFormatter(task.length, 1)} </h3>
+                                        <h3 className="text-2xl uppercase text-yellow-500">{nFormatter(task.length, 1)} </h3>
                                         <h3 className="uppercase text-sm text-gray-500">Tareas</h3>
                                     </div>
-
                                 </div>
-                                <div className=" col-span-2 border  rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center">
+                                <div className=" border  rounded-lg border-gray-200  grid grid-cols-1 gap-4 content-center ">
                                     <div className="text-center">
-
-                                        <button type="button" id="graficaProgresso"  className="inline-block font-bold px-6 py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">Gráfica Progreso de Tareas</button>
+                                        <h3 className="text-2xl uppercase text-yellow-500">{question.length} </h3>
+                                        <h3 className="uppercase text-sm text-gray-500">Preguntas</h3>
                                     </div>
                                 </div>
-                                <div className="col-span-2  border  rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center ">
+                                
+                                <div className="col-span-2  border  rounded-lg border-gray-200 py-2 grid grid-cols-1 gap-4 content-center ">
                                     <div className="text-center text-gray-500">
                                         <h3 className="text-md font-bold text-gray-500">Tipos de Tareas</h3>
-                                        <div className="grid grid-cols-2 gap-4 px-3">
+                                        <div className="grid grid-cols-2  px-3">
                                             <div>
-                                                <h3 className="text-md  capitalize text-gray-500">reading <span className="font-bold  text-red-400">{nFormatter(task.filter(e => e.type === "reading").length, 1)}
-                                                </span> </h3>
-                                                <h3 className="text-1xl capitalize ">writing <span className="font-bold text-yellow-500">{nFormatter(task.filter(e => e.type === "writing").length, 1)}
-                                                </span> </h3>
+                                                <div className="text-sm  capitalize text-gray-500">reading <h3 className="font-bold  text-red-400">{nFormatter(task.filter(e => e.type === "reading").length, 1)}
+                                                </h3> </div>
+                                                <div className="text-sm capitalize ">writing <h3 className="font-bold text-yellow-500">{nFormatter(task.filter(e => e.type === "writing").length, 1)}
+                                                </h3> </div>
                                             </div>
                                             <div>
-                                                <h3 className="text-1xl capitalize ">vocabulary <span className="font-bold text-green-500">{nFormatter(task.filter(e => e.type === "vocabulary").length, 1)}
-                                                </span> </h3>
-                                                <h3 className="text-1xl capitalize ">grammar <span className="font-bold text-blue-500">{nFormatter(task.filter(e => e.type === "grammar").length, 1)}
-                                                </span> </h3>
+                                                <div className="text-sm capitalize ">vocabulary <h3 className="font-bold text-green-500">{nFormatter(task.filter(e => e.type === "vocabulary").length, 1)}
+                                                </h3> </div>
+                                                <div className="text-sm capitalize ">grammar <h3 className="font-bold text-blue-500">{nFormatter(task.filter(e => e.type === "grammar").length, 1)}
+                                                </h3> </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div className=" border  rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center "></div>
-                                <div className=" border  rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center "></div>
-                                <div className="col-span-2  border  rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center ">
+                                <div className="  border  rounded-lg border-gray-200 grid grid-cols-1 gap-4 content-center ">
                                     <div className="text-center">
+                                        <button type="button" onClick={graficando} id="graficaTipos"  className="inline-block font-bold  py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">Generar gráfica de tareas</button>
+                                    </div>
+                                </div>
+                                <div className="col-span-2 w-full border py-2  rounded-lg border-gray-200  grid grid-cols-1 gap-4 content-center ">
+                                    <div className="text-center text-gray-500">
+                                        <h3 className="text-md font-bold text-gray-500">Tipos de Preguntas</h3>
+                                        <div className="grid grid-cols-3 gap-5 px-3">
+                                            <div>
+                                                <h2 className="text-sm capitalize ">opción única <h1 className="font-bold text-green-500">{(question.filter(e => e.type === "opcion_correcta_1").length)}
+                                                </h1> </h2>
+                                                <h2 className="text-sm capitalize ">emparejar <h1 className="font-bold text-yellow-500">{question.filter(e => e.type === "emparejar").length + question.filter(e => e.type === "emparejar_img").length }
+                                                </h1> </h2>
+                                            </div>
+                                            <div className="">
+                                                 <h2 className="text-sm  capitalize text-gray-500">opción múltiple <h1 className="font-bold  text-blue-400">{(question.filter(e => e.type === "opcion_correcta_n").length)}
+                                                </h1> </h2>
 
-                                        <button type="button" onClick={graficando} id="graficaTipos"  className="inline-block font-bold px-6 py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">Gráfica Tipos de Tareas</button>
+                                                <h2 className=" text-sm capitalize ">completar <h1 className="font-bold text-purple-500">{(question.filter(e => e.type === "completar_texto").length)}
+                                                </h1> </h2>
+                                            </div>
+                                            <div>
+                                                <h2 className="text-sm capitalize ">verdadero-falso <h1 className="font-bold text-yellow-500">{(question.filter(e => e.type === "true_false").length)}
+                                                </h1> </h2>
+                                                <h2 className="text-sm capitalize ">ordenar <h1 className="font-bold text-red-500">{(question.filter(e => e.type === "ordenar").length)}
+                                                </h1> </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div className="c border  rounded-lg border-gray-200  grid grid-cols-1 gap-4 content-center ">
+                                    <div className="text-center">
+                                        <button type="button" onClick={graficando} id="graficaPreguntas"  className="inline-block font-bold  py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">Generar gráfica de preguntas </button>
                                     </div>
                                 </div>
                             </div>
-                            <div className=" py-10 pr-10  grid grid-cols-1 ">
+                            <div className=" p-5  grid grid-cols-1 ">
                                 <div className="border  rounded-lg border-gray-200">
-                                    {grafica ? <div  className="object-contain h-72 w-72 mx-auto py-2 ">{grafica} </div>
+                                    {grafica ? <div  className="object-contain h-80 w-80 mx-auto py-2 ">{grafica} </div>
                                         : <div className=" py-10 grid grid-cols-1 gap-4 content-center" >
                                             <div className="mx-auto">
                                                 <img src={image_charts} width="375" />

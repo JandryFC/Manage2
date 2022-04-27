@@ -107,9 +107,9 @@ const NavComponent = (props) => {
   }
 
   return (
-    <div>
+    <div className="h-full">
       {/* side bar */}
-      <div className="w-60  h-full shadow-md bg-white absolute" id="sidenavSecExample1">
+      <div className="w-60  h-full  shadow-md bg-white absolute" id="sidenavSecExample1">
         <div className="pt-4 pb-2 px-6 bg-green-800">
           <a href="#!">
             <div className="flex items-center">
@@ -197,9 +197,9 @@ const NavComponent = (props) => {
 
 
       {/* nav bar */}
-      <nav className="static bg-green-800 dark:bg-gray-800  shadow  ">
-        <div className="max-w-7xl mx-auto ">
-          <div className="flex items-center justify-between h-16">
+      <nav className="static w-full bg-green-800 dark:bg-gray-800  shadow  ">
+        <div className="px-10  mx-auto ">
+          <div className="flex items-center justify-between h-16 ">
             <div className=" flex items-center">
               <a className="flex-shrink-0" href="/dashboard">
                 <img className="" width="125px" src={logobn} alt="Workflow" />
@@ -257,7 +257,7 @@ const NavComponent = (props) => {
               </button>
             </div>
             <div className="p-2 flex ">
-
+                  
               <Menu as="div" className="ml-3 relative">
                 <div>
                   <Menu.Button className="uppercase sm:text-base font-medium py-1 text-white flex text-sm rounded-full focus:outline-none  ">
@@ -299,7 +299,7 @@ const NavComponent = (props) => {
                           )}
                         </Menu.Item>
                       )) : <div className="mx-auto px-4 py-2 capitalize  flex">
-                        <p className="text-sm text-center font-normal">Sin rol</p>
+                        <p className="text-sm text-center font-normal">No posee otros roles</p>
                       </div>
                     }
 

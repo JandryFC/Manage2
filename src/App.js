@@ -17,7 +17,7 @@ import React, { useState, useEffect } from "react";
 function App() {
 
   return (
-    <div className="App h-screen">
+    <div className="App h-full w-full">
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Login />} />

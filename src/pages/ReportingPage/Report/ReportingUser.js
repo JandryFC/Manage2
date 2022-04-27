@@ -265,6 +265,9 @@ const ReportingUser = () => {
     }
 
     const graficando = (e) => {
+        if(tabla.length === 0){
+            return
+        }
         let id = e.target.id;
         if (id === "graficaMail") {
             setGrafica(<Pie options={
@@ -273,7 +276,7 @@ const ReportingUser = () => {
                     plugins: {
                         title: {
                             display: true,
-                            text: "Dominios de Correos Electronicos",
+                            text: "Procedencia del Usuario",
                             fontSize: 25,
                         },
                         legend: {
@@ -283,17 +286,17 @@ const ReportingUser = () => {
                     }
                 }
             } data={{
-                labels: ['Dominio UTM', 'Otros Dominio'],
+                labels: ['Usuario UTM', 'Usuario Externo'],
                 datasets: [
                     {
-                        label: 'Dominios de Correos Electronicos',
+                        label: 'Procedencia del Usuario',
                         data: [users.filter(e => validator.contains(e.mail, "@utm.edu.ec")).length, users.filter(e => !validator.contains(e.mail, "@utm.edu.ec")).length],
                         backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(50, 205, 50, 0.2)',
                             'rgba(255, 159, 64, 0.2)'
                         ],
                         borderColor: [
-                            'rgba(255, 99, 132, 1)',
+                            'rgba(50, 205, 50, 1)',
                             'rgba(255, 159, 64, 1)'
                         ],
                         borderWidth: 1,
@@ -343,6 +346,52 @@ const ReportingUser = () => {
 
             }} />)
 
+        }else if (id === "graficaProgreso") {
+            setGrafica(<Pie options={
+                {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: "Progreso de los Usuarios",
+                            fontSize: 25,
+                        },
+                        legend: {
+                            display: true,
+                            position: "bottom"
+                        }
+                    }
+                }
+            } data={{
+                labels: ['Del 0% al 24%', 'Del 25% al 45%', 'Del 50% al 74%','Del 75% al 100%'],
+                datasets: [
+                    {
+                        label: 'Progreso de los Usuarios',
+                        data: [
+                            tabla.filter(e => e.progreso >= 0 && e.progreso < 25 ).length,
+                            tabla.filter(e => e.progreso >= 25 && e.progreso < 50 ).length,
+                            tabla.filter(e => e.progreso >= 50 && e.progreso < 75 ).length,
+                            tabla.filter(e => e.progreso >= 75 && e.progreso < 101 ).length,
+                        ],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(50,  205, 50, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(50,  205, 50, 1)'
+                            
+                        ],
+                        borderWidth: 2,
+                    },
+                ],
+
+            }} />)
+
         }
     }
 
@@ -377,14 +426,14 @@ const ReportingUser = () => {
 
     return (
         <div>
-            <div className="flex justify-between">
+            <div className="flex justify-between px-10">
                 <div className="px-3 py-2">
                     <div className="flex justify-center">
                         <div>
                             <div className="form-check">
                                 <input onChange={handleChange} className="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="flexCheckDefault" />
-                                <label className="form-check-label inline-block text-gray-800" htmlFor="flexCheckDefault">
-                                    Todos los usuarios
+                                <label className="text-sm form-check-label inline-block text-gray-800" htmlFor="flexCheckDefault">
+                                    VER TODO
                                 </label>
                             </div>
 
@@ -422,7 +471,7 @@ const ReportingUser = () => {
                     <button type="button" onClick={generarReporte} className="inline-block px-6 py-2.5 bg-yellow-300 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-yellow-400 hover:shadow-lg focus:bg-yellow-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-400 active:shadow-lg transition duration-150 ease-in-out">Generar</button>
                 </div>
             </div>
-            <div className="grid grid-cols-1 my-4 ">
+            <div className="grid grid-cols-1 my-4 px-10 ">
                 <div className="shadow-lg bg-white rounded-lg  overflow-hidden">
                     {users.length == 0 ?
                         <div className="p-10 grid grid-cols-1 gap-4 content-center" id="chartBar">
@@ -433,45 +482,98 @@ const ReportingUser = () => {
                         </div>
                         : 
                         <div>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-2 gap-1">
                                 <div className="p-10 grid grid-cols-3 gap-4" id="chartBar">
-                                    <div className=" border  rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center ">
+                                    <div className=" border  rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center "></div>
+                                    <div className=" border  rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center ">                                        
                                         <div className="text-center">
                                             <h3 className="text-3xl uppercase text-yellow-500">{nFormatter(users.length, 1)} </h3>
                                             <h3 className="uppercase text-sm text-gray-500">Usuarios</h3>
                                         </div>
 
                                     </div>
-                                    <div className=" col-span-2 border  rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center">
-                                        <div className="text-center">
-                                            <button type="button" onClick={graficando} id="graficaRoles" className="inline-block font-bold px-6 py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">Gráfica Rol de Usuarios</button>
-                                        </div>
-                                    </div>
-                                    <div className="col-span-2  border  rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center ">
-                                        <div className="text-center text-gray-500">
-                                            <h3 className="text-md capitalize text-gray-500">Administradores <span className="font-bold  text-red-400">{nFormatter(users.filter(e => e.rol.find(x => x === "Administrador")).length, 1)}
-                                            </span> </h3>
-                                            <h3 className="text-1xl capitalize ">Docentes <span className="font-bold text-yellow-500">{nFormatter(users.filter(e => e.rol.find(x => x === "Docente")).length, 1)}
-                                            </span> </h3>
-                                            <h3 className="text-1xl capitalize ">Estudiantes <span className="font-bold text-green-500">{nFormatter(users.filter(e => e.rol.find(x => x === "Estudiante")).length, 1)}
-                                            </span> </h3>
-                                        </div>
-                                    </div>
                                     <div className=" border  rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center "></div>
-                                    <div className=" border  rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center "></div>
-                                    <div className="col-span-2  border  rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center ">
+                                    
+                                    <div className="col-span-2  border text-center rounded-lg border-gray-200  grid grid-cols-1  content-center ">
+                                        <h3 className="text-md font-bold text-gray-500 py-2 ">Roles de los Usuarios</h3>
+
+                                        <div className="grid grid-cols-2  px-3">
+                                            <div>
+                                                <h3 className="text-1xl capitalize ">Estudiantes <span className="font-bold text-yellow-400">{nFormatter(users.filter(e => e.rol.find(x => x === "Estudiante")).length, 1)}
+                                                </span> </h3>
+                                            </div>
+                                            <div>
+                                                <h3 className="text-1xl capitalize ">Docentes <span className="font-bold text-blue-500">{nFormatter(users.filter(e => e.rol.find(x => x === "Docente")).length, 1)}
+                                                </span> </h3>
+                                            </div>
+                                            
+                                        </div>
+                                        <div className="text-center pb-2"> 
+                                                <h3 className="text-md capitalize text-gray-500">Administradores <span className="font-bold  text-red-400">{nFormatter(users.filter(e => e.rol.find(x => x === "Administrador")).length, 1)}
+                                                </span> </h3>
+                                            </div>
+                                    </div>
+                                    <div className="  border  rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center ">
                                         <div className="text-center">
-                                            <h3 className="text-md capitalize text-gray-500">Dominio UTM <span className="font-bold  text-red-400">{nFormatter(users.filter(e => validator.contains(e.mail, "@utm.edu.ec")).length, 1)}
-                                            </span> </h3>
-                                            <h3 className="text-1xl capitalize text-gray-500">Otros Dominios <span className="font-bold text-yellow-500">{nFormatter(users.filter(e => !validator.contains(e.mail, "@utm.edu.ec")).length, 1)}
-                                            </span> </h3>
-                                            <button type="button" onClick={graficando} id="graficaMail" className="inline-block px-6 py-2 font-bold text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">Gráfica</button>
+                                            <button type="button" onClick={graficando} id="graficaRoles" className="inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">Generar Gráfica Roles </button>
                                         </div>
                                     </div>
+                                    <div className="col-span-2 pb-2  border  rounded-lg border-gray-200 text-center grid grid-cols-1 gap-2 content-center ">
+                                        <h3 className="text-md font-bold text-gray-500">Procedencia de los Usuarios</h3>
+                                        <div className="text-center ">
+                                            <h3 className="text-md capitalize text-gray-500">Usuarios UTM <span className="font-bold  text-green-400">{nFormatter(users.filter(e => validator.contains(e.mail, "@utm.edu.ec")).length, 1)}
+                                            </span> </h3>
+                                            <h3 className="text-1xl capitalize text-gray-500">Usuarios Externos <span className="font-bold text-yellow-500">{nFormatter(users.filter(e => !validator.contains(e.mail, "@utm.edu.ec")).length, 1)}
+                                            </span> </h3>
+                                        </div>
+                                    </div>
+                                    <div className="  border  rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center ">
+                                        <div className="text-center">
+                                            <button type="button" onClick={graficando} id="graficaMail" className="inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">Generar Gráfica Procedencias </button>
+                                        </div>
+                                    </div>
+                                    <div className="col-span-2  border text-center rounded-lg border-gray-200  grid grid-cols-1  content-center ">
+                                        <h3 className="text-md font-bold text-gray-500 py-2 ">Progreso de los Usuarios</h3>
+
+                                        <div className="grid grid-cols-2  px-3">
+                                            <div>
+                                                <h3 className="text-1xl capitalize "> 0% al 24% = <span className="font-bold text-red-400">{tabla.filter(e => e.progreso >= 0 && e.progreso < 25 ).length}
+                                                </span> </h3>
+                                            </div>
+                                            <div>
+                                                <h3 className="text-1xl capitalize "> 25% al 49% =  <span className="font-bold text-blue-500">{tabla.filter(e => e.progreso >= 25 && e.progreso < 50 ).length}
+                                                </span> </h3>
+                                            </div>
+                                            
+                                        </div>
+                                        <div className="grid grid-cols-2  px-3 pb-2">
+                                            <div>
+                                                <h3 className="text-1xl capitalize "> 50% al 74% = <span className="font-bold text-yellow-400">{tabla.filter(e => e.progreso >= 50 && e.progreso < 75 ).length}
+                                                </span> </h3>
+                                            </div>
+                                            <div>
+                                                <h3 className="text-1xl capitalize "> 75% al 100% =  <span className="font-bold text-green-500">{tabla.filter(e => e.progreso >= 75 && e.progreso < 101 ).length}
+                                                </span> </h3>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    <div className=" border  rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center ">
+                                        <div className="text-center">
+                                            <button type="button" onClick={graficando} id="graficaProgreso" className="inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
+                                                {
+                                                    tabla.length == 0 ?
+                                                    'Cargando Datos..'
+                                                    :
+                                                    'Generar Gráfica Progreso'
+                                                } </button>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
                                 <div className=" py-10 pr-10  grid grid-cols-1 ">
                                     <div className="border  rounded-lg border-gray-200">
-                                        {grafica ? <div className="object-contain h-72 w-72 mx-auto py-2 ">{grafica} </div>
+                                        {grafica ? <div className="object-contain h-80 w-80 mx-auto py-2  ">{grafica} </div>
                                             : <div className=" py-10 grid grid-cols-1 gap-4 content-center" >
                                                 <div className="mx-auto">
                                                     <img src={image_charts} width="375" />

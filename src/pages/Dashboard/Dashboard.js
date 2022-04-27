@@ -11,10 +11,11 @@ const Dashboard = () => {
 
 
   const addLibro = async () => {
-    let result = mostrarAlertaConfimacion("Agregar Libro", "warning", "¿Estaá seguro de agregar un nuevo libro?")
+    let result = mostrarAlertaConfimacion("Agregar Libro", "warning", "¿Está seguro de agregar un nuevo libro?")
+    console.log((await result).value)
     if ((await result).value) {
       try {
-        const lib_ = agregarLibro(process.env.REACT_APP_API_URL)
+         agregarLibro(process.env.REACT_APP_API_URL)
       } catch (e) {
         mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
         return;

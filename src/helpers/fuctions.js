@@ -143,11 +143,14 @@ export const llenarInfo = async (api, id) => {
 
 export const agregarLibro = async (api) => {
   const response_lib = await fetch(`${api}book/new`, {
-    method: "GET",
+    method: "POST",
     headers: {
       token: process.env.REACT_APP_SECRET_TOKEN,
     },
   });
-  return response_lib.json();
+  
+  let resp = response_lib.json()
+  console.log('librroo new',resp)
+  return resp;
 
 }

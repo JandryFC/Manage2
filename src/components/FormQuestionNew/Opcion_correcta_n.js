@@ -39,11 +39,12 @@ const Opcion_correcta_n = (props) => {
         }
         setQuestion(aux_question)
         formData.set("question", JSON.stringify(question))
-        console.log(question)
+
     };
 
 
     const handleForm = async (form) => {
+        formData.set("question", JSON.stringify(question))
         formData.set("files", form.imagen[0]);
         setEnviar(true);
         let data_upload = null;
@@ -63,6 +64,8 @@ const Opcion_correcta_n = (props) => {
             return;
         }
         var upload = await data_upload.json()
+        console.log('respuesta base',data_upload)
+        console.log('respuesta',upload)
         setEnviar(false);
         if (upload.msg === "CORRECT") {
             var result = mostrarExitoEditar("Exito", "La pregunta fue almanceda correctamente", "success")
@@ -126,6 +129,11 @@ const Opcion_correcta_n = (props) => {
 
                             </div>
                             <div className="mb-4">
+                                
+
+                                <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="respuesta">
+                                    Respuestas:{/*  {question.options.length}  */}
+                                </label>
                                 <div className="flex space-x-2 justify-center">
                                     <div>
 
@@ -134,10 +142,6 @@ const Opcion_correcta_n = (props) => {
                                         </button>
                                     </div>
                                 </div>
-
-                                <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="respuesta">
-                                    Respuestas:{/*  {question.options.length}  */}
-                                </label>
                                 <div className="overflow-auto h-52">
                                     {items ? items.map((e, i) => {
                                         return (

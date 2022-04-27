@@ -22,6 +22,7 @@ const Emparejar_img = (props) => {
 
     const handleForm = async (form) => {
         /*  formData.set("files", form.imagen[0]); */
+        formData.set("question", JSON.stringify(question))
         for (let i = 0; i < Object.keys(form).length; i++) {
             if (form[`img_answer${i}`]) formData.set(`img_answer${i}`, form[`img_answer${i}`][0])
         }
@@ -44,6 +45,7 @@ const Emparejar_img = (props) => {
         }
 
         var upload = await data_upload.json()
+        console.log('retorno',upload)
         setEnviar(false);
         if (upload.msg === "CORRECT") {
             var result = mostrarExitoEditar("Exito", "La pregunta fue almanceda correctamente", "success")
@@ -98,7 +100,6 @@ const Emparejar_img = (props) => {
 
         }
         setQuestion(aux_question)
-        console.log("qustion", question)
         formData.set("question", JSON.stringify(question))
     }
 

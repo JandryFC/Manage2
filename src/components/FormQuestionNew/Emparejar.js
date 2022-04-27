@@ -41,6 +41,7 @@ const Emparejar = (props) => {
     };
     const handleForm = async (form) => {
         formData.set("files", form.imagen[0]);
+        formData.set("question", JSON.stringify(question))
         setEnviar(true);
         let data_upload = null;
         try {
@@ -84,7 +85,7 @@ const Emparejar = (props) => {
         aux_question.body.push(items_new);
         setItems((items) => [...items, items_new])
         setQuestion(aux_question);
-        console.log(items)
+
     }
     return (
         <div className="grid grid-col-2 ml-60">
@@ -122,6 +123,11 @@ const Emparejar = (props) => {
 
                             </div>
                             <div className="mb-4">
+                                
+
+                                <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="respuesta">
+                                    Respuestas:{/*  {question.options.length}  */}
+                                </label>
                                 <div className="flex space-x-2 justify-center">
                                     <div>
 
@@ -130,10 +136,6 @@ const Emparejar = (props) => {
                                         </button>
                                     </div>
                                 </div>
-
-                                <label className="block text-gray-700 text-md font-bold mb-2" htmlFor="respuesta">
-                                    Respuestas:{/*  {question.options.length}  */}
-                                </label>
                                 <div className="overflow-auto h-52">
                                     {items ? items.map((e, i) => {
                                         return (
