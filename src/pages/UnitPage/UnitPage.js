@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import NavComponent from "../../components/NavComponent/NavComponent";
+import NavLateral from "../../components/NavComponent/NavLateral";
 import {
     useParams
 } from "react-router-dom";
@@ -57,7 +58,10 @@ const UnitPage = (props) => {
     return (
         <div className="">
             <NavComponent data={USER} />
-            <div className="grid grid-col-2 ml-60">
+            <div>
+                <NavLateral  data={USER} />
+            </div>
+            <div className="grid p-5 grid-col-2 ml-60">
                 <div className="flex justify-between p-4">
                     <div>
                         <div className="dropdown relative">

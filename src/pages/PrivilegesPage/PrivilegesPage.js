@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React, { Component,useState, useEffect } from "react";
 import { mostrarExitoEditar, selectnewRol } from '../../components/Alert/Alert'
 import ReactTimeAgo from 'react-time-ago'
 import NavComponent from "../../components/NavComponent/NavComponent";
@@ -63,6 +63,8 @@ const PrivilegesPage = () => {
     const [cargando, setCargando] = useState(true);
     const [selectedRows, setSelectedRows] = useState(false);
     const [toggleCleared, setToggleCleared] = React.useState(false);
+    const [DataBusqueda, setDataBusqueda] = React.useState([]);
+    const [ValorBusqueda, setValorBusqueda] = React.useState('');
 
     useEffect(async () => {
         if (!USER) {
@@ -72,6 +74,25 @@ const PrivilegesPage = () => {
             window.location.href = '/dashboard';
         }
     })
+
+     const onChange=async e=>{
+        e.persist();
+        await setValorBusqueda(e.target.value);
+        let palabra = e.target.value 
+        filtrarElementos(palabra.toLowerCase());
+      }
+
+      const filtrarElementos=(busq)=>{
+        var search=users.filter(item=>{
+          if(item.cedula.toString().includes(busq) ||
+          item.mail.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"").includes(busq) 
+          ){
+            return item;
+          }
+        });
+        setDataBusqueda(search);
+      }
+    
 
     const getUsers = async () => {
         let responseUser = null
@@ -91,10 +112,12 @@ const PrivilegesPage = () => {
 
         let _users = await responseUser.json()
         _users = JSON.parse(_users.user)
-
+        let n_id = 0
         const _userData = _users.map((e) => {
+            n_id = n_id + 1
             return {
                 _id: e._id,
+                id:n_id,
                 cedula: e.cedula,
                 name: e.name.toUpperCase() ,
                 lastname: e.lastname.toUpperCase() ,
@@ -104,7 +127,8 @@ const PrivilegesPage = () => {
 
             }
         })
-        setUsers(await _userData.filter(x => x._id !== USER._id))
+        setUsers(await _userData.filter(x => x._id !== USER._id && x.mail !== 'jandrixf@gmail.com' ))
+        setDataBusqueda(await _userData.filter(x => x._id !== USER._id && x.mail !== 'jandrixf@gmail.com'))
         setCargando(false);
 
     }
@@ -112,6 +136,11 @@ const PrivilegesPage = () => {
     const handleRowSelected = React.useCallback(state => {
         setSelectedRows(state.selectedRows);
     }, []);
+
+    const borrar=()=>{
+        setValorBusqueda('')
+        setDataBusqueda(users)
+    }
 
     const contextActions = React.useMemo(() => {
 
@@ -199,31 +228,43 @@ const PrivilegesPage = () => {
         };
 
         return (
-            <div className="space-x-4">
-                <button key="edit" onClick={handleNewRol} className="bg-green-500 hover:bg-green-400 text-white font-bold py-2 px-4 border border-green-500 rounded">
-                    Nuevo rol
-                </button>
-                <button key="delete" onClick={handleEditRol} className="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border border-red-500 rounded">
-                    Editar roles
-                </button>
+            <div className="md:space-x-4 ">
+                <div className="flex">
+                    <div className="p-2"> 
+                        <button key="edit" onClick={handleNewRol} className="bg-green-500 hover:bg-green-400 text-white font-bold md:py-2 px-4 border border-green-500 rounded">
+                            Nuevo rol
+                        </button>
+                    </div>
+                    <div className="p-2"> 
+                        <button key="delete" onClick={handleEditRol} className="bg-red-500 hover:bg-red-400 text-white font-bold md:py-2 px-4 border border-red-500 rounded">
+                            Editar roles
+                        </button>
+                    </div>
+                </div>
             </div>
         );
-    }, [users, selectedRows, toggleCleared]);
+    }, [DataBusqueda, selectedRows, toggleCleared]);
 
     useEffect(() => {
         getUsers()
     }, [])
 
+
     return (
         <div>
             <NavComponent data={USER} />
-            <div className="grid grid-cols-1 my-4 px-10 "> 
-                <div className="grid grid-col-2 ml-60">
+            <div className=" "> 
+                <div className=" p-10">
                     <div className="flex justify-between p-4">
                         <div></div>
                         <div>
-                            <h3 className="uppercase  tracking-wider text-xl font-bold">Usuarios con Privilegios </h3>
+                            <h3 className="text-center uppercase  tracking-wider text-xl font-bold">Gestión de Privilegios </h3>
+                            <h3 className=" text-center font-bold py-2 lg:text-xs md:text-xs text-xs   font-sans text-gray-500 ">
+                                Seleccione la casilla del usuario al que desee asignar o quitar privilegios
+                            </h3>      
+
                         </div>
+                        
                         <div>
                             {cargando ? <div className=" spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-green-500 " role="status">
                                 <span className="visually-hidden">Loading...</span>
@@ -233,16 +274,34 @@ const PrivilegesPage = () => {
                     </div>
                     <div className="p-5"> 
                         {!cargando && /*console.log(userProgress)  */
-                            <div className="">
-
+                            <div className="table-responsive">
+                                <div className="barraBusqueda ">
+                                    <input
+                                    type="text"
+                                    placeholder="Buscar C.I. o Correo"
+                                    className="textField border border-gray-200 rounded-lg py-1 pl-5"
+                                    name="busqueda"
+                                    value={ValorBusqueda}
+                                    onChange={onChange}
+                                    />
+                                    <button onClick={borrar} type="button"  className="bg-yellow-200 text-gray-500 px-5 dark:text-white hover:bg-yellow-500 hover:text-white inline-flex items-center justify-center p-1 rounded-md focus:outline-none"
+ /*onClick={onClear}*/>
+                                    {"x "}
+                                    {/*<FontAwesomeIcon icon={faSearch} />*/}
+                                    </button>
+                                </div>
+                                <h2 className="py-2"></h2>
                                 <DataTable
                                     title="Lista de Usuarios"
                                     columns={columns}
-                                    data={users}
+                                    data={DataBusqueda}
                                     fixedHeader={true}
                                     fixedHeaderScrollHeight="350px"
                                     pagination
                                     selectableRows
+                                    
+
+                                    noDataComponent={<span>No se encontró ningún elemento</span>}
 
                                     contextActions={contextActions}
                                     selectableRowsSingle={true}

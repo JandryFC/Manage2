@@ -69,6 +69,7 @@ const ReportingUser = () => {
     const [users, setUsers] = useState([])
     const [tabla, setTabla] = useState([])
     const [progreso, setProgreso] = useState([])
+    const [task, setTask] = useState([])
 
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
@@ -84,6 +85,8 @@ const ReportingUser = () => {
     const getUsers = async () => {
         setCargando(true)
         let responseUser = null;
+        let responseProgress = null
+        let responseTask = null
         formData.set("endDate", endDate)
         formData.set("startDate", startDate)
         formData.set("mode", checked ? "DATA" : "NO_DATE");
@@ -95,27 +98,14 @@ const ReportingUser = () => {
                   token: process.env.REACT_APP_SECRET_TOKEN,
                 },
             })
-
-        } catch (e) {
-            mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
-            setCargando(false);
-            return;
-        }
-        let _users = await responseUser.json()
-        if(_users.data.length == 0){
-            mostrarExitoEditar("Atención", "No existen datos a mostrar", "warning")
-        }else{
-            setUsers(await _users.data)
-            setcontrol(true)
-        }
-        setCargando(false);
-    }
-
-    const getProgress = async (userid) => {
-        let responseProgress = null
-        try {
-            responseProgress = await fetch(`${process.env.REACT_APP_API_URL}progress/${userid}`, {
-                method: "POST",
+            responseTask = await fetch(`${process.env.REACT_APP_API_URL}task/task/date`, {
+                method: "GET",
+                headers: {
+                  token: process.env.REACT_APP_SECRET_TOKEN,
+                },
+            })
+            responseProgress = await fetch(`${process.env.REACT_APP_API_URL}progress/`, {
+                method: "GET",
                 headers: {
                     token: process.env.REACT_APP_SECRET_TOKEN,
                 },
@@ -126,9 +116,20 @@ const ReportingUser = () => {
             setCargando(false);
             return;
         }
-
+        
         let _progress = await responseProgress.json()
-        return  _progress
+        let _task = await responseTask.json()
+        let _users = await responseUser.json()
+
+        if(_users.data.length == 0){
+            mostrarExitoEditar("Atención", "No existen datos a mostrar", "warning")
+        }else{
+            setUsers(await _users.data)
+            setProgreso(await _progress.data)
+            setTask(await _task.data)
+            setcontrol(true)
+        }
+        setCargando(false);
     }
 
     const CrearTabla = async () => {
@@ -137,10 +138,16 @@ const ReportingUser = () => {
         try {
             const _userData =users.map((e) => {
                 indice ++
-                let User_progreso = progreso[indice]
-                
-                let total_sum = User_progreso.reduce((a, b) => a + b, 0);
-                let calculo = (total_sum.toFixed(2) / (User_progreso.length * 100))*100
+                //let User_progreso = progreso[indice]
+                let progre = progreso.filter(x => x._id === e._id)
+                let resueltas = progre[0].tasks_id
+                let cant_resu = 0
+                if(resueltas){
+                    cant_resu=resueltas.length
+                }
+
+                let cant_task=task.length
+                let calculo = (cant_resu * 100) / cant_task 
                 let porcentaje = parseFloat(calculo.toFixed(2)) 
     
                 return {
@@ -155,7 +162,6 @@ const ReportingUser = () => {
                 }
             })
             
-            //setlibros_resueltos( Can_Libro)
             setTabla(await _userData)
             //console.log('VALORES DE USER',users)
             
@@ -166,97 +172,6 @@ const ReportingUser = () => {
         
 
     }
-
-    const llenarInfo = async () => {
-        let user_ids=[]
-        let user_progress = []
-        let usuarios = users
-        //console.log('USERS',usuarios)
-        
-        usuarios.map((e) => {
-            user_ids.push(e._id)
-        })
-        for (let i = 0; i <  user_ids.length; i++) {
-            let userInfo = await getProgress(user_ids[i]);
-            let total = []
-            let libroActual = 1
-    
-            for (let i = 0; i < userInfo.length - 1; i++) {
-            for (let j = 0; j < userInfo.length - i - 1; j++) {
-                if (
-                parseInt(
-                    "" + userInfo[j].book_info.module + userInfo[j].book_info.unit
-                ) >
-                parseInt(
-                    "" +
-                    userInfo[j + 1].book_info.module +
-                    userInfo[j + 1].book_info.unit
-                )
-                ) {
-                let aux = userInfo[j];
-                userInfo[j] = userInfo[j + 1];
-                userInfo[j + 1] = aux;
-                }
-            }
-            }
-    
-            let mergeBooks = {libros: []};
-            while(libroActual <= totalLibro){
-                let librox = userInfo.filter(book => book.book_info.book === libroActual);
-                let contador = 1;
-                //total de modulos
-                let startedmodulo = librox[0].book_info.module;
-                let contador2 = startedmodulo
-                let modulos = [];
-                while(contador <= 2){
-                let modulo = librox.filter(book => book.book_info.module === contador2);
-                contador2++;
-                contador++;
-    
-                let userprogress = (modulo[0].writing.user_progress + modulo[0].grammar.user_progress + modulo[0].reading.user_progress + modulo[0].vocabulary.user_progress);
-                let total_task = (modulo[0].writing.total_task + modulo[0].grammar.total_task + modulo[0].reading.total_task + modulo[0].vocabulary.total_task);
-                let progress = (userprogress / total_task) * 100;  
-                
-                let userprogress2 = (modulo[1].writing.user_progress + modulo[1].grammar.user_progress + modulo[1].reading.user_progress + modulo[1].vocabulary.user_progress);
-                let total_task2 = (modulo[1].writing.total_task + modulo[1].grammar.total_task + modulo[1].reading.total_task + modulo[1].vocabulary.total_task);
-                let progress2 = (userprogress2 / total_task2) * 100;  
-                
-                let totalmoduleprogress = (progress + progress2) / 2;
-    
-                modulos.push({modulo, totalmoduleprogress});
-                }
-                mergeBooks.libros.push(modulos)
-                libroActual++;
-            }
-    
-            let contadormodulos = 0;
-            mergeBooks.libros.forEach((libro,index) => {
-                let totaluserprogress = 0;
-                let totaltask = 0;
-                let totalmoduleprogress = 0;
-                libro.forEach(modulo => {
-                modulo.modulo.forEach(unit => {
-                    totaluserprogress = totaluserprogress + (unit.grammar.user_progress + unit.reading.user_progress + unit.vocabulary.user_progress + unit.writing.user_progress);
-                    totaltask = totaltask + (unit.grammar.total_task + unit.reading.total_task + unit.vocabulary.total_task + unit.writing.total_task);
-                });
-                });
-                mergeBooks.libros[index] = {userprogress: totaluserprogress, totaltask: totaltask, modulos: mergeBooks.libros[index]}
-            });
-            
-            //console.log('LIBROS: ', mergeBooks.libros)
-
-            for (let i = 0; i <  mergeBooks.libros.length; i++) {
-                let modulo1 = mergeBooks.libros[i].modulos[0].totalmoduleprogress;
-                let modulo2= mergeBooks.libros[i].modulos[1].totalmoduleprogress;
-                let totalmoduleprogress = (modulo1 + modulo2) / 2;
-                total.push(parseFloat((totalmoduleprogress).toFixed(2)))
-            }
-            user_progress.push(total)
-        }
-            setProgreso( await user_progress)
-            //return user_progress
-
-    };
 
     const handleChange = (event) => {
         const target = event.target;
@@ -398,17 +313,22 @@ const ReportingUser = () => {
     const generarReporte = () => {
         //handleChange("");
         getUsers();
-        llenarInfo();
-        CrearTabla();
+        //llenarInfo();
+        //ProgressAll();
         
     }
 
     useEffect(async () => {
+        
+ 
+        if (control){
+            CrearTabla()
+            setcontrol(false)
+        }
 
-            if (users.length!==0){
-                if(progreso.length === 0){
-                    llenarInfo()
-                }
+        /*    
+        if (users.length!==0){
+
                 if(progreso.length !== 0 && tabla.length === 0){
                     CrearTabla()
                     //console.log('SE CREO TABLA')
@@ -421,12 +341,12 @@ const ReportingUser = () => {
             }
             
         //}
-        
+        */
     })
 
     return (
-        <div>
-            <div className="flex justify-between px-10">
+        <div className="flex flex-col items-center">
+            <div className=" md:flex items-center  px-10">
                 <div className="px-3 py-2">
                     <div className="flex justify-center">
                         <div>
@@ -440,142 +360,177 @@ const ReportingUser = () => {
                         </div>
                     </div>
                 </div>
-                <div>
+                <div className="flex justify-center">
                     {/* Fecha inicio */}
-                    <div date-rangepicker="true" className="flex items-center">
-                        <div className="relative">
-                            <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                    <div date-rangepicker="true" className="md:flex items-center">
+                        <div className="">
+                            <div className=" absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                            </div>
+                            {checked?
+                            <div className="flex bg-gray-100 border border-gray-300 text-gray-400 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 datepicker-input">
+                                 <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd"></path></svg>
+                                <DatePicker  name="start" disabled={true} selected={startDate} onChange={(date) => setStartDate(date)} />
+                            </div>
+                            :
+                            <div className="flex bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 datepicker-input">
                                 <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd"></path></svg>
+                                <DatePicker  name="start" disabled={false} selected={startDate} onChange={(date) => setStartDate(date)} />
                             </div>
-                            <div className="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 datepicker-input">
 
-                                <DatePicker  name="start" disabled={checked} selected={startDate} onChange={(date) => setStartDate(date)} />
-                            </div>
+                            }
+                            
                         </div>
                         <span className="mx-4 text-gray-500">to</span>
-                        <div className="relative">
-                            <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                        <div className="">
+
+                            {checked?
+                            <div className="flex bg-gray-100 border border-gray-300 text-gray-400 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 datepicker-input">
                                 <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd"></path></svg>
+                                <DatePicker name="end" disabled={true} selected={endDate} onChange={(date) => setEndDate(date)} />
                             </div>
-                            <div className="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 datepicker-input">
-
-                                <DatePicker name="end" disabled={checked} selected={endDate} onChange={(date) => setEndDate(date)} />
+                            : 
+                            <div className="flex bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 datepicker-input">
+                                <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd"></path></svg>
+                                <DatePicker name="end" disabled={false} selected={endDate} onChange={(date) => setEndDate(date)} />
                             </div>
-
+                            }
+                            
                         </div>
                     </div>
                 </div>
 
-                <div className="mx-4">
+                <div className=" p-5 mx-4 text-center items-center justify-center">
                     {/* generar reporte */}
                     <button type="button" onClick={generarReporte} className="inline-block px-6 py-2.5 bg-yellow-300 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-yellow-400 hover:shadow-lg focus:bg-yellow-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-400 active:shadow-lg transition duration-150 ease-in-out">Generar</button>
                 </div>
             </div>
-            <div className="grid grid-cols-1 my-4 px-10 ">
-                <div className="shadow-lg bg-white rounded-lg  overflow-hidden">
+            <div className="flex md:p-5 ">
+                <div className="flex hadow-lg bg-white shadow-lg rounded-lg  overflow-hidden">
                     {users.length == 0 ?
-                        <div className="p-10 grid grid-cols-1 gap-4 content-center" id="chartBar">
-                            <div className="mx-auto">
+                        <div className="p-10 bg-white content-center" id="chartBar">
+                            <div className=" w-full mx-auto">
+                                <h3 className="text-md  text-center text-gray-600 my-4">Para observar toda la información presione en ver todo, posterior a ello en el botón generar</h3>
                                 <img src={image_cargando} width="375" />
-                                <h3 className="text-xl  text-center text-gray-600 my-4">Seleccione la información</h3>
                             </div>
                         </div>
                         : 
-                        <div>
-                            <div className="grid grid-cols-2 gap-1">
-                                <div className="p-10 grid grid-cols-3 gap-4" id="chartBar">
-                                    <div className=" border  rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center "></div>
-                                    <div className=" border  rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center ">                                        
-                                        <div className="text-center">
+                        <div className="flex flex-col">
+                            <div className="md:flex">
+                                <div className="flex flex-col p-10  gap-4" id="chartBar">
+                                    <div className=" border   rounded-lg border-gray-200 py-3 grid grid-cols-1 gap-4 content-center ">                                        
+                                        <div className=" md:px-40 text-center">
                                             <h3 className="text-3xl uppercase text-yellow-500">{nFormatter(users.length, 1)} </h3>
                                             <h3 className="uppercase text-sm text-gray-500">Usuarios</h3>
                                         </div>
-
                                     </div>
-                                    <div className=" border  rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center "></div>
                                     
-                                    <div className="col-span-2  border text-center rounded-lg border-gray-200  grid grid-cols-1  content-center ">
-                                        <h3 className="text-md font-bold text-gray-500 py-2 ">Roles de los Usuarios</h3>
+                                            <div className="col-span-2  border text-center rounded-lg border-gray-200  grid grid-cols-1  content-center ">
+                                                <h3 className="text-md font-bold  text-gray-500 py-2 ">Roles de los Usuarios</h3>
 
-                                        <div className="grid grid-cols-2  px-3">
-                                            <div>
-                                                <h3 className="text-1xl capitalize ">Estudiantes <span className="font-bold text-yellow-400">{nFormatter(users.filter(e => e.rol.find(x => x === "Estudiante")).length, 1)}
-                                                </span> </h3>
+                                                <div className=" md:flex justify-center ">
+                                                    
+                                                    <div className="md:pr-7">
+                                                        <h3 className="text-1xl capitalize text-gray-500 ">Estudiantes <span className="font-bold text-yellow-400">{nFormatter(users.filter(e => e.rol.find(x => x === "Estudiante")).length, 1)}
+                                                        </span> </h3>
+                                                    </div>
+                                                    <div>
+                                                        <h3 className="text-1xl capitalize text-gray-500 ">Docentes <span className="font-bold text-blue-500">{nFormatter(users.filter(e => e.rol.find(x => x === "Docente")).length, 1)}
+                                                        </span> </h3>
+                                                    </div>
+                                                    
+                                                </div>
+                                                <div className="text-center pb-2"> 
+                                                        <h3 className="text-md capitalize text-gray-500">Administradores <span className="font-bold  text-red-400">{nFormatter(users.filter(e => e.rol.find(x => x === "Administrador")).length, 1)}
+                                                        </span> </h3>
+                                                    </div>
+                                                    <div className=" border   border-gray-200  grid grid-cols-1 gap-4 content-center ">
+                                                    <div className="text-center">
+                                                        <a  rel="noopener noreferrer" href="#grafica">
+                                                            <button type="button" onClick={graficando} id="graficaRoles" className="w-full inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
+                                                                    Generar Gráfica
+                                                                </button>
+                                                        </a>{" "}
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <h3 className="text-1xl capitalize ">Docentes <span className="font-bold text-blue-500">{nFormatter(users.filter(e => e.rol.find(x => x === "Docente")).length, 1)}
-                                                </span> </h3>
-                                            </div>
+
+                                    
+                                    
+                                            <div className="col-span-2  border text-center rounded-lg border-gray-200  grid grid-cols-1  content-center ">
+                                                <h3 className="text-md font-bold  text-gray-500 py-2 ">Procedencia de los Usuarios</h3>
+
+                                                <div className="md:flex justify-center  ">
+                                                    
+                                                    <div className="text-center md:pr-7">
+                                                        <h3 className="text-1xl capitalize text-gray-500 ">Usuarios UTM <span className="font-bold text-yellow-400">{nFormatter(users.filter(e => validator.contains(e.mail, "@utm.edu.ec")).length, 1)}
+                                                        </span> </h3>
+                                                    </div>
+                                                    <div className="text-center pb-2"> 
+                                                        <h3 className="text-md capitalize text-gray-500">Usuarios Externos <span className="font-bold  text-red-400">{nFormatter(users.filter(e => !validator.contains(e.mail, "@utm.edu.ec")).length, 1)}
+                                                        </span> </h3>
+                                                    </div>
+                                                    
+                                                </div>
+                                                <div className=" border   border-gray-200  grid grid-cols-1 gap-4 content-center ">
+                                                    <div className="text-center">
+                                                        <a  rel="noopener noreferrer" href="#grafica">
+                                                            <button type="button" onClick={graficando} id="graficaMail" className="w-full inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
+                                                                    Generar Gráfica
+                                                                </button>
+                                                        </a>{" "}
+                                                    </div>
+                                                </div>
+                                        </div>
                                             
-                                        </div>
-                                        <div className="text-center pb-2"> 
-                                                <h3 className="text-md capitalize text-gray-500">Administradores <span className="font-bold  text-red-400">{nFormatter(users.filter(e => e.rol.find(x => x === "Administrador")).length, 1)}
-                                                </span> </h3>
-                                            </div>
-                                    </div>
-                                    <div className="  border  rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center ">
-                                        <div className="text-center">
-                                            <button type="button" onClick={graficando} id="graficaRoles" className="inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">Generar Gráfica Roles </button>
-                                        </div>
-                                    </div>
-                                    <div className="col-span-2 pb-2  border  rounded-lg border-gray-200 text-center grid grid-cols-1 gap-2 content-center ">
-                                        <h3 className="text-md font-bold text-gray-500">Procedencia de los Usuarios</h3>
-                                        <div className="text-center ">
-                                            <h3 className="text-md capitalize text-gray-500">Usuarios UTM <span className="font-bold  text-green-400">{nFormatter(users.filter(e => validator.contains(e.mail, "@utm.edu.ec")).length, 1)}
-                                            </span> </h3>
-                                            <h3 className="text-1xl capitalize text-gray-500">Usuarios Externos <span className="font-bold text-yellow-500">{nFormatter(users.filter(e => !validator.contains(e.mail, "@utm.edu.ec")).length, 1)}
-                                            </span> </h3>
-                                        </div>
-                                    </div>
-                                    <div className="  border  rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center ">
-                                        <div className="text-center">
-                                            <button type="button" onClick={graficando} id="graficaMail" className="inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">Generar Gráfica Procedencias </button>
-                                        </div>
-                                    </div>
+                                    
+
                                     <div className="col-span-2  border text-center rounded-lg border-gray-200  grid grid-cols-1  content-center ">
                                         <h3 className="text-md font-bold text-gray-500 py-2 ">Progreso de los Usuarios</h3>
 
                                         <div className="grid grid-cols-2  px-3">
                                             <div>
-                                                <h3 className="text-1xl capitalize "> 0% al 24% = <span className="font-bold text-red-400">{tabla.filter(e => e.progreso >= 0 && e.progreso < 25 ).length}
+                                                <h3 className="text-1xl capitalize  text-gray-500"> 0% al 24% = <span className="font-bold text-red-400">{tabla.filter(e => e.progreso >= 0 && e.progreso < 25 ).length}
                                                 </span> </h3>
                                             </div>
                                             <div>
-                                                <h3 className="text-1xl capitalize "> 25% al 49% =  <span className="font-bold text-blue-500">{tabla.filter(e => e.progreso >= 25 && e.progreso < 50 ).length}
+                                                <h3 className="text-1xl capitalize text-gray-500"> 25% al 49% =  <span className="font-bold text-blue-500">{tabla.filter(e => e.progreso >= 25 && e.progreso < 50 ).length}
                                                 </span> </h3>
                                             </div>
                                             
                                         </div>
                                         <div className="grid grid-cols-2  px-3 pb-2">
                                             <div>
-                                                <h3 className="text-1xl capitalize "> 50% al 74% = <span className="font-bold text-yellow-400">{tabla.filter(e => e.progreso >= 50 && e.progreso < 75 ).length}
+                                                <h3 className="text-1xl capitalize text-gray-500"> 50% al 74% = <span className="font-bold text-yellow-400">{tabla.filter(e => e.progreso >= 50 && e.progreso < 75 ).length}
                                                 </span> </h3>
                                             </div>
                                             <div>
-                                                <h3 className="text-1xl capitalize "> 75% al 100% =  <span className="font-bold text-green-500">{tabla.filter(e => e.progreso >= 75 && e.progreso < 101 ).length}
+                                                <h3 className="text-1xl capitalize text-gray-500"> 75% al 100% =  <span className="font-bold text-green-500">{tabla.filter(e => e.progreso >= 75 && e.progreso < 101 ).length}
                                                 </span> </h3>
                                             </div>
                                             
                                         </div>
-                                    </div>
-                                    <div className=" border  rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center ">
+                                        <div className=" border   border-gray-200  grid grid-cols-1 gap-4 content-center ">
                                         <div className="text-center">
-                                            <button type="button" onClick={graficando} id="graficaProgreso" className="inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
+                                        <a  rel="noopener noreferrer" href="#grafica">
+                                            <button type="button" onClick={graficando} id="graficaProgreso" className="w-full inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
                                                 {
                                                     tabla.length == 0 ?
                                                     'Cargando Datos..'
                                                     :
-                                                    'Generar Gráfica Progreso'
+                                                    'Generar Gráfica'
                                                 } </button>
+                                         </a>{" "}
                                         </div>
                                     </div>
+                                    </div>
+                                    
                                     
                                 </div>
-                                <div className=" py-10 pr-10  grid grid-cols-1 ">
-                                    <div className="border  rounded-lg border-gray-200">
-                                        {grafica ? <div className="object-contain h-80 w-80 mx-auto py-2  ">{grafica} </div>
-                                            : <div className=" py-10 grid grid-cols-1 gap-4 content-center" >
-                                                <div className="mx-auto">
+                                <div className="  md:py-10 md:pr-10   content-center  ">
+                                    <div id='grafica' className="border p-5 pb-20  rounded-lg border-gray-200">
+                                        {grafica ? <div className="object-contain  w-80 mx-auto py-10  ">{grafica} </div>
+                                            : <div className="  py-10 grid grid-cols-1 gap-4 content-center" >
+                                                <div className="bg-gray-200mx-auto">
                                                     <img src={image_charts} width="375" />
                                                     <h3 className="text-xl  text-center text-gray-600 my-4">Seleccione una Gráfica</h3>
                                                 </div>
@@ -587,13 +542,13 @@ const ReportingUser = () => {
                             <div className="  w-full  ">
                                     <div className="px-10 shadow-lg bg-white rounded-lg w-full overflow-hidden">
                                         {!cargando && /*console.log(userProgress)  */
-                                            <div className="content-center text-center">
+                                            <div className="content-center pt-2 items-center justify-center text-center">
                                                 {tabla.length == 0? 
                                                 <h2> INFORMACIÓN DETALLADA <h2 className="text-green-400"> ( Cargando... )</h2>  </h2>
                                                 :
                                                 <h2> INFORMACIÓN DETALLADA </h2>
                                                 }
-                                                
+                                                <div className="  max-w-xs md:max-w-5xl table-responsive">
                                                 <DataTable
                                                     columns={columns}
                                                     data={tabla}
@@ -602,6 +557,7 @@ const ReportingUser = () => {
                                                     selectableRow
                                                     
                                                 />
+                                                </div>
 
                                             </div>
 

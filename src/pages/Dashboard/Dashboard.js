@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import NavComponent from "../../components/NavComponent/NavComponent";
+import NavLateral from "../../components/NavComponent/NavLateral";
 import { agregarLibro } from '../../helpers/fuctions'
 import { mostrarExitoEditar, mostrarAlertaConfimacion } from '../../components/Alert/Alert'
 
@@ -12,7 +13,7 @@ const Dashboard = () => {
 
   const addLibro = async () => {
     let result = mostrarAlertaConfimacion("Agregar Libro", "warning", "¿Está seguro de agregar un nuevo libro?")
-    console.log((await result).value)
+    //console.log((await result).value)
     if ((await result).value) {
       try {
          agregarLibro(process.env.REACT_APP_API_URL)
@@ -38,18 +39,20 @@ const Dashboard = () => {
       {cargando &&
         <NavComponent data={USER} />
       }
+      {cargando &&
+        <NavLateral  data={USER} />
+      }
+      
       <div className="p-4">
         <div className="flex mx-auto justify-center space-y-6 my-10">
           {cargando &&
             <div className="ml-36">
               <img src={cargando_img1} width="400px" />
               <div className="py-4">
-                <h2 className="text-center font-extralight italic text-gray-700 text-2xl ">Escoge una Unidad </h2>
+                <h2 className="text-center font-extralight italic text-gray-700 text-2xl ">GESTIONAR INFORMACIÓN  </h2>
+                <h2 className="text-center font-extralight italic text-gray-700 text-lg ">Dirijase a la barra lateral </h2>
               </div>
-              <div className="text-center">
 
-                <button type="button" onClick={addLibro} className="inline-block px-6 py-2.5 bg-yellow-500 text-white font-medium text-xs leading-tight uppercase rounded-full shadow-md hover:bg-yellow-600 hover:shadow-lg focus:bg-yellow-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-700 active:shadow-lg transition duration-150 ease-in-out">Agrega Libro</button>
-              </div>
             </div>
           }
           {/*  <div className="my-auto">

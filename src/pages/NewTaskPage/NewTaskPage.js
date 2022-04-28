@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import NavComponent from "../../components/NavComponent/NavComponent";
+import NavLateral from "../../components/NavComponent/NavLateral";
 import {
     useParams
 } from "react-router-dom";
@@ -66,7 +67,10 @@ const NewTaskPage = () => {
     return (
         <div className="">
             <NavComponent data={USER} />
+
+            <NavLateral  data={USER} />
             <div className="grid grid-col-2 ml-60">
+            
                 <div className=''>
                     <div className="w-full  max-w-2xl m-auto py-5">
                         <form className="bg-white  shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit(handleForm)}>
