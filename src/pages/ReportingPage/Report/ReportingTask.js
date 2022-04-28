@@ -268,9 +268,9 @@ const ReportingTask = () => {
     }
 
     return (
-        <div className="w-full">
-            <div className="flex justify-between px-20">
-                <div className="px-3 py-2 ">
+        <div className="flex flex-col items-center">
+            <div className=" md:flex items-center  px-10">
+                <div className="px-3 py-2">
                     <div className="flex justify-center">
                         <div>
                             <div className="form-check">
@@ -283,38 +283,51 @@ const ReportingTask = () => {
                         </div>
                     </div>
                 </div>
-                <div>
+                <div className="flex justify-center">
                     {/* Fecha inicio */}
-                    <div date-rangepicker="true" className="flex items-center">
-                        <div className="relative">
-                            <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                    <div date-rangepicker="true" className="md:flex items-center">
+                        <div className="">
+                            <div className=" absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                            </div>
+                            {checked?
+                            <div className="flex bg-gray-100 border border-gray-300 text-gray-400 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 datepicker-input">
+                                 <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd"></path></svg>
+                                <DatePicker  name="start" disabled={true} selected={startDate} onChange={(date) => setStartDate(date)} />
+                            </div>
+                            :
+                            <div className="flex bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 datepicker-input">
                                 <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd"></path></svg>
+                                <DatePicker  name="start" disabled={false} selected={startDate} onChange={(date) => setStartDate(date)} />
                             </div>
-                            <div className="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 datepicker-input">
 
-                                <DatePicker name="start" disabled={checked} selected={startDate} onChange={(date) => setStartDate(date)} />
-                            </div>
+                            }
+                            
                         </div>
                         <span className="mx-4 text-gray-500">to</span>
-                        <div className="relative">
-                            <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                        <div className="">
+
+                            {checked?
+                            <div className="flex bg-gray-100 border border-gray-300 text-gray-400 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 datepicker-input">
                                 <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd"></path></svg>
+                                <DatePicker name="end" disabled={true} selected={endDate} onChange={(date) => setEndDate(date)} />
                             </div>
-                            <div className="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 datepicker-input">
-
-                                <DatePicker name="end" disabled={checked} selected={endDate} onChange={(date) => setEndDate(date)} />
+                            : 
+                            <div className="flex bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 datepicker-input">
+                                <svg className="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd"></path></svg>
+                                <DatePicker name="end" disabled={false} selected={endDate} onChange={(date) => setEndDate(date)} />
                             </div>
-
+                            }
+                            
                         </div>
                     </div>
                 </div>
 
-                <div className="mx-4">
+                <div className=" p-5 mx-4 text-center items-center justify-center">
                     {/* generar reporte */}
                     <button type="button" onClick={generarReporte} className="inline-block px-6 py-2.5 bg-yellow-300 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-yellow-400 hover:shadow-lg focus:bg-yellow-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-400 active:shadow-lg transition duration-150 ease-in-out">Generar</button>
                 </div>
             </div>
-            <div className="grid grid-cols-1 my-4 px-20">
+            <div className="grid grid-cols-1 my-4 md:px-20 pb-10">
                 <div className="shadow-lg bg-white rounded-lg  overflow-hidden">
                     {task.length == 0 ?
                         <div className="p-10 grid grid-cols-1 gap-4 content-center" id="chartBar">
@@ -323,7 +336,7 @@ const ReportingTask = () => {
                                 <h3 className="text-xl  text-center text-gray-600 my-4">Seleccione la información</h3>
                             </div>
                         </div>
-                        : <div className=" grid grid-cols-2 gap-2">
+                        : <div className=" md:flex   gap-2">
                             <div className="p-5 grid grid-cols-3 gap-4 " id="chartBar">
                             <div className=" border  rounded-lg border-gray-200   grid grid-cols-1 gap-4 content-center ">
                                     <div className="text-center">
@@ -401,8 +414,8 @@ const ReportingTask = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className=" p-5  grid grid-cols-1 ">
-                                <div className="border  rounded-lg border-gray-200">
+                            <div className=" p-5 ">
+                                <div className="border py-5  pb-12 rounded-lg border-gray-200">
                                     {grafica ? <div  className="object-contain h-80 w-80 mx-auto py-2 ">{grafica} </div>
                                         : <div className=" py-10 grid grid-cols-1 gap-4 content-center" >
                                             <div className="mx-auto">

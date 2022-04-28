@@ -444,8 +444,17 @@ const ReportingUser = () => {
                                                         </span> </h3>
                                                     </div>
                                                     <div className=" border   border-gray-200  grid grid-cols-1 gap-4 content-center ">
-                                                    <div className="text-center">
+                                                    <div className="text-center md:hidden">
+                                                        
                                                         <a  rel="noopener noreferrer" href="#grafica">
+                                                            <button type="button" onClick={graficando} id="graficaRoles" className="w-full inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
+                                                                    Generar Gráfica
+                                                                </button>
+                                                        </a>{" "}
+                                                    </div>
+                                                    <div className="text-center hidden md:block">
+                                                        
+                                                        <a  rel="noopener noreferrer" >
                                                             <button type="button" onClick={graficando} id="graficaRoles" className="w-full inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
                                                                     Generar Gráfica
                                                                 </button>
@@ -472,8 +481,15 @@ const ReportingUser = () => {
                                                     
                                                 </div>
                                                 <div className=" border   border-gray-200  grid grid-cols-1 gap-4 content-center ">
-                                                    <div className="text-center">
+                                                <div className="text-center md:hidden">
                                                         <a  rel="noopener noreferrer" href="#grafica">
+                                                            <button type="button" onClick={graficando} id="graficaMail" className="w-full inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
+                                                                    Generar Gráfica
+                                                                </button>
+                                                        </a>{" "}
+                                                    </div> 
+                                                    <div className="text-center hidden md:block">
+                                                        <a  rel="noopener noreferrer" >
                                                             <button type="button" onClick={graficando} id="graficaMail" className="w-full inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
                                                                     Generar Gráfica
                                                                 </button>
@@ -510,8 +526,19 @@ const ReportingUser = () => {
                                             
                                         </div>
                                         <div className=" border   border-gray-200  grid grid-cols-1 gap-4 content-center ">
-                                        <div className="text-center">
+                                        <div className="text-center md:hidden">
                                         <a  rel="noopener noreferrer" href="#grafica">
+                                            <button type="button" onClick={graficando} id="graficaProgreso" className="w-full inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
+                                                {
+                                                    tabla.length == 0 ?
+                                                    'Cargando Datos..'
+                                                    :
+                                                    'Generar Gráfica'
+                                                } </button>
+                                         </a>{" "}
+                                        </div>
+                                        <div className="text-center hidden md:block">
+                                        <a  rel="noopener noreferrer" >
                                             <button type="button" onClick={graficando} id="graficaProgreso" className="w-full inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
                                                 {
                                                     tabla.length == 0 ?

@@ -38,14 +38,14 @@ const ReportingPage = (props) => {
             <NavComponent data={USER} />
             <div className="flex flex-col w-full bg-gray-50">
 
-                <div className="flex justify-between p-10">
+                <div className="flex justify-center p-10">
                         <div></div>
-                        <div>
+                        <div className=" text-center  ">
                             <h3 className="text-center uppercase  tracking-wider text-xl font-bold">Sistema de Reportes </h3>
                             <h3 className=" text-center font-bold py-2 lg:text-xs md:text-xs text-xs   font-sans text-gray-500 ">
                                 Seleccione el reporte que desea generar
                             </h3>    
-                            <div className="dropdown relative md:pl-16 py-5">
+                            <div className="dropdown relative pl-10 py-5">
                                 <button
                                     className=" dropdown-toggle px-4 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg active:text-white transition duration-150 ease-in-out flex items-center whitespace-nowrap"
                                     type="button"
@@ -79,18 +79,13 @@ const ReportingPage = (props) => {
                                     </li>
                                 </ul>
                             </div>  
-                            <div className="p-4">
-                                    <h3 className="uppercase  tracking-wider text-xl font-bold"> Reportes {report!== ""? ` de ${report}`: ""}</h3>
+                            <div className="pt-4">
+                                    <h3 className="uppercase  tracking-wider text-xl font-bold">  {report!== ""? `Reportes de ${report}`: ""}</h3>
                             </div>
 
                         </div>
                         
-                        <div>
-                            {cargando ? <div className=" spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-green-500 " role="status">
-                                <span className="visually-hidden">Loading...</span>
-                            </div> : <div> </div>}
-
-                        </div>
+                       
                     </div>
                 <div className="">
                     {!cargando ?

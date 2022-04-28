@@ -46,18 +46,30 @@ const Dashboard = () => {
       <div className="p-4">
         <div className="flex mx-auto justify-center space-y-6 my-10">
           {cargando &&
-            <div className="ml-36">
-              <img src={cargando_img1} width="400px" />
-              <div className="py-4">
-                <h2 className="text-center font-extralight italic text-gray-700 text-2xl ">GESTIONAR INFORMACIÓN  </h2>
-                <h2 className="text-center font-extralight italic text-gray-700 text-lg ">Dirijase a la barra lateral </h2>
-              </div>
+          <div>
+              <div className="ml-36 hidden md:block">
+                <img src={cargando_img1} width="400px" />
+                <div className="py-4">
+                  <h2 className="text-center font-extralight italic text-gray-700 text-2xl ">GESTIONAR INFORMACIÓN  </h2>
+                  <h2 className="text-center font-extralight italic text-gray-700 text-lg ">Dirijase a la barra lateral </h2>
+                </div>
 
-            </div>
+              </div>
+              <div className="p-5">
+                <div className="pb-10">
+                <h2 className="text-center font-extralight italic text-gray-700 text-lg font-bold pb-5 ">BIENVENIDO AL SISTEMA DE GESTIÓN DEL MOOC DE IDIOMAS </h2>
+
+              <h2 className="text-center font-extralight italic text-gray-700 text-sm ">Seleccione el icono de menú en la parte superior para navegar entre las opciones disponibles </h2>
+              </div>
+                <img src={cargando_img1} width="400px" />
+                <div className="py-4">
+                  <h2 className="text-center font-extralight italic text-gray-700 text-2xl ">GESTIONAR INFORMACIÓN  </h2>
+                  <h2 className="text-center font-extralight italic text-gray-700 text-lg ">Opción disponible solo desde un computador </h2>
+                </div>
+
+              </div>
+           </div>
           }
-          {/*  <div className="my-auto">
-            <CardPlus tema="Libro" />
-          </div> */}
         </div>
       </div>
     </div>

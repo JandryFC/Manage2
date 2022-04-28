@@ -95,7 +95,7 @@ const NavLateral = (props) => {
   }
 
   return (
-    <div className="h-full">
+    <div className="h-full hidden md:block">
       {/* side bar */}
       <nav className="static w-full bg-green-800 dark:bg-gray-800  shadow  ">
         <div className="w-60  h-full  shadow-md bg-white absolute" id="sidenavSecExample1">
