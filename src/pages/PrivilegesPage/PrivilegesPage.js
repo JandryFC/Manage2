@@ -60,11 +60,13 @@ const columns = [
 const PrivilegesPage = () => {
 
     const [users, setUsers] = useState([])
+    const [table, setTable] = useState([])
     const [cargando, setCargando] = useState(true);
     const [selectedRows, setSelectedRows] = useState(false);
     const [toggleCleared, setToggleCleared] = React.useState(false);
     const [DataBusqueda, setDataBusqueda] = React.useState([]);
     const [ValorBusqueda, setValorBusqueda] = React.useState('');
+    const [control, setcontrol] = useState(true)
 
     useEffect(async () => {
         if (!USER) {
@@ -84,7 +86,7 @@ const PrivilegesPage = () => {
 
       const filtrarElementos=(busq)=>{
         var search=users.filter(item=>{
-          if(item.cedula.toString().includes(busq) ||
+          if(
           item.mail.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,"").includes(busq) 
           ){
             return item;
@@ -109,27 +111,36 @@ const PrivilegesPage = () => {
             setCargando(false);
             return;
         }
-
-        let _users = await responseUser.json()
-        _users = JSON.parse(_users.user)
-        let n_id = 0
-        const _userData = _users.map((e) => {
-            n_id = n_id + 1
-            return {
-                _id: e._id,
-                id:n_id,
-                cedula: e.cedula,
-                name: e.name.toUpperCase() ,
-                lastname: e.lastname.toUpperCase() ,
-                mail: e.mail,
-                rol: e.rol.reduce((e1, e2) => { return `${e1}, ${e2}` }),
-                createdAt: <ReactTimeAgo date={new Date(e.createdAt)} locale="es-EC" />
-
+        
+        try {
+            let _users = await responseUser.json()
+            if(_users){
+                _users = JSON.parse(_users.user)
+                let n_id = 0
+                const _userData = _users.map((e) => {
+                    n_id = n_id + 1
+                    return {
+                        _id: e._id,
+                        id:n_id,
+                        cedula: e.cedula,
+                        name: e.name.toUpperCase() ,
+                        lastname: e.lastname.toUpperCase() ,
+                        mail: e.mail,
+                        rol: e.rol.reduce((e1, e2) => { return `${e1}, ${e2}` }),
+                        createdAt: <ReactTimeAgo date={new Date(e.createdAt)} locale="es-EC" />
+        
+                    }
+                })
+                setUsers(await _userData.filter(x => x._id !== USER._id && x.mail !== 'jandrixf@gmail.com' ))
+                setDataBusqueda(await _userData.filter(x => x._id !== USER._id && x.mail !== 'jandrixf@gmail.com'))
+                setCargando(false);
+                setcontrol(false)
             }
-        })
-        setUsers(await _userData.filter(x => x._id !== USER._id && x.mail !== 'jandrixf@gmail.com' ))
-        setDataBusqueda(await _userData.filter(x => x._id !== USER._id && x.mail !== 'jandrixf@gmail.com'))
-        setCargando(false);
+        } catch (error) {
+            console.log('.e')
+        }
+        
+        
 
     }
 
@@ -216,7 +227,7 @@ const PrivilegesPage = () => {
                 return
             }
             const _updateUser = await updateUser.json();
-            console.log(_updateUser)
+            //console.log(_updateUser)
             if (_updateUser.msg === "CORRECT") {
                 mostrarExitoEditar("Exito", "El Rol fue actualizado correctamente", "success")
                 getUsers();
@@ -246,9 +257,16 @@ const PrivilegesPage = () => {
     }, [DataBusqueda, selectedRows, toggleCleared]);
 
     useEffect(() => {
-        getUsers()
+        
     }, [])
+    useEffect(async () => {
+        
+        if (users.length === 0 && control){
+            getUsers()
+            
+        }
 
+    })
 
     return (
         <div>
@@ -278,17 +296,18 @@ const PrivilegesPage = () => {
                                 <div className="barraBusqueda ">
                                     <input
                                     type="text"
-                                    placeholder="Buscar C.I. o Correo"
+                                    placeholder="Buscar Correo"
                                     className="textField border border-gray-200 rounded-lg py-1 pl-5"
                                     name="busqueda"
                                     value={ValorBusqueda}
                                     onChange={onChange}
                                     />
-                                    <button onClick={borrar} type="button"  className="bg-yellow-200 text-gray-500 px-5 dark:text-white hover:bg-yellow-500 hover:text-white inline-flex items-center justify-center p-1 rounded-md focus:outline-none"
+                                    <button onClick={borrar} type="button"  className="bg-yellow-200 text-gray-500 px-3 md:px-5 dark:text-white hover:bg-yellow-500 hover:text-white inline-flex items-center justify-center p-1 rounded-md focus:outline-none"
  /*onClick={onClear}*/>
                                     {"x "}
                                     {/*<FontAwesomeIcon icon={faSearch} />*/}
                                     </button>
+                                    
                                 </div>
                                 <h2 className="py-2"></h2>
                                 <DataTable

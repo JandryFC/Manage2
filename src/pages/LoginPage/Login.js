@@ -4,6 +4,7 @@ import loading from "../../assets/loading.svg";
 import axios from "axios";
 import { mostrarAlertaSalir } from "../../components/Alert/Alert";
 
+
 const Login = () => {
   const [isVisibleDato, setIsVisibleDato] = useState("hidden");
   const [dato, setDato] = useState("");
@@ -51,7 +52,7 @@ const Login = () => {
     );
     setCargando(false);
     let data = response.data;
-
+      //console.log('data',data)
     if (data.res === "USER NOT EXIST") {
       viewTextMessage(false, "El usuario no existe");
     } else if (data.res === "PASSWORD INCORRECT") {
@@ -66,8 +67,8 @@ const Login = () => {
     } else {
       let user = data.res;
       if (user.rol.find(e => e === form.rol)) {
-        localStorage.setItem("user", JSON.stringify({"_id": user._id, "rol_select": form.rol}));
-        window.location.href = "./dashboard";
+        localStorage.setItem("user", JSON.stringify({"_id": user._id, "rol_select": form.rol,"rol":user.rol,"name": user.name,"lastname": user.lastname,"mail": user.mail}));
+          window.location.href = "./dashboard";
       }else{
         viewTextMessage(false, "Usuario no tiene rol " + form.rol);
       }

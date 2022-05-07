@@ -1,34 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Fragment } from "react";
-import { Menu, Transition } from "@headlessui/react";
+import React, { useEffect, useState } from "react";
+
 import { faAngleDown, faBook, faBookOpen, faBookmark, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import userLogo from "../../assets/user.png";
-import logobn from "../../assets/Logo_utm1.png";
+
 import shortid from "shortid";
 import { llenarInfo, agregarLibro } from '../../helpers/fuctions'
 import { mostrarExitoEditar, mostrarAlertaConfimacion } from '../Alert/Alert'
 
 const NavLateral = (props) => {
-  const [user, setUser] = useState({
-  });
+
   const [libros, setLibros] = useState({});
   const [cargando, setCargando] = useState(true);
-  const [roles, setRoles] = useState([])
-  const hamburgerBtn = useRef();
-  const hamburgerItems = useRef();
 
-  const handleHamburgerButton = () => {
-    hamburgerItems.current.classList.toggle("hidden");
-  };
-
-  const classNames = (...classes) => {
-    return classes.filter(Boolean).join(" ");
-  }
-  const logout = () => {
-    localStorage.removeItem("user");
-    window.location.href = "./";
-  }
   const addLibro = async () => {
     let result = mostrarAlertaConfimacion("Agregar Libro", "warning", "¿Estaá seguro de agregar un nuevo libro?")
     if ((await result).value) {
@@ -46,38 +29,16 @@ const NavLateral = (props) => {
 
   useEffect(() => {
     getUserResponse()
-    console.log('id',props.data._id)
+    //console.log('id',props.data._id)
   }, [cargando])
 
   const getUserResponse = async () => {
     let user_id = props.data._id;
-    try {
-      user_response = await fetch(`${process.env.REACT_APP_API_URL}user/${user_id}`,
-        {
-          method: "GET",
-          headers: {
-               token: process.env.REACT_APP_SECRET_TOKEN, 
-          },
-        }
-      )
-      console.log("response", user_response)
-    } catch (e) {
-      mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
-      return;
-    }
-    var user_response = await user_response.json()
-    if (user_response.rol.find(e => e === props.data.rol_select)) {
-      user_response = { ...user_response, rol_select: props.data.rol_select }
-    } else {
-      user_response = { ...user_response, rol_select: user_response.rol[user_response.rol[0] === "Estudiante" ? 1 : 0] }
-
-    }
-    setUser(await user_response)
-    setRoles((roles) => [...cambiarRoles(user_response)])
+    
     let _libros = null
     try {
-      _libros = await llenarInfo(process.env.REACT_APP_API_URL, user_response._id)
-      console.log(_libros)
+      _libros = await llenarInfo(process.env.REACT_APP_API_URL, user_id)
+      //console.log(_libros)
     } catch (e) {
 
       mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
@@ -87,12 +48,6 @@ const NavLateral = (props) => {
     setCargando(false)
 
   }
-  const cambiarRoles = (roles) => {
-    let aux = roles.rol
-    aux = aux.filter(e => e !== roles.rol_select)
-    aux = aux.filter(e => e !== "Estudiante")
-    return aux;
-  }
 
   return (
     <div className="h-full hidden md:block">
@@ -101,12 +56,17 @@ const NavLateral = (props) => {
         <div className="w-60  h-full  shadow-md bg-white absolute" id="sidenavSecExample1">
           
           <ul className=" relative px-1 overflow-y-auto h-4/5">
-            <li className="relative">
+            {props.data.rol_select === 'Administrador'?
+              <li className="relative">
               <a onClick={addLibro} className="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded hover:text-blue-600 hover:bg-blue-50 transition duration-300 ease-in-out" href="#!" data-mdb-ripple="true" data-mdb-ripple-color="primary">
                 <FontAwesomeIcon className="w-3 h-3 mr-3" icon={faPlus} />
                 <span className="font-bold">Agregar Libros</span>
               </a>
             </li>
+            :
+            <div></div>
+            }
+            
             <li className="relative">
               <a className="flex items-center text-sm py-4 px-6 h-12 overflow-hidden text-gray-700 text-ellipsis whitespace-nowrap rounded transition duration-300 ease-in-out"  data-mdb-ripple="true" data-mdb-ripple-color="primary">
                 <span className="font-bold">Seleccione un libro</span>

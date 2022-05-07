@@ -70,23 +70,36 @@ const ReportingUser = () => {
     const [tabla, setTabla] = useState([])
     const [progreso, setProgreso] = useState([])
     const [task, setTask] = useState([])
+    const [openTab, setOpenTab] = React.useState(1);
 
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [checked, setChecked] = useState(false);
-    const [control, setcontrol] = useState(false)
-    const [cargando, setCargando] = useState(true);
+    const [cargando, setCargando] = useState(false);
     const [grafica, setGrafica] = useState(null);
     
     var formData = new FormData();
     formData.set("mode", "NO_DATE");
     let totalLibro = 5
 
-    const getUsers = async () => {
-        setCargando(true)
-        let responseUser = null;
-        let responseProgress = null
+    const getTask = async () => {
         let responseTask = null
+        responseTask = await fetch(`${process.env.REACT_APP_API_URL}task/task/date`, {
+            method: "GET",
+            headers: {
+              token: process.env.REACT_APP_SECRET_TOKEN,
+            },
+        })
+        let _task = await responseTask.json()
+        setTask(await _task.data)
+
+    }
+
+    const getUsers = async () => {
+        //setCargando(true)
+        let responseUser = null;
+        
+        
         formData.set("endDate", endDate)
         formData.set("startDate", startDate)
         formData.set("mode", checked ? "DATA" : "NO_DATE");
@@ -98,54 +111,39 @@ const ReportingUser = () => {
                   token: process.env.REACT_APP_SECRET_TOKEN,
                 },
             })
-            responseTask = await fetch(`${process.env.REACT_APP_API_URL}task/task/date`, {
-                method: "GET",
-                headers: {
-                  token: process.env.REACT_APP_SECRET_TOKEN,
-                },
-            })
-            responseProgress = await fetch(`${process.env.REACT_APP_API_URL}progress/`, {
-                method: "GET",
-                headers: {
-                    token: process.env.REACT_APP_SECRET_TOKEN,
-                },
-            })
 
         } catch (e) {
-            mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
-            setCargando(false);
+            //mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
+            //setCargando(false);
             return;
         }
         
-        let _progress = await responseProgress.json()
-        let _task = await responseTask.json()
         let _users = await responseUser.json()
-
-        if(_users.data.length == 0){
-            mostrarExitoEditar("Atención", "No existen datos a mostrar", "warning")
+        setUsers(await _users.data)
+        
+        
+        if(_users.data.length === 0){
+            mostrarExitoEditar("Atención", "No existen datos a mostrar en las fechas indicadas", "warning")
         }else{
-            setUsers(await _users.data)
-            setProgreso(await _progress.data)
-            setTask(await _task.data)
-            setcontrol(true)
+            CrearTabla(_users.data)
+            //console.log('table',tabla)
         }
-        setCargando(false);
+        
+        
     }
 
-    const CrearTabla = async () => {
+     const CrearTabla = async (useres) => {
         let indice = -1
-
+        
         try {
-            const _userData =users.map((e) => {
+            const _userData =useres.map((e) => {
                 indice ++
-                //let User_progreso = progreso[indice]
-                let progre = progreso.filter(x => x._id === e._id)
-                let resueltas = progre[0].tasks_id
                 let cant_resu = 0
+                let resueltas = e.progress.tasks_id
                 if(resueltas){
-                    cant_resu=resueltas.length
-                }
-
+                        cant_resu=resueltas.length
+                    }
+                               
                 let cant_task=task.length
                 let calculo = (cant_resu * 100) / cant_task 
                 let porcentaje = parseFloat(calculo.toFixed(2)) 
@@ -158,14 +156,11 @@ const ReportingUser = () => {
                     rol: e.rol.reduce((e1, e2) => { return `${e1}, ${e2}` }),
                     //createdAt: <ReactTimeAgo date={new Date(e.createdAt)} locale="es-EC" />,
                     progreso: porcentaje
-    
                 }
             })
             
-            setTabla(await _userData)
-            //console.log('VALORES DE USER',users)
+            setTabla(await _userData)     
             
-            setCargando(false);
         } catch (error) {
             
         }
@@ -180,9 +175,7 @@ const ReportingUser = () => {
     }
 
     const graficando = (e) => {
-        if(tabla.length === 0){
-            return
-        }
+
         let id = e.target.id;
         if (id === "graficaMail") {
             setGrafica(<Pie options={
@@ -243,7 +236,7 @@ const ReportingUser = () => {
                         data: [
                             users.filter(e => e.rol.find(x => x === "Administrador")).length,
                             users.filter(e => e.rol.find(x => x === "Docente")).length,
-                            users.filter(e => e.rol.find(x => x === "Estudiante")).length,
+                            users.filter(e => (e.rol).length === 1 ).length,
                         ],
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.2)',
@@ -311,37 +304,22 @@ const ReportingUser = () => {
     }
 
     const generarReporte = () => {
-        //handleChange("");
         getUsers();
-        //llenarInfo();
-        //ProgressAll();
+        console.log('user',users)
+        //console.log('task',task)
         
     }
 
     useEffect(async () => {
         
- 
-        if (control){
-            CrearTabla()
-            setcontrol(false)
-        }
 
-        /*    
-        if (users.length!==0){
+            if( task.length !== 0){                
+            }else{
+                if(task.length ===0){
+                    getTask()
+                }     
+            }
 
-                if(progreso.length !== 0 && tabla.length === 0){
-                    CrearTabla()
-                    //console.log('SE CREO TABLA')
-                }
-            }
-            if(control){
-                llenarInfo();
-                CrearTabla();
-                setcontrol(false)
-            }
-            
-        //}
-        */
     })
 
     return (
@@ -405,8 +383,9 @@ const ReportingUser = () => {
                 </div>
             </div>
             <div className="flex md:p-5 ">
-                <div className="flex hadow-lg bg-white shadow-lg rounded-lg  overflow-hidden">
+                <div className="flex hadow-lg bg-white md:shadow-lg rounded-lg  overflow-hidden">
                     {users.length == 0 ?
+                        
                         <div className="p-10 bg-white content-center" id="chartBar">
                             <div className=" w-full mx-auto">
                                 <h3 className="text-md  text-center text-gray-600 my-4">Para observar toda la información presione en ver todo, posterior a ello en el botón generar</h3>
@@ -414,184 +393,244 @@ const ReportingUser = () => {
                             </div>
                         </div>
                         : 
-                        <div className="flex flex-col">
-                            <div className="md:flex">
-                                <div className="flex flex-col p-10  gap-4" id="chartBar">
-                                    <div className=" border   rounded-lg border-gray-200 py-3 grid grid-cols-1 gap-4 content-center ">                                        
-                                        <div className=" md:px-40 text-center">
-                                            <h3 className="text-3xl uppercase text-yellow-500">{nFormatter(users.length, 1)} </h3>
-                                            <h3 className="uppercase text-sm text-gray-500">Usuarios</h3>
-                                        </div>
-                                    </div>
-                                    
-                                            <div className="col-span-2  border text-center rounded-lg border-gray-200  grid grid-cols-1  content-center ">
-                                                <h3 className="text-md font-bold  text-gray-500 py-2 ">Roles de los Usuarios</h3>
-
-                                                <div className=" md:flex justify-center ">
-                                                    
-                                                    <div className="md:pr-7">
-                                                        <h3 className="text-1xl capitalize text-gray-500 ">Estudiantes <span className="font-bold text-yellow-400">{nFormatter(users.filter(e => e.rol.find(x => x === "Estudiante")).length, 1)}
-                                                        </span> </h3>
-                                                    </div>
-                                                    <div>
-                                                        <h3 className="text-1xl capitalize text-gray-500 ">Docentes <span className="font-bold text-blue-500">{nFormatter(users.filter(e => e.rol.find(x => x === "Docente")).length, 1)}
-                                                        </span> </h3>
-                                                    </div>
-                                                    
-                                                </div>
-                                                <div className="text-center pb-2"> 
-                                                        <h3 className="text-md capitalize text-gray-500">Administradores <span className="font-bold  text-red-400">{nFormatter(users.filter(e => e.rol.find(x => x === "Administrador")).length, 1)}
-                                                        </span> </h3>
-                                                    </div>
-                                                    <div className=" border   border-gray-200  grid grid-cols-1 gap-4 content-center ">
-                                                    <div className="text-center md:hidden">
-                                                        
-                                                        <a  rel="noopener noreferrer" href="#grafica">
-                                                            <button type="button" onClick={graficando} id="graficaRoles" className="w-full inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
-                                                                    Generar Gráfica
-                                                                </button>
-                                                        </a>{" "}
-                                                    </div>
-                                                    <div className="text-center hidden md:block">
-                                                        
-                                                        <a  rel="noopener noreferrer" >
-                                                            <button type="button" onClick={graficando} id="graficaRoles" className="w-full inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
-                                                                    Generar Gráfica
-                                                                </button>
-                                                        </a>{" "}
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                    
-                                    
-                                            <div className="col-span-2  border text-center rounded-lg border-gray-200  grid grid-cols-1  content-center ">
-                                                <h3 className="text-md font-bold  text-gray-500 py-2 ">Procedencia de los Usuarios</h3>
-
-                                                <div className="md:flex justify-center  ">
-                                                    
-                                                    <div className="text-center md:pr-7">
-                                                        <h3 className="text-1xl capitalize text-gray-500 ">Usuarios UTM <span className="font-bold text-yellow-400">{nFormatter(users.filter(e => validator.contains(e.mail, "@utm.edu.ec")).length, 1)}
-                                                        </span> </h3>
-                                                    </div>
-                                                    <div className="text-center pb-2"> 
-                                                        <h3 className="text-md capitalize text-gray-500">Usuarios Externos <span className="font-bold  text-red-400">{nFormatter(users.filter(e => !validator.contains(e.mail, "@utm.edu.ec")).length, 1)}
-                                                        </span> </h3>
-                                                    </div>
-                                                    
-                                                </div>
-                                                <div className=" border   border-gray-200  grid grid-cols-1 gap-4 content-center ">
-                                                <div className="text-center md:hidden">
-                                                        <a  rel="noopener noreferrer" href="#grafica">
-                                                            <button type="button" onClick={graficando} id="graficaMail" className="w-full inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
-                                                                    Generar Gráfica
-                                                                </button>
-                                                        </a>{" "}
-                                                    </div> 
-                                                    <div className="text-center hidden md:block">
-                                                        <a  rel="noopener noreferrer" >
-                                                            <button type="button" onClick={graficando} id="graficaMail" className="w-full inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
-                                                                    Generar Gráfica
-                                                                </button>
-                                                        </a>{" "}
-                                                    </div>
-                                                </div>
-                                        </div>
-                                            
-                                    
-
-                                    <div className="col-span-2  border text-center rounded-lg border-gray-200  grid grid-cols-1  content-center ">
-                                        <h3 className="text-md font-bold text-gray-500 py-2 ">Progreso de los Usuarios</h3>
-
-                                        <div className="grid grid-cols-2  px-3">
-                                            <div>
-                                                <h3 className="text-1xl capitalize  text-gray-500"> 0% al 24% = <span className="font-bold text-red-400">{tabla.filter(e => e.progreso >= 0 && e.progreso < 25 ).length}
-                                                </span> </h3>
-                                            </div>
-                                            <div>
-                                                <h3 className="text-1xl capitalize text-gray-500"> 25% al 49% =  <span className="font-bold text-blue-500">{tabla.filter(e => e.progreso >= 25 && e.progreso < 50 ).length}
-                                                </span> </h3>
-                                            </div>
-                                            
-                                        </div>
-                                        <div className="grid grid-cols-2  px-3 pb-2">
-                                            <div>
-                                                <h3 className="text-1xl capitalize text-gray-500"> 50% al 74% = <span className="font-bold text-yellow-400">{tabla.filter(e => e.progreso >= 50 && e.progreso < 75 ).length}
-                                                </span> </h3>
-                                            </div>
-                                            <div>
-                                                <h3 className="text-1xl capitalize text-gray-500"> 75% al 100% =  <span className="font-bold text-green-500">{tabla.filter(e => e.progreso >= 75 && e.progreso < 101 ).length}
-                                                </span> </h3>
-                                            </div>
-                                            
-                                        </div>
-                                        <div className=" border   border-gray-200  grid grid-cols-1 gap-4 content-center ">
-                                        <div className="text-center md:hidden">
-                                        <a  rel="noopener noreferrer" href="#grafica">
-                                            <button type="button" onClick={graficando} id="graficaProgreso" className="w-full inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
-                                                {
-                                                    tabla.length == 0 ?
-                                                    'Cargando Datos..'
-                                                    :
-                                                    'Generar Gráfica'
-                                                } </button>
-                                         </a>{" "}
-                                        </div>
-                                        <div className="text-center hidden md:block">
-                                        <a  rel="noopener noreferrer" >
-                                            <button type="button" onClick={graficando} id="graficaProgreso" className="w-full inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
-                                                {
-                                                    tabla.length == 0 ?
-                                                    'Cargando Datos..'
-                                                    :
-                                                    'Generar Gráfica'
-                                                } </button>
-                                         </a>{" "}
-                                        </div>
-                                    </div>
-                                    </div>
-                                    
-                                    
-                                </div>
-                                <div className="  md:py-10 md:pr-10   content-center  ">
-                                    <div id='grafica' className="border p-5 pb-20  rounded-lg border-gray-200">
-                                        {grafica ? <div className="object-contain  w-80 mx-auto py-10  ">{grafica} </div>
-                                            : <div className="  py-10 grid grid-cols-1 gap-4 content-center" >
-                                                <div className="bg-gray-200mx-auto">
-                                                    <img src={image_charts} width="375" />
-                                                    <h3 className="text-xl  text-center text-gray-600 my-4">Seleccione una Gráfica</h3>
-                                                </div>
-                                            </div>
+                        <div className="flex flex-col bg-gray-50">
+                            
+                            
+                            <div className="w-full mx-auto max-w-screen-xl md:px-10 px-3">
+                                    <ul
+                                    className="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row"
+                                    role="tablist"
+                                    >
+                                    <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                                        <a
+                                        className={
+                                            "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                                            (openTab === 1
+                                            ? "text-yellow-500 bg-gray-100 bg-gradient-to-t from-gray-100"
+                                            : "text-gray-600 bg-white")
                                         }
+                                        onClick={e => {
+                                            e.preventDefault();
+                                            setOpenTab(1);
+                                        }}
+                                        data-toggle="tab"
+                                        href="#link1"
+                                        role="tablist"
+                                        >
+                                        <i className="fas fa-space-shuttle text-base mr-1"></i> GENERAL
+                                        </a>
+                                    </li>
+                                    <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                                        <a
+                                        className={
+                                            "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                                            (openTab === 2
+                                            ? "text-yellow-500 bg-gray-100 bg-gradient-to-t from-gray-100"
+                                            : "text-gray-600 bg-white")
+                                        }
+                                        onClick={e => {
+                                            e.preventDefault();
+                                            setOpenTab(2);
+                                        }}
+                                        data-toggle="tab"
+                                        href="#link2"
+                                        role="tablist"
+                                        >
+                                        <i className="fas fa-cog text-base mr-1"></i>  DETALLADO
+                                        </a>
+                                    </li>
+                                    
+                                    </ul>
+                                    <div className="relative flex flex-col  break-words bg-white w-full mb-6 rounded">
+                                    <div className=" py-5 flex-auto">
+                                        <div className="tab-content tab-space">
+                                            <div className={openTab === 1 ? "block md:px-4" : "hidden"} id="link1">
+                                                <div className="md:flex">
+                                                    <div className="flex flex-col   px-2 gap-4" id="chartBar">
+                                                        <div className=" border   rounded-lg border-gray-200 py-3  gap-4 content-center ">                                        
+                                                            <div className=" md:px-40 text-center">
+                                                                <h3 className="text-3xl uppercase text-yellow-500">{nFormatter(users.length, 1)} </h3>
+                                                                <h3 className="uppercase text-sm text-gray-500">Usuarios</h3>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                                <div className="col-span-2  border text-center rounded-lg border-gray-200  grid grid-cols-1  content-center ">
+                                                                    <h3 className="text-md font-bold  text-gray-500 py-2 ">Roles de los Usuarios</h3>
+
+                                                                    <div className=" md:flex justify-center ">
+                                                                        
+                                                                        <div className="md:pr-7">
+                                                                            <h3 className="text-1xl capitalize text-gray-500 ">Estudiantes <span className="font-bold text-yellow-400">{nFormatter(users.filter(e => (e.rol).length === 1 ).length, 1)}
+                                                                            </span> </h3>
+                                                                        </div>
+                                                                        <div>
+                                                                            <h3 className="text-1xl capitalize text-gray-500 ">Docentes <span className="font-bold text-blue-500">{nFormatter(users.filter(e => e.rol.find(x => x === "Docente")).length, 1)}
+                                                                            </span> </h3>
+                                                                        </div>
+                                                                        
+                                                                    </div>
+                                                                    <div className="text-center pb-2"> 
+                                                                            <h3 className="text-md capitalize text-gray-500">Administradores <span className="font-bold  text-red-400">{nFormatter(users.filter(e => e.rol.find(x => x === "Administrador")).length, 1)}
+                                                                            </span> </h3>
+                                                                        </div>
+                                                                        <div className=" border   border-gray-200  grid grid-cols-1 gap-4 content-center ">
+                                                                        <div className="text-center md:hidden">
+                                                                            
+                                                                            <a  rel="noopener noreferrer" href="#grafica">
+                                                                                <button type="button" onClick={graficando} id="graficaRoles" className="w-full inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
+                                                                                        Generar Gráfica
+                                                                                    </button>
+                                                                            </a>{" "}
+                                                                        </div>
+                                                                        <div className="text-center hidden md:block">
+                                                                            
+                                                                            <a  rel="noopener noreferrer" >
+                                                                                <button type="button" onClick={graficando} id="graficaRoles" className="w-full inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase  hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
+                                                                                        Generar Gráfica
+                                                                                    </button>
+                                                                            </a>{" "}
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                        
+                                                        
+                                                                <div className="col-span-2  border text-center rounded-lg border-gray-200  grid grid-cols-1  content-center ">
+                                                                    <h3 className="text-md font-bold  text-gray-500 py-2 ">Procedencia de los Usuarios</h3>
+
+                                                                    <div className="md:flex justify-center  ">
+                                                                        
+                                                                        <div className="text-center md:pr-7">
+                                                                            <h3 className="text-1xl capitalize text-gray-500 ">Usuarios UTM <span className="font-bold text-yellow-400">{nFormatter(users.filter(e => validator.contains(e.mail, "@utm.edu.ec")).length, 1)}
+                                                                            </span> </h3>
+                                                                        </div>
+                                                                        <div className="text-center pb-2"> 
+                                                                            <h3 className="text-md capitalize text-gray-500">Usuarios Externos <span className="font-bold  text-red-400">{nFormatter(users.filter(e => !validator.contains(e.mail, "@utm.edu.ec")).length, 1)}
+                                                                            </span> </h3>
+                                                                        </div>
+                                                                        
+                                                                    </div>
+                                                                    <div className=" border   border-gray-200  grid grid-cols-1 gap-4 content-center ">
+                                                                    <div className="text-center md:hidden">
+                                                                            <a  rel="noopener noreferrer" href="#grafica">
+                                                                                <button type="button" onClick={graficando} id="graficaMail" className="w-full inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
+                                                                                        Generar Gráfica
+                                                                                    </button>
+                                                                            </a>{" "}
+                                                                        </div> 
+                                                                        <div className="text-center hidden md:block">
+                                                                            <a  rel="noopener noreferrer" >
+                                                                                <button type="button" onClick={graficando} id="graficaMail" className="w-full inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase  hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
+                                                                                        Generar Gráfica
+                                                                                    </button>
+                                                                            </a>{" "}
+                                                                        </div>
+                                                                    </div>
+                                                            </div>
+                                                                
+                                                        
+
+                                                        <div className="col-span-2  border text-center rounded-lg border-gray-200  grid grid-cols-1  content-center ">
+                                                            <h3 className="text-md font-bold text-gray-500 py-2 ">Progreso de los Usuarios</h3>
+
+                                                            <div className="grid grid-cols-2  px-3">
+                                                                <div>
+                                                                    <h3 className="text-1xl capitalize  text-gray-500"> 0% al 24% = <span className="font-bold text-red-400">{tabla.filter(e => e.progreso >= 0 && e.progreso < 25 ).length}
+                                                                    </span> </h3>
+                                                                </div>
+                                                                <div>
+                                                                    <h3 className="text-1xl capitalize text-gray-500"> 25% al 49% =  <span className="font-bold text-blue-500">{tabla.filter(e => e.progreso >= 25 && e.progreso < 50 ).length}
+                                                                    </span> </h3>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                            <div className="grid grid-cols-2  px-3 pb-2">
+                                                                <div>
+                                                                    <h3 className="text-1xl capitalize text-gray-500"> 50% al 74% = <span className="font-bold text-yellow-400">{tabla.filter(e => e.progreso >= 50 && e.progreso < 75 ).length}
+                                                                    </span> </h3>
+                                                                </div>
+                                                                <div>
+                                                                    <h3 className="text-1xl capitalize text-gray-500"> 75% al 100% =  <span className="font-bold text-green-500">{tabla.filter(e => e.progreso >= 75 && e.progreso < 101 ).length}
+                                                                    </span> </h3>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                            <div className=" border   border-gray-200  grid grid-cols-1 gap-4 content-center ">
+                                                            <div className="text-center md:hidden">
+                                                            <a  rel="noopener noreferrer" href="#grafica">
+                                                                <button type="button" onClick={graficando} id="graficaProgreso" className="w-full inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase  hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
+                                                                    {
+                                                                        tabla.length == 0 ?
+                                                                        'Cargando Datos..'
+                                                                        :
+                                                                        'Generar Gráfica'
+                                                                    } </button>
+                                                            </a>{" "}
+                                                            </div>
+                                                            <div className="text-center hidden md:block">
+                                                            <a  rel="noopener noreferrer" >
+                                                                <button type="button" onClick={graficando} id="graficaProgreso" className="w-full inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase  hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
+                                                                    {
+                                                                        tabla.length == 0 ?
+                                                                        'Cargando Datos..'
+                                                                        :
+                                                                        'Generar Gráfica'
+                                                                    } </button>
+                                                            </a>{" "}
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                        
+                                                        
+                                                    </div>
+                                                    <div className="   pt-2 md:pt-0 p-2 md:p content-center  ">
+                                                        <div id='grafica' className="border md:p-5 md:pb-20  rounded-lg border-gray-200">
+                                                            {grafica ? <div className="object-contain  w-80 mx-auto py-10  ">{grafica} </div>
+                                                                : <div className="  py-10 grid grid-cols-1 gap-4 content-center" >
+                                                                    <div className="bg-gray-200mx-auto">
+                                                                        <img src={image_charts} width="375" />
+                                                                        <h3 className="text-xl  text-center text-gray-600 my-4">Seleccione una Gráfica</h3>
+                                                                    </div>
+                                                                </div>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className={openTab === 2 ? "block bg-gray-50" : "hidden"} id="link2">
+                                            <div className="    ">
+                                                        <div className="  bg-white rounded-lg w-full overflow-hidden">
+                                                            {!cargando && /*console.log(userProgress)  */
+                                                                <div className="content-center pt-2 items-center w-full justify-center text-center">
+                                                                    {tabla.length == 0? 
+                                                                    <h2> INFORMACIÓN DETALLADA <h2 className="text-green-400"> ( Cargando... )</h2>  </h2>
+                                                                    :
+                                                                    <h2> INFORMACIÓN DETALLADA </h2>
+                                                                    }
+                                                                    <div className="  max-w-xs md:max-w-5xl px-2 table-responsive">
+                                                                    <DataTable
+                                                                        columns={columns}
+                                                                        data={tabla}
+                                                                        fixedHeaderScrollHeight="350px"
+                                                                        pagination
+                                                                        selectableRow
+                                                                        
+                                                                    />
+                                                                    </div>
+
+                                                                </div>
+
+                                                            }
+                                                        </div>
+                                                
+                                                </div>
+                                            </div>
+                                    </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="  w-full  ">
-                                    <div className="px-10 shadow-lg bg-white rounded-lg w-full overflow-hidden">
-                                        {!cargando && /*console.log(userProgress)  */
-                                            <div className="content-center pt-2 items-center justify-center text-center">
-                                                {tabla.length == 0? 
-                                                <h2> INFORMACIÓN DETALLADA <h2 className="text-green-400"> ( Cargando... )</h2>  </h2>
-                                                :
-                                                <h2> INFORMACIÓN DETALLADA </h2>
-                                                }
-                                                <div className="  max-w-xs md:max-w-5xl table-responsive">
-                                                <DataTable
-                                                    columns={columns}
-                                                    data={tabla}
-                                                    fixedHeaderScrollHeight="350px"
-                                                    pagination
-                                                    selectableRow
-                                                    
-                                                />
-                                                </div>
-
-                                            </div>
-
-                                        }
-                                    </div>
                             
-                                </div>
+                            
                         </div>
                         
                     }

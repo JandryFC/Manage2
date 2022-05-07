@@ -105,9 +105,8 @@ const ReportingPage = (props) => {
                         </div>
                         :
                         
-                        <div className="md:pl-20">
-                           <h2 className="text-center font-extralight italic  text-gray-700 text-2xl ">Escoge un reporte</h2>
-                            <div className="md:pl-40 py-4 space-y-2">
+                        <div className="">
+                            <div className=" md:pl-80 py-5 space-y-2">
                                 <img src={cargando_img1} className="mr-0 pr-0" width="400px" />
                             </div>
                         </div>

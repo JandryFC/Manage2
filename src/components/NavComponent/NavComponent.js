@@ -19,7 +19,7 @@ const NavComponent = (props) => {
 
   const handleHamburgerButton = () => {
     hamburgerItems.current.classList.toggle("hidden");
-    console.log(hamburgerItems)
+    //console.log(hamburgerItems)
   };
 
   const classNames = (...classes) => {
@@ -49,6 +49,35 @@ const NavComponent = (props) => {
   }, [cargando])
 
   const getUserResponse = async () => {
+
+    var user_response = props.data
+
+    setUser(await user_response)
+    setRoles((roles) => [...cambiarRoles(user_response,0)])
+    setCargando(false)
+
+  }
+  const cambiarRoles = (roles,ct) => {
+    //
+    let aux = Array(roles.rol)[0]
+    aux = aux.filter(e => e !== roles.rol_select)
+    aux = aux.filter(e => e !== "Estudiante")
+    if(ct!==0){
+      let control=verificar(roles.rol_select)
+      if(control){
+        return aux;
+      }else{
+        alert('NO CUENTA CON DICHO ROL')
+        return roles.rol_select
+      }
+    }else{
+      return aux;
+    }
+    
+    
+  }
+
+  const verificar = async (rol)=>{
     let user_id = props.data._id;
     try {
       user_response = await fetch(`${process.env.REACT_APP_API_URL}user/${user_id}`,
@@ -59,28 +88,19 @@ const NavComponent = (props) => {
           },
         }
       )
-      console.log("response", user_response)
+      //console.log("response", user_response)
     } catch (e) {
       mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
       return;
     }
     var user_response = await user_response.json()
-    if (user_response.rol.find(e => e === props.data.rol_select)) {
-      user_response = { ...user_response, rol_select: props.data.rol_select }
+    if (user_response.rol.find(e => e === rol)) {
+      //console.log('rol valido')
+      return true 
     } else {
-      user_response = { ...user_response, rol_select: user_response.rol[user_response.rol[0] === "Estudiante" ? 1 : 0] }
-
+      //console.log('rol invalido')
+      return false
     }
-    setUser(await user_response)
-    setRoles((roles) => [...cambiarRoles(user_response)])
-    setCargando(false)
-
-  }
-  const cambiarRoles = (roles) => {
-    let aux = roles.rol
-    aux = aux.filter(e => e !== roles.rol_select)
-    aux = aux.filter(e => e !== "Estudiante")
-    return aux;
   }
 
   return (
