@@ -39,22 +39,19 @@ const ReportingPage = (props) => {
             <div className="flex flex-col w-full bg-gray-50">
             <div className="relative pt-10 pb-8 flex content-center items-center justify-center min-h-screen-75">
             <div
-                className="absolute top-0 w-full h-full bg-center bg-cover"
-                style={{
-                backgroundImage:
-                    "url('https://i.pinimg.com/originals/a3/b6/d0/a3b6d0044e85ab6d7076802d0b378770.jpg')",
-                }}
+                className="absolute top-0 w-full h-full bg-center bg-white shadow-md border "
+                
             >
                 <span
                 id="blackOverlay"
-                className="w-full h-full absolute opacity-80 bg-black"
+                className="w-full h-full absolute "
                 ></span>
             </div>
             <div className="container relative mx-auto">
                 <div className="items-center flex flex-wrap">
                 <div className="w-full lg:w-8/12 px-4 ml-auto mr-auto text-center">
                     <div className="md:pb-5">
-                    <h1 className="text-white font-semibold text-2xl md:text-4xl">
+                    <h1 className="font-semibold text-2xl md:text-4xl">
                     REPORTES
                     </h1>
                     <div className="mx-auto pt-5">
@@ -101,7 +98,7 @@ const ReportingPage = (props) => {
 
             </div>
 
-                <div className="">
+                <div className="h-full">
                     {!cargando ?
                         <div className="text-center py-2 items-center justify-center">
                             <div className="pt-4">

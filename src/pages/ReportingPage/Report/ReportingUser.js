@@ -12,7 +12,7 @@ import { Chart as ChartJS, registerables } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import DataTable from 'react-data-table-component';
 
-import { faTable } from "@fortawesome/free-solid-svg-icons";
+
 ChartJS.register(...registerables);
 
 const columns = [
@@ -88,10 +88,11 @@ const ReportingUser = () => {
     const [progreso, setProgreso] = useState([])
     const [task, setTask] = useState([])
     const [openTab, setOpenTab] = React.useState(1);
+    const [openTab2, setOpenTab2] = React.useState(0);
 
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
-    const [checked, setChecked] = useState(false);
+    const [checked, setChecked] = useState(true);
     const [cargando, setCargando] = useState(false);
     const [grafica, setGrafica] = useState(null);
     
@@ -200,7 +201,7 @@ const ReportingUser = () => {
 
     const graficando = (e) => {
 
-        let id = e.target.id;
+        let id = e
         if (id === "graficaMail") {
             setGrafica(<Pie options={
                 {
@@ -329,7 +330,8 @@ const ReportingUser = () => {
 
     const generarReporte = () => {
         getUsers();
-        console.log('user',users)
+        
+        //console.log('user',users)
         //console.log('task',task)
         
     }
@@ -353,7 +355,7 @@ const ReportingUser = () => {
                     <div className="flex justify-center">
                         <div>
                             <div className="form-check">
-                                <input onChange={handleChange} className="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="flexCheckDefault" />
+                                <input onChange={handleChange} className="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="flexCheckDefault" defaultChecked />
                                 <label className="text-sm form-check-label inline-block text-gray-800" htmlFor="flexCheckDefault">
                                     VER TODO
                                 </label>
@@ -406,23 +408,23 @@ const ReportingUser = () => {
                     <button type="button" onClick={generarReporte} className="inline-block px-6 py-2.5 bg-yellow-300 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-yellow-400 hover:shadow-lg focus:bg-yellow-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-400 active:shadow-lg transition duration-150 ease-in-out">Generar</button>
                 </div>
             </div>
-            <div className="flex md:p-5 ">
+            <div className="static w-full md:w-5/6 md:p-5 ">
                 <div className="flex hadow-lg bg-white md:shadow-lg rounded-lg  overflow-hidden">
                     {users.length == 0 ?
                         
-                        <div className="p-10 bg-white content-center" id="chartBar">
-                            <div className=" w-full mx-auto">
+                        <div className="p-10 bg-white mx-auto text-center content-center" id="chartBar">
+                            <div className=" w-full ">
                                 <h3 className="text-md  text-center text-gray-600 my-4">Para observar toda la información presione en ver todo, posterior a ello en el botón generar</h3>
                                 <img src={image_cargando} width="375" />
                             </div>
                         </div>
                         : 
-                        <div className="flex flex-col bg-gray-50">
+                        <div className="static w-full ">
                             
                             
-                            <div className="w-full mx-auto max-w-screen-xl md:px-10 px-3">
+                            <div className="w-full mx-auto   md:px-3">
                                     <ul
-                                    className="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row"
+                                    className="flex mb-0 list-none pt-3 pb-4 flex-row"
                                     role="tablist"
                                     >
                                     <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
@@ -447,7 +449,7 @@ const ReportingUser = () => {
                                     <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
                                         <a
                                         className={
-                                            "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                                            "text-xs font-bold uppercase  py-3 shadow-lg rounded block leading-normal " +
                                             (openTab === 2
                                             ? "text-yellow-500 bg-gray-100 bg-gradient-to-t from-gray-100"
                                             : "text-gray-600 bg-white")
@@ -465,165 +467,201 @@ const ReportingUser = () => {
                                     </li>
                                     
                                     </ul>
-                                    <div className="relative flex flex-col  break-words bg-white w-full mb-6 rounded">
+                                    <div className="relative flex flex-col  break-words bg-blue-50 w-full  rounded">
                                     <div className=" py-5 flex-auto">
                                         <div className="tab-content tab-space">
                                             <div className={openTab === 1 ? "block md:px-4" : "hidden"} id="link1">
-                                                <div className="md:flex">
-                                                    <div className="flex flex-col   px-2 gap-4" id="chartBar">
-                                                        <div className=" border   rounded-lg border-gray-200 py-3  gap-4 content-center ">                                        
-                                                            <div className=" md:px-40 text-center">
-                                                                <h3 className="text-3xl uppercase text-yellow-500">{nFormatter(users.length, 1)} </h3>
-                                                                <h3 className="uppercase text-sm text-gray-500">Usuarios</h3>
-                                                            </div>
-                                                        </div>
-                                                        
-                                                                <div className="col-span-2  border text-center rounded-lg border-gray-200  grid grid-cols-1  content-center ">
-                                                                    <h3 className="text-md font-bold  text-gray-500 py-2 ">Roles de los Usuarios</h3>
+                                                <div className="relative bg-blue-50 pt-5">
+                                                            <div className="px-4 md:px-10 mx-auto w-full">
+                                                            <div>
+                                                                {/* Card stats */}
+                                                                <div className="flex flex-wrap">
+                                                                <div className="w-full lg:w-6/12  px-4">
+                                                                    <div className="relative  flex flex-col min-w-0 break-words bg-white rounded mb-6 xl:mb-0 shadow-lg">
+                                                                    <div className="flex-auto p-4">
+                                                                            <div className=" ">
+                                                                                <h3 className="text-md font-bold  text-gray-500 py-2 ">Usuarios</h3>
 
-                                                                    <div className=" md:flex justify-center ">
-                                                                        
-                                                                        <div className="md:pr-7">
-                                                                            <h3 className="text-1xl capitalize text-gray-500 ">Estudiantes <span className="font-bold text-yellow-400">{nFormatter(users.filter(e => (e.rol).length === 1 ).length, 1)}
-                                                                            </span> </h3>
+                                                                                
+                                                                            </div>
+                                                                        <div className=" text-center">
+                                                                            <h3 className="text-3xl uppercase text-yellow-500">{nFormatter(users.length, 1)} </h3>
+                                                                        <h3 className="uppercase text-sm text-gray-500">___</h3>
                                                                         </div>
-                                                                        <div>
-                                                                            <h3 className="text-1xl capitalize text-gray-500 ">Docentes <span className="font-bold text-blue-500">{nFormatter(users.filter(e => e.rol.find(x => x === "Docente")).length, 1)}
-                                                                            </span> </h3>
-                                                                        </div>
-                                                                        
-                                                                    </div>
-                                                                    <div className="text-center pb-2"> 
-                                                                            <h3 className="text-md capitalize text-gray-500">Administradores <span className="font-bold  text-red-400">{nFormatter(users.filter(e => e.rol.find(x => x === "Administrador")).length, 1)}
-                                                                            </span> </h3>
-                                                                        </div>
-                                                                        <div className=" border   border-gray-200  grid grid-cols-1 gap-4 content-center ">
-                                                                        <div className="text-center md:hidden">
-                                                                            
-                                                                            <a  rel="noopener noreferrer" href="#grafica">
-                                                                                <button type="button" onClick={graficando} id="graficaRoles" className="w-full inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
-                                                                                        Generar Gráfica
-                                                                                    </button>
-                                                                            </a>{" "}
-                                                                        </div>
-                                                                        <div className="text-center hidden md:block">
-                                                                            
-                                                                            <a  rel="noopener noreferrer" >
-                                                                                <button type="button" onClick={graficando} id="graficaRoles" className="w-full inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase  hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
-                                                                                        Generar Gráfica
-                                                                                    </button>
-                                                                            </a>{" "}
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                <div className="w-full lg:w-6/12  px-4">
+                                                                    <div className="relative  flex flex-col min-w-0 break-words bg-white rounded mb-6  shadow-lg">
+                                                                        <div className="flex-auto p-4">
+                                                                            <div className=" ">
+                                                                                <h3 className="text-md font-bold  text-gray-500 py-2 ">Roles de los Usuarios</h3>
 
-                                                        
-                                                        
-                                                                <div className="col-span-2  border text-center rounded-lg border-gray-200  grid grid-cols-1  content-center ">
-                                                                    <h3 className="text-md font-bold  text-gray-500 py-2 ">Procedencia de los Usuarios</h3>
-
-                                                                    <div className="md:flex justify-center  ">
-                                                                        
-                                                                        <div className="text-center md:pr-7">
-                                                                            <h3 className="text-1xl capitalize text-gray-500 ">Usuarios UTM <span className="font-bold text-yellow-400">{nFormatter(users.filter(e => validator.contains(e.mail, "@utm.edu.ec")).length, 1)}
-                                                                            </span> </h3>
-                                                                        </div>
-                                                                        <div className="text-center pb-2"> 
-                                                                            <h3 className="text-md capitalize text-gray-500">Usuarios Externos <span className="font-bold  text-red-400">{nFormatter(users.filter(e => !validator.contains(e.mail, "@utm.edu.ec")).length, 1)}
-                                                                            </span> </h3>
-                                                                        </div>
-                                                                        
-                                                                    </div>
-                                                                    <div className=" border   border-gray-200  grid grid-cols-1 gap-4 content-center ">
-                                                                    <div className="text-center md:hidden">
-                                                                            <a  rel="noopener noreferrer" href="#grafica">
-                                                                                <button type="button" onClick={graficando} id="graficaMail" className="w-full inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
-                                                                                        Generar Gráfica
-                                                                                    </button>
-                                                                            </a>{" "}
-                                                                        </div> 
-                                                                        <div className="text-center hidden md:block">
-                                                                            <a  rel="noopener noreferrer" >
-                                                                                <button type="button" onClick={graficando} id="graficaMail" className="w-full inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase  hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
-                                                                                        Generar Gráfica
-                                                                                    </button>
-                                                                            </a>{" "}
+                                                                                <div className=" md:flex justify-center ">
+                                                                                    
+                                                                                    <div className="md:pr-7">
+                                                                                        <h3 className="text-1xl capitalize text-gray-500 ">Estudiantes <span className="font-bold text-yellow-400">{nFormatter(users.filter(e => (e.rol).length === 1 ).length, 1)}
+                                                                                        </span> </h3>
+                                                                                    </div>
+                                                                                    <div>
+                                                                                        <h3 className="text-1xl capitalize text-gray-500 ">Docentes <span className="font-bold text-blue-500">{nFormatter(users.filter(e => e.rol.find(x => x === "Docente")).length, 1)}
+                                                                                        </span> </h3>
+                                                                                    </div>
+                                                                                    
+                                                                                </div>
+                                                                                <div className="text-center pb-2"> 
+                                                                                        <h3 className="text-md capitalize text-gray-500">Administradores <span className="font-bold  text-red-400">{nFormatter(users.filter(e => e.rol.find(x => x === "Administrador")).length, 1)}
+                                                                                        </span> </h3>
+                                                                                    </div>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                            </div>
-                                                                
-                                                        
+                                                                </div>
+                                                                <div className="w-full lg:w-6/12  px-4">
+                                                                    <div className="relative  flex flex-col min-w-0 break-words bg-white rounded mb-6  shadow-lg">
+                                                                        <div className="flex-auto p-4">
+                                                                            <div className=" ">
+                                                                                <h3 className="text-md font-bold  text-gray-500 py-2 ">Procedencia de los Usuarios</h3>
 
-                                                        <div className="col-span-2  border text-center rounded-lg border-gray-200  grid grid-cols-1  content-center ">
-                                                            <h3 className="text-md font-bold text-gray-500 py-2 ">Progreso de los Usuarios</h3>
+                                                                                <div className=" justify-center  ">
+                                                                                    
+                                                                                    <div className="text-center md:pr-7">
+                                                                                        <h3 className="text-1xl capitalize text-gray-500 ">Usuarios UTM <span className="font-bold text-yellow-400">{nFormatter(users.filter(e => validator.contains(e.mail, "@utm.edu.ec")).length, 1)}
+                                                                                        </span> </h3>
+                                                                                    </div>
+                                                                                    <div className="text-center pb-2"> 
+                                                                                        <h3 className="text-md capitalize text-gray-500">Usuarios Externos <span className="font-bold  text-red-400">{nFormatter(users.filter(e => !validator.contains(e.mail, "@utm.edu.ec")).length, 1)}
+                                                                                        </span> </h3>
+                                                                                    </div>
+                                                                                    
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="w-full lg:w-6/12  px-4">
+                                                                    <div className="relative  flex flex-col min-w-0 break-words bg-white rounded mb-6  shadow-lg">
+                                                                        <div className="flex-auto p-4">
+                                                                            <div className=" ">
+                                                                            <h3 className="text-md font-bold text-gray-500 py-2 ">Progreso de los Usuarios</h3>
 
-                                                            <div className="grid grid-cols-2  px-3">
-                                                                <div>
-                                                                    <h3 className="text-1xl capitalize  text-gray-500"> 0% al 24% = <span className="font-bold text-red-400">{tabla.filter(e => e.progreso >= 0 && e.progreso < 25 ).length}
-                                                                    </span> </h3>
+                                                                            <div className="grid grid-cols-2  px-3">
+                                                                                <div>
+                                                                                    <h3 className="text-1xl capitalize  text-gray-500"> 0 - 25 % = <span className="font-bold text-red-400">{tabla.filter(e => e.progreso >= 0 && e.progreso < 26 ).length}
+                                                                                    </span> </h3>
+                                                                                </div>
+                                                                                <div>
+                                                                                    <h3 className="text-1xl capitalize text-gray-500"> 26% - 50 % =  <span className="font-bold text-blue-500">{tabla.filter(e => e.progreso > 25 && e.progreso < 51 ).length}
+                                                                                    </span> </h3>
+                                                                                </div>
+                                                                                
+                                                                            </div>
+                                                                            <div className="grid grid-cols-2  px-3 pb-2">
+                                                                                <div>
+                                                                                    <h3 className="text-1xl capitalize text-gray-500"> 51 - 75 % = <span className="font-bold text-yellow-400">{tabla.filter(e => e.progreso > 50 && e.progreso < 76 ).length}
+                                                                                    </span> </h3>
+                                                                                </div>
+                                                                                <div>
+                                                                                    <h3 className="text-1xl capitalize text-gray-500"> 76 - 100 % =  <span className="font-bold text-green-500">{tabla.filter(e => e.progreso > 75 && e.progreso < 101 ).length}
+                                                                                    </span> </h3>
+                                                                                </div>
+                                                                                
+                                                                            </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
-                                                                <div>
-                                                                    <h3 className="text-1xl capitalize text-gray-500"> 25% al 49% =  <span className="font-bold text-blue-500">{tabla.filter(e => e.progreso >= 25 && e.progreso < 50 ).length}
-                                                                    </span> </h3>
-                                                                </div>
-                                                                
-                                                            </div>
-                                                            <div className="grid grid-cols-2  px-3 pb-2">
-                                                                <div>
-                                                                    <h3 className="text-1xl capitalize text-gray-500"> 50% al 74% = <span className="font-bold text-yellow-400">{tabla.filter(e => e.progreso >= 50 && e.progreso < 75 ).length}
-                                                                    </span> </h3>
-                                                                </div>
-                                                                <div>
-                                                                    <h3 className="text-1xl capitalize text-gray-500"> 75% al 100% =  <span className="font-bold text-green-500">{tabla.filter(e => e.progreso >= 75 && e.progreso < 101 ).length}
-                                                                    </span> </h3>
-                                                                </div>
-                                                                
-                                                            </div>
-                                                            <div className=" border   border-gray-200  grid grid-cols-1 gap-4 content-center ">
-                                                            <div className="text-center md:hidden">
-                                                            <a  rel="noopener noreferrer" href="#grafica">
-                                                                <button type="button" onClick={graficando} id="graficaProgreso" className="w-full inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase  hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
-                                                                    {
-                                                                        tabla.length == 0 ?
-                                                                        'Cargando Datos..'
-                                                                        :
-                                                                        'Generar Gráfica'
-                                                                    } </button>
-                                                            </a>{" "}
-                                                            </div>
-                                                            <div className="text-center hidden md:block">
-                                                            <a  rel="noopener noreferrer" >
-                                                                <button type="button" onClick={graficando} id="graficaProgreso" className="w-full inline-block font-bold py-2 text-green-500 font-medium text-xs leading-tight uppercase  hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
-                                                                    {
-                                                                        tabla.length == 0 ?
-                                                                        'Cargando Datos..'
-                                                                        :
-                                                                        'Generar Gráfica'
-                                                                    } </button>
-                                                            </a>{" "}
-                                                            </div>
-                                                        </div>
-                                                        </div>
-                                                        
-                                                        
-                                                    </div>
-                                                    <div className="   pt-2 md:pt-0 p-2 md:p content-center  ">
-                                                        <div id='grafica' className="border md:p-5 md:pb-20  rounded-lg border-gray-200">
-                                                            {grafica ? <div className="object-contain  w-80 mx-auto py-10  ">{grafica} </div>
-                                                                : <div className="  py-10 grid grid-cols-1 gap-4 content-center" >
-                                                                    <div className="bg-gray-200mx-auto">
+                                                                <div className="w-full px-4">
+                                                    
+                                                    <div className=" bg-white  pt-2 md:pt-0 p-2 md:p rounded-lg content-center  ">
+                                                        <div id='grafica' className=" md:p-5   ">
+                                                        <ul
+                                    className="flex "
+                                    role="tablist"
+                                    >
+                                    <li className="-mb-px mr-2 last:mr-0 flex-auto text-center ">
+                                        <a
+                                        className={
+                                            "text-xs font-bold uppercase md:px-5 py-3 shadow-md rounded block leading-normal " +
+                                            (openTab2 === 1
+                                            ? "text-yellow-500 bg-gray-100 bg-gradient-to-t from-gray-100"
+                                            : "text-gray-600 bg-white")
+                                        }
+                                        onClick={e => {
+                                            e.preventDefault();
+                                            setOpenTab2(1);
+                                            graficando('graficaRoles');
+                                        }}
+                                        data-toggle="tab"
+                                        href="#link1"
+                                        role="tablist"
+                                        >
+                                        <i className="fas fa-space-shuttle text-base mr-1"></i> Roles
+                                        </a>
+                                    </li>
+
+                                    <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                                        <a 
+                                        id="graficaRoles"
+                                        className={
+                                            "text-xs font-bold uppercase md:px-5 py-3 shadow-md rounded block leading-normal " +
+                                            (openTab2 === 2
+                                            ? "text-yellow-500 bg-gray-100 bg-gradient-to-t from-gray-100"
+                                            : "text-gray-600 bg-white")
+                                        }
+                                        onClick={e => {
+                                            e.preventDefault();
+                                            setOpenTab2(2);
+                                            graficando('graficaMail');
+                                        }}
+                                        data-toggle="tab"
+                                        href="#link2"
+                                        role="tablist"
+                                        >
+                                        <i className="fas fa-cog text-base mr-1"></i>  Procedencias
+                                        </a>
+                                    </li>
+                                    <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                                        <a
+                                        className={
+                                            "text-xs font-bold uppercase md:px-5 py-3 shadow-md rounded block leading-normal " +
+                                            (openTab2 === 3
+                                            ? "text-yellow-500 bg-gray-100 bg-gradient-to-t from-gray-100"
+                                            : "text-gray-600 bg-white")
+                                        }
+                                        onClick={e => {
+                                            e.preventDefault();
+                                            setOpenTab2(3);
+                                            graficando('graficaProgreso');
+                                        }}
+                                        data-toggle="tab"
+                                        href="#link2"
+                                        role="tablist"
+                                        >
+                                        <i className="fas fa-cog text-base mr-1"></i>  Progresos
+                                        </a>
+                                    </li>
+                                    
+                                    </ul>
+                                                            {grafica ? <div className="object-contain pt-5 md:w-80 max-w-xs mx-auto   "><div className="">{grafica}</div> </div>
+                                                                : <div className="  py-10 grid pt-5 grid-cols-1 gap-4 content-center" >
+                                                                    <div className="mx-auto">
                                                                         <img src={image_charts} width="375" />
-                                                                        <h3 className="text-xl  text-center text-gray-600 my-4">Seleccione una Gráfica</h3>
+                                                                        <h3 className="text-xl  text-center text-gray-600 my-4">Seleccione la gráfica a generar</h3>
                                                                     </div>
                                                                 </div>
                                                             }
                                                         </div>
                                                     </div>
+                                                </div>   
+                                                                </div>
+                                                            </div>
+                                                            </div>
                                                 </div>
                                             </div>
                                             <div className={openTab === 2 ? "block bg-gray-50" : "hidden"} id="link2">
-                                            <div className="    ">
-                                                        <div className="  bg-white rounded-lg w-full overflow-hidden">
+                                            <div className=" relative bg-blue-50 p-5   ">
+                                                        <div className="  bg-white  shadow-lg w-full rounded-lg w-full overflow-hidden">
                                                             {!cargando && /*console.log(userProgress)  */
                                                                 <div className="content-center pt-2 items-center w-full justify-center text-center">
                                                                     {tabla.length == 0? 
@@ -631,7 +669,7 @@ const ReportingUser = () => {
                                                                     :
                                                                     <h2> INFORMACIÓN DETALLADA </h2>
                                                                     }
-                                                                    <div className="  max-w-xs md:max-w-5xl px-2 table-responsive">
+                                                                    <div className="  px-2 table-responsive">
                                                                     <DataTable
                                                                         columns={columns}
                                                                         data={tabla}
@@ -653,8 +691,6 @@ const ReportingUser = () => {
                                     </div>
                                 </div>
                             </div>
-                            
-                            
                         </div>
                         
                     }

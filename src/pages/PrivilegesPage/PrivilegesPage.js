@@ -270,28 +270,28 @@ const PrivilegesPage = () => {
             <NavComponent data={USER} />
             <div className=" ">
             <div className="relative  flex content-center items-center justify-center min-h-screen-75">
-        <div className="w-full pt-2 md:px-10 ">
-        <div className="container relative mx-auto bg-white rounded shadow-md border pt-5 w-full">
-                <div className="items-center w-full flex flex-wrap">
-                    <div className="w-full lg:w-8/12 px-4 ml-auto mr-auto text-center">
-                        <div className="md:pb-5">
-                            <h1 className=" font-semibold text-2xl md:text-4xl">
-                            PRIVILEGIOS
-                            </h1>
-                            <h3 className=" text-center font-bold py-2 lg:text-xs md:text-xs text-xs   font-sans  ">
-                                Seleccione la casilla del usuario al que desee asignar o quitar privilegios
-                            </h3> 
-                        </div>
-                        <div>
-                            {cargando ? <div className=" spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-green-500 " role="status">
-                                <span className="visually-hidden">Loading...</span>
-                            </div> : <div> </div>}
+                <div className="w-full bg-white shadow-md border ">
+                <   div className="container relative mx-auto  rounded  pt-5 w-full">
+                        <div className="items-center w-full flex flex-wrap">
+                            <div className="w-full  ml-auto mr-auto text-center">
+                                <div className="pb-5">
+                                    <h1 className=" font-semibold text-2xl md:text-4xl">
+                                    PRIVILEGIOS
+                                    </h1>
+                                    <h3 className=" text-center font-bold py-2 lg:text-xs md:text-xs text-xs   font-sans  ">
+                                        Seleccione la casilla del usuario al que desee asignar o quitar privilegios
+                                    </h3> 
+                                </div>
+                                <div>
+                                    {cargando ? <div className=" spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-green-500 " role="status">
+                                        <span className="visually-hidden">Loading...</span>
+                                    </div> : <div> </div>}
 
+                            </div>
+                            </div>
+                        </div> 
                     </div>
-                    </div>
-                </div> 
-            </div>
-        </div>
+                </div>
             
             </div> 
             

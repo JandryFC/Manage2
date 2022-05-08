@@ -22,7 +22,7 @@ const ReportingTask = () => {
 
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
-    const [checked, setChecked] = useState(false);
+    const [checked, setChecked] = useState(true);
     const [cargando, setCargando] = useState(true);
     const [grafica, setGrafica] = useState(null);
     var formData = new FormData();
@@ -274,7 +274,7 @@ const ReportingTask = () => {
                     <div className="flex justify-center">
                         <div>
                             <div className="form-check">
-                                <input onChange={handleChange} className="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="flexCheckDefault" />
+                                <input onChange={handleChange} defaultChecked className="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="flexCheckDefault" />
                                 <label className="text-sm form-check-label inline-block text-gray-800" htmlFor="flexCheckDefault">
                                     VER TODO
                                 </label>
@@ -327,7 +327,7 @@ const ReportingTask = () => {
                     <button type="button" onClick={generarReporte} className="inline-block px-6 py-2.5 bg-yellow-300 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-yellow-400 hover:shadow-lg focus:bg-yellow-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-400 active:shadow-lg transition duration-150 ease-in-out">Generar</button>
                 </div>
             </div>
-            <div className="grid grid-cols-1 my-4 md:px-20 pb-10">
+            <div className="static w-full md:w-5/6 md:p-5">
                 <div className="shadow-lg bg-white rounded-lg  overflow-hidden">
                     {task.length == 0 ?
                         <div className="p-10 grid grid-cols-1 gap-4 content-center" id="chartBar">
@@ -336,28 +336,28 @@ const ReportingTask = () => {
                                 <h3 className="text-xl  text-center text-gray-600 my-4">Seleccione la información</h3>
                             </div>
                         </div>
-                        : <div className=" md:flex   gap-2">
+                        : <div className=" md:flex bg-blue-50  gap-2">
                             <div className="p-5 grid grid-cols-3 gap-4 " id="chartBar">
-                            <div className=" border  rounded-lg border-gray-200   grid grid-cols-1 gap-4 content-center ">
+                            <div className=" border shadow-lg bg-white rounded-lg border-gray-200   grid grid-cols-1 gap-4 content-center ">
                                     <div className="text-center">
                                         <h3 className="text-2xl uppercase text-yellow-500">{(book.length) / 4} </h3>
                                         <h3 className="uppercase text-sm text-gray-500">Libros</h3>
                                     </div>
                                 </div>
-                                <div className=" border  rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center ">
+                                <div className=" border shadow-lg bg-white rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center ">
                                     <div className="text-center">
                                         <h3 className="text-2xl uppercase text-yellow-500">{nFormatter(task.length, 1)} </h3>
                                         <h3 className="uppercase text-sm text-gray-500">Tareas</h3>
                                     </div>
                                 </div>
-                                <div className=" border  rounded-lg border-gray-200  grid grid-cols-1 gap-4 content-center ">
+                                <div className=" border  shadow-lg bg-white rounded-lg border-gray-200  grid grid-cols-1 gap-4 content-center ">
                                     <div className="text-center">
                                         <h3 className="text-2xl uppercase text-yellow-500">{question.length} </h3>
                                         <h3 className="uppercase text-sm text-gray-500">Preguntas</h3>
                                     </div>
                                 </div>
                                 
-                                <div className="col-span-2  border  rounded-lg border-gray-200 py-2 grid grid-cols-1 gap-4 content-center ">
+                                <div className="col-span-2  border shadow-lg bg-white rounded-lg border-gray-200 py-2 grid grid-cols-1 gap-4 content-center ">
                                     <div className="text-center text-gray-500">
                                         <h3 className="text-md font-bold text-gray-500">Tipos de Tareas</h3>
                                         <div className="grid grid-cols-2  px-3">
@@ -376,12 +376,12 @@ const ReportingTask = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="  border  rounded-lg border-gray-200 grid grid-cols-1 gap-4 content-center ">
+                                <div className="  border  rounded-lg shadow-lg bg-white border-gray-200 grid grid-cols-1 gap-4 content-center ">
                                     <div className="text-center">
                                         <button type="button" onClick={graficando} id="graficaTipos"  className="inline-block font-bold  py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">Generar gráfica de tareas</button>
                                     </div>
                                 </div>
-                                <div className="col-span-2 w-full border py-2  rounded-lg border-gray-200  grid grid-cols-1 gap-4 content-center ">
+                                <div className="col-span-2 w-full border py-2 shadow-lg bg-white  rounded-lg border-gray-200  grid grid-cols-1 gap-4 content-center ">
                                     <div className="text-center text-gray-500">
                                         <h3 className="text-md font-bold text-gray-500">Tipos de Preguntas</h3>
                                         <div className="grid grid-cols-3 gap-5 px-3">
@@ -408,14 +408,14 @@ const ReportingTask = () => {
                                     </div>
                                 </div>
                                 
-                                <div className="c border  rounded-lg border-gray-200  grid grid-cols-1 gap-4 content-center ">
+                                <div className="c border  rounded-lg border-gray-200 shadow-lg bg-white grid grid-cols-1 gap-4 content-center ">
                                     <div className="text-center">
                                         <button type="button" onClick={graficando} id="graficaPreguntas"  className="inline-block font-bold  py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">Generar gráfica de preguntas </button>
                                     </div>
                                 </div>
                             </div>
-                            <div className=" p-5 ">
-                                <div className="border py-5  pb-12 rounded-lg border-gray-200">
+                            <div className=" p-5  bg-blue-50 ">
+                                <div className="border bg-white py-5  pb-12 rounded-lg border-gray-200">
                                     {grafica ? <div  className="object-contain h-80 w-80 mx-auto py-2 ">{grafica} </div>
                                         : <div className=" py-10 grid grid-cols-1 gap-4 content-center" >
                                             <div className="mx-auto">
