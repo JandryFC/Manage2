@@ -37,59 +37,76 @@ const ReportingPage = (props) => {
         <div >
             <NavComponent data={USER} />
             <div className="flex flex-col w-full bg-gray-50">
-
-                <div className="flex justify-center p-10">
-                        <div></div>
-                        <div className=" text-center  ">
-                            <h3 className="text-center uppercase  tracking-wider text-xl font-bold">Sistema de Reportes </h3>
-                            <h3 className=" text-center font-bold py-2 lg:text-xs md:text-xs text-xs   font-sans text-gray-500 ">
-                                Seleccione el reporte que desea generar
-                            </h3>    
-                            <div className="dropdown relative pl-10 py-5">
-                                <button
-                                    className=" dropdown-toggle px-4 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg active:text-white transition duration-150 ease-in-out flex items-center whitespace-nowrap"
-                                    type="button"
-                                    id="dropdownMenuButton5"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false"
-                                >
-                                    Generar Reporte
-                                    <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="caret-down" className="w-2 ml-2" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"
+            <div className="relative pt-10 pb-8 flex content-center items-center justify-center min-h-screen-75">
+            <div
+                className="absolute top-0 w-full h-full bg-center bg-cover"
+                style={{
+                backgroundImage:
+                    "url('https://i.pinimg.com/originals/a3/b6/d0/a3b6d0044e85ab6d7076802d0b378770.jpg')",
+                }}
+            >
+                <span
+                id="blackOverlay"
+                className="w-full h-full absolute opacity-80 bg-black"
+                ></span>
+            </div>
+            <div className="container relative mx-auto">
+                <div className="items-center flex flex-wrap">
+                <div className="w-full lg:w-8/12 px-4 ml-auto mr-auto text-center">
+                    <div className="md:pb-5">
+                    <h1 className="text-white font-semibold text-2xl md:text-4xl">
+                    REPORTES
+                    </h1>
+                    <div className="mx-auto pt-5">
+                                    <button
+                                        className=" dropdown-toggle px-4 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg active:text-white transition duration-150 ease-in-out  items-center whitespace-nowrap"
+                                        type="button"
+                                        id="dropdownMenuButton5"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
                                     >
-                                        <path
-                                            fill="currentColor"
-                                            d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
-                                        ></path>
-                                    </svg>
-                                </button>
-                                <ul
-                                    className=" dropdown-menu min-w-max absolute hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 hidden m-0 bg-clip-padding border-none"
-                                    aria-labelledby="dropdownMenuButton5"
-                                >
+                                        Seleccionar Reporte
+                                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="caret-down" className="w-2 ml-2 " role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"
+                                        >
+                                            <path
+                                                fill="currentColor"
+                                                d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
+                                            ></path>
+                                        </svg>
+                                    </button>
+                                    <ul
+                                        className=" dropdown-menu min-w-max absolute hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 hidden m-0 bg-clip-padding border-none"
+                                        aria-labelledby="dropdownMenuButton5"
+                                    >
 
-                                    <li>
-                                        <button
-                                            onClick={selectReport} id="usuario" className=" dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
-                                        >Reportes de Usuarios</button>
-                                    </li>
-                                    <li>
-                                        <button id="libro" onClick={selectReport}
-                                            className=" dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
-                                        >Reporte de Libros</button>
-                                    </li>
-                                </ul>
-                            </div>  
+                                        <li>
+                                            <button
+                                                onClick={selectReport} id="usuario" className=" dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
+                                            >Reportes de Usuarios</button>
+                                        </li>
+                                        <li>
+                                            <button id="libro" onClick={selectReport}
+                                                className=" dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
+                                            >Reporte de Libros</button>
+                                        </li>
+                                    </ul>
+                                </div>
+                    </div>
+                </div>
+                
+                </div>
+                
+            </div>
+          
+
+            </div>
+
+                <div className="">
+                    {!cargando ?
+                        <div className="text-center py-2 items-center justify-center">
                             <div className="pt-4">
                                     <h3 className="uppercase  tracking-wider text-xl font-bold">  {report!== ""? `Reportes de ${report}`: ""}</h3>
                             </div>
-
-                        </div>
-                        
-                       
-                    </div>
-                <div className="">
-                    {!cargando ?
-                        <div className="flex items-center justify-center">
                             {
                                 (() => {
                                     switch (report) {
@@ -105,9 +122,16 @@ const ReportingPage = (props) => {
                         </div>
                         :
                         
-                        <div className="">
-                            <div className=" md:pl-80 py-5 space-y-2">
-                                <img src={cargando_img1} className="mr-0 pr-0" width="400px" />
+                        <div className="flex flex-wrap items-center mt-5">
+                            <div className="w-full md:w-5/12 w-1/12 px-4 mr-auto ml-auto">
+                                <div className="relative flex flex-col min-w-0 break-words  w-full mb-6 ">
+                                <img
+                                    alt="..."
+                                    src={cargando_img1}                    
+                                    className="align-middle rounded-t-lg"
+                                />
+
+                                </div>
                             </div>
                         </div>
                     }

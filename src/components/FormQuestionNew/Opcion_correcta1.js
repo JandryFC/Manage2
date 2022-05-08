@@ -16,6 +16,7 @@ const Opcion_correcta1 = (props) => {
     const [question, setQuestion] = useState(props.question);
     var formData = new FormData()
     var navigate = useNavigate()
+    
     /* const [disableForm, setDisableForm] = useState(true) */
     const [items, setItems] = useState([])
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -103,7 +104,7 @@ const Opcion_correcta1 = (props) => {
     }
 
     return (
-        <div className="grid grid-col-2 ml-60">
+        <div className="">
             <div className=''>
                 <div className="w-full max-w-xl m-auto py-5">
                     <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit(handleForm)}>

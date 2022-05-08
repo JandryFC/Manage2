@@ -4,6 +4,8 @@ import { mostrarExitoEditar, selectnewRol } from '../../components/Alert/Alert'
 import ReactTimeAgo from 'react-time-ago'
 import NavComponent from "../../components/NavComponent/NavComponent";
 import DataTable from 'react-data-table-component';
+import cargando_img1 from '../../assets/report.svg'
+
 const USER = JSON.parse(localStorage.getItem("user"));
 
 const columns = [
@@ -20,8 +22,8 @@ const columns = [
         selector: row => row.cedula,
         sortable: true,
         compact: true,
-        minWidth: "5vh",
-        maxWidth: "40vh"
+        minWidth: "5vh"
+
 
     },
     {
@@ -49,18 +51,13 @@ const columns = [
         selector: row => row.rol,
         sortable: true
     },
-    {
-        name: 'Creado',
-        selector: row => row.createdAt,
-        sortable: true
-    },
+
 
 ];
 
 const PrivilegesPage = () => {
 
     const [users, setUsers] = useState([])
-    const [table, setTable] = useState([])
     const [cargando, setCargando] = useState(true);
     const [selectedRows, setSelectedRows] = useState(false);
     const [toggleCleared, setToggleCleared] = React.useState(false);
@@ -126,8 +123,8 @@ const PrivilegesPage = () => {
                         name: e.name.toUpperCase() ,
                         lastname: e.lastname.toUpperCase() ,
                         mail: e.mail,
-                        rol: e.rol.reduce((e1, e2) => { return `${e1}, ${e2}` }),
-                        createdAt: <ReactTimeAgo date={new Date(e.createdAt)} locale="es-EC" />
+                        rol: e.rol.reduce((e1, e2) => { return `${e1}, ${e2}` })
+                        //createdAt: <ReactTimeAgo date={new Date(e.createdAt)} locale="es-EC" />
         
                     }
                 })
@@ -271,29 +268,56 @@ const PrivilegesPage = () => {
     return (
         <div>
             <NavComponent data={USER} />
-            <div className=" "> 
-                <div className=" p-10">
-                    <div className="flex justify-between p-4">
-                        <div></div>
-                        <div>
-                            <h3 className="text-center uppercase  tracking-wider text-xl font-bold">Gestión de Privilegios </h3>
-                            <h3 className=" text-center font-bold py-2 lg:text-xs md:text-xs text-xs   font-sans text-gray-500 ">
+            <div className=" ">
+            <div className="relative  flex content-center items-center justify-center min-h-screen-75">
+        <div className="w-full pt-2 md:px-10 ">
+        <div className="container relative mx-auto bg-white rounded shadow-md border pt-5 w-full">
+                <div className="items-center w-full flex flex-wrap">
+                    <div className="w-full lg:w-8/12 px-4 ml-auto mr-auto text-center">
+                        <div className="md:pb-5">
+                            <h1 className=" font-semibold text-2xl md:text-4xl">
+                            PRIVILEGIOS
+                            </h1>
+                            <h3 className=" text-center font-bold py-2 lg:text-xs md:text-xs text-xs   font-sans  ">
                                 Seleccione la casilla del usuario al que desee asignar o quitar privilegios
-                            </h3>      
-
+                            </h3> 
                         </div>
-                        
                         <div>
                             {cargando ? <div className=" spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-green-500 " role="status">
                                 <span className="visually-hidden">Loading...</span>
                             </div> : <div> </div>}
 
-                        </div>
                     </div>
-                    <div className="p-5"> 
+                    </div>
+                </div> 
+            </div>
+        </div>
+            
+            </div> 
+            
+            {cargando?
+                    <div className="flex flex-wrap items-center mt-5">
+                        <div className="w-full md:w-5/12 w-1/12 px-4 mr-auto ml-auto">
+                            <div className="relative flex flex-col min-w-0 break-words  w-full mb-6 ">
+                            <img
+                                alt="..."
+                                src={cargando_img1}                    
+                                className="align-middle rounded-t-lg"
+                            />
+
+                            </div>
+                        </div>
+                     </div>
+                    :
+                    <div></div>
+            }
+                <div className=" md:px-10 pb-10 ">
+                    <div className="flex justify-between p-4">
+                    </div>
+                    <div className="px-5"> 
                         {!cargando && /*console.log(userProgress)  */
-                            <div className="table-responsive">
-                                <div className="barraBusqueda ">
+                            <div className="table-responsive ">
+                                <div className="barraBusqueda  ">
                                     <input
                                     type="text"
                                     placeholder="Buscar Correo"
@@ -310,23 +334,25 @@ const PrivilegesPage = () => {
                                     
                                 </div>
                                 <h2 className="py-2"></h2>
-                                <DataTable
-                                    title="Lista de Usuarios"
-                                    columns={columns}
-                                    data={DataBusqueda}
-                                    fixedHeader={true}
-                                    fixedHeaderScrollHeight="350px"
-                                    pagination
-                                    selectableRows
-                                    
+                                <div className="shadow-lg">
+                                    <DataTable
+                                        title="Lista de Usuarios"
+                                        columns={columns}
+                                        data={DataBusqueda}
+                                        fixedHeader={true}
+                                        fixedHeaderScrollHeight="350px"
+                                        pagination
+                                        selectableRows
+                                        
 
-                                    noDataComponent={<span>No se encontró ningún elemento</span>}
+                                        noDataComponent={<span>No se encontró ningún elemento</span>}
 
-                                    contextActions={contextActions}
-                                    selectableRowsSingle={true}
-                                    onSelectedRowsChange={handleRowSelected}
-                                    clearSelectedRows={toggleCleared}
-                                />
+                                        contextActions={contextActions}
+                                        selectableRowsSingle={true}
+                                        onSelectedRowsChange={handleRowSelected}
+                                        clearSelectedRows={toggleCleared}
+                                    />
+                                </div>
                             </div>
 
                         }

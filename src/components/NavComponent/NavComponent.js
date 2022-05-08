@@ -65,6 +65,7 @@ const NavComponent = (props) => {
     if(ct!==0){
       let control=verificar(roles.rol_select)
       if(control){
+        window.location.href = "/dashboard";
         return aux;
       }else{
         alert('NO CUENTA CON DICHO ROL')
@@ -121,6 +122,12 @@ const NavComponent = (props) => {
                     href="/dashboard"
                   >
                     Inicio
+                  </a>
+                  <a
+                    className="text-white dark:text-white  hover:text-yellow-400 dark:hover:text-white px-3 py-2 rounded-md text-md font-medium"
+                    href="/books"
+                  >
+                    Contenido
                   </a>
                   {user.rol_select === "Administrador" &&
                     (
@@ -288,6 +295,12 @@ const NavComponent = (props) => {
                     href="/dashboard"
                   >
                     Inicio
+                  </a>
+                  <a
+                    className="text-white dark:text-white  hover:text-yellow-400 dark:hover:text-white px-3 py-2 rounded-md text-md font-medium"
+                    href="/books"
+                  >
+                    Contenido
                   </a>
                   {user.rol_select === "Administrador" &&
                     (

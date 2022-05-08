@@ -18,6 +18,14 @@ ChartJS.register(...registerables);
 const columns = [
 
     {
+        name: 'Id',
+        selector: row => row._id,
+        sortable: true,
+        compact: true,
+        minWidth: "5vh",
+        maxWidth: "8vh"
+    },
+    {
         name: 'Cédula',
         selector: row => row.cedula,
         sortable: true,
@@ -54,7 +62,16 @@ const columns = [
     {
         name: 'Progreso %',
         selector: row => row.progreso,
+        sortable: true,
+        compact: true,
+        minWidth: "5vh",
+        maxWidth: "12vh"
+    },
+    {
+        name: 'Creado',
+        selector: row => row.createdAt,
         sortable: true
+        
     },
     // {
     //     name: 'Creado',
@@ -149,12 +166,13 @@ const ReportingUser = () => {
                 let porcentaje = parseFloat(calculo.toFixed(2)) 
     
                 return {
+                    _id: e._id,
                     cedula: e.cedula,
                     name: e.name.toUpperCase(),
                     lastname: e.lastname.toUpperCase(),
                     mail: e.mail,
                     rol: e.rol.reduce((e1, e2) => { return `${e1}, ${e2}` }),
-                    //createdAt: <ReactTimeAgo date={new Date(e.createdAt)} locale="es-EC" />,
+                    createdAt: <ReactTimeAgo date={new Date(e.createdAt)} locale="es-EC" />,
                     progreso: porcentaje
                 }
             })

@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import NavComponent from "../../components/NavComponent/NavComponent";
-import NavLateral from "../../components/NavComponent/NavLateral";
+
 import {
     useParams
 } from "react-router-dom";
 import { mostrarExitoEditar } from '../../components/Alert/Alert'
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom"
 
 const USER = JSON.parse(localStorage.getItem("user"));
 
@@ -16,6 +17,14 @@ const NewTaskPage = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [task, setTask] = useState({})
     const [enviar, setEnviar] = useState(false)
+
+    var navigate = useNavigate()
+    
+    const atras = () => {
+        navigate(-1)
+    }
+
+
     const handleChange = (e) => {
         let name = e.target.name;
         let value = name !== "file_upload" ? e.target.value : e.target.files;
@@ -36,6 +45,7 @@ const NewTaskPage = () => {
         }else{
             unit_id=(modulo*2)
         }
+        
 
         
         formData.set("task", JSON.stringify({ ...task, id_unidad: unit_id, type_task: type }))
@@ -62,17 +72,26 @@ const NewTaskPage = () => {
         } else {
             await mostrarExitoEditar("Error", "No se pudo agregar la tarea", "error")
         }
-        window.location = `/dashboard/book/${book_number}/module/${module_number}/unit/${unit_number}`
+        window.location = `/books/book/${book_number}/module/${module_number}/unit/${unit_number}`
     }
     return (
         <div className="">
             <NavComponent data={USER} />
 
-            <NavLateral  data={USER} />
-            <div className="grid grid-col-2 ml-60">
+            <div className="pt-2 p-2 text-center items-justify-center justify-center mx-auto ">
+                <button onClick={atras}
+                         className=" dropdown-toggle px-4 py-2.5 bg-red-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-600 hover:shadow-lg focus:bg-red-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-700 active:shadow-lg active:text-white transition duration-150 ease-in-out flex items-center whitespace-nowrap"
+                                >          
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L9.414 11H13a1 1 0 100-2H9.414l1.293-1.293z" clip-rule="evenodd" />
+                        </svg>
+                        REGRESAR
+                 </button>
+            </div>
+            <div className="p-4">
             
                 <div className=''>
-                    <div className="w-full  max-w-2xl m-auto py-5">
+                    <div className="w-full  max-w-2xl m-auto pb-5">
                         <form className="bg-white  shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={handleSubmit(handleForm)}>
                             <div className="mb-4">
                                 <h2 className=" uppercase block text-center text-yellow-500 text-xl font-bold mb-2">
