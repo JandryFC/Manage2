@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import NavComponent from "../../components/NavComponent/NavComponent";
-import NavLateral from "../../components/NavComponent/NavLateral";
 import Opcion_correcta1 from "../../components/FormQuestionNew/Opcion_correcta1";
 import Completar_texto from "../../components/FormQuestionNew/Completar_texto";
 import Emparejar_img from "../../components/FormQuestionNew/Emparejar_img";

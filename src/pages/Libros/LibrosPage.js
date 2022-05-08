@@ -42,11 +42,9 @@ const LibrosPage = () => {
                             GESTIONAR CONTENIDO
                             </h1>
                             <p className="hidden md:block text-sm leading-relaxed mt-4  text">
-                            Utilice la barra lateral para gestionar la información en la sección que desee
-                            </p>
+                            Utilice la barra lateral para seleccionar el contenido a gestionar                            </p>
                             <p className="md:hidden md:text-lg text-sm leading-relaxed mt-4  text">
-                            Utilice la barra superior para gestionar la información en la sección que desee
-                            </p>
+                            Utilice la barra superior para seleccionar el contenido a gestionar                            </p>
                             {USER.rol_select !== "Administrador" && 
                             (
                             <p className=" text-gray-400 text-sm">
@@ -92,7 +90,7 @@ const LibrosPage = () => {
                     </svg>
                     </div>
                     <h6 className="text-xl mt-5 font-semibold  ">
-                    Añadir
+                    Registrar
                     </h6>
                     <p className="mt-2 mb-4 text-gray-700">
                     Nuevas lecciones a cada una de las actividades disponibles, al igual que nuevas preguntas

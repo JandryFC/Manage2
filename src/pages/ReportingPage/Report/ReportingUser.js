@@ -101,12 +101,18 @@ const ReportingUser = () => {
 
     const getTask = async () => {
         let responseTask = null
-        responseTask = await fetch(`${process.env.REACT_APP_API_URL}task/task/date`, {
-            method: "GET",
-            headers: {
-              token: process.env.REACT_APP_SECRET_TOKEN,
-            },
-        })
+        try {
+            responseTask = await fetch(`${process.env.REACT_APP_API_URL}task/task/date`, {
+                method: "GET",
+                headers: {
+                token: process.env.REACT_APP_SECRET_TOKEN,
+                },
+            }) 
+        } catch (e) {
+            //mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
+            //setCargando(false);
+            return
+        }
         let _task = await responseTask.json()
         setTask(await _task.data)
 

@@ -286,7 +286,7 @@ const UnitPage = (props) => {
                     <div>
                         {!cargando && /*console.log(userProgress)  */
                             <div className="shadow-md">
-                                <div className="">
+                                <div className=" ">
                                     <DataTable
                                         title="Lista de Usuarios"
                                         columns={columns}
@@ -295,7 +295,7 @@ const UnitPage = (props) => {
                                         fixedHeaderScrollHeight="350px"
                                         pagination
                                         selectableRows
-
+                                        noDataComponent={<span className="p-10">No se encontró ningún elemento, por favor debe registrar al menos una pregunta</span>}
                                         contextActions={contextActions}
                                         selectableRowsSingle={true}
                                         onSelectedRowsChange={handleRowSelected}
