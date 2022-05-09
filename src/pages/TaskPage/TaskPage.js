@@ -68,7 +68,7 @@ const UnitPage = (props) => {
         const handleDelete = async () => {
 
             const alerta = await mostrarAlertaEliminar("Pregunta");
-            if (await alerta) {
+            if ((await alerta).value) {
                 setToggleCleared(!toggleCleared);
                 let delete_response = null;
                 try {
@@ -253,7 +253,7 @@ const UnitPage = (props) => {
                                         <a
                                             className=" dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
                                             href={`/books/newQuestion/${task_number}/true_false`}
-                                        >Veradero y falso</a
+                                        >Verdadero y falso</a
                                         >
                                     </li>
                                     <li>

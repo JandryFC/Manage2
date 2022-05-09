@@ -36,6 +36,19 @@ export const mostrarAlertaConfimacion = async (_title, _type, _text)=>{
    
     return result;
 }
+export const mostrarAlertaEliminar = async (tema) => {
+    var value = await Swal.fire(
+        {
+            title: `Eliminar ${tema}`,
+            icon: "warning",
+            text: "¿Estas seguro que deseas eliminar?",
+            confirmButtonText: "Continuar",
+            showCancelButton: true,
+        }
+    )
+
+    return value;
+}
 export const selectnewRol = async (text, rolesDis) => {
 
     const value = await Swal.fire({
@@ -55,19 +68,7 @@ export const selectnewRol = async (text, rolesDis) => {
 
 }
 
-export const mostrarAlertaEliminar = async (tema) => {
-    var value = await Swal.fire(
-        {
-            title: `Eliminar ${tema}`,
-            icon: "warning",
-            text: "¿Estas seguro que deseas eliminar?",
-            confirmButtonText: "Continuar",
-            showCancelButton: true,
-        }
-    )
 
-    return value;
-}
 export const mostrarExitoEditar = async (titulo, text, icon) => {
     var result_data =
         await Swal.fire({
