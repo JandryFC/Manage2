@@ -301,9 +301,9 @@ const ReportingUser = () => {
                     {
                         label: 'Progreso de los Usuarios',
                         data: [
-                            tabla.filter(e => e.progreso >= 0 && e.progreso < 25 ).length,
-                            tabla.filter(e => e.progreso >= 25 && e.progreso < 50 ).length,
-                            tabla.filter(e => e.progreso >= 50 && e.progreso < 75 ).length,
+                            tabla.filter(e => e.progreso >= 0 && e.progreso < 26 ).length,
+                            tabla.filter(e => e.progreso >= 25 && e.progreso < 51 ).length,
+                            tabla.filter(e => e.progreso >= 50 && e.progreso < 76 ).length,
                             tabla.filter(e => e.progreso >= 75 && e.progreso < 101 ).length,
                         ],
                         backgroundColor: [
@@ -467,11 +467,11 @@ const ReportingUser = () => {
                                     </li>
                                     
                                     </ul>
-                                    <div className="relative flex flex-col  break-words bg-blue-50 w-full  rounded">
+                                    <div className="relative flex flex-col  break-words bg-gray-100 w-full  rounded">
                                     <div className=" py-5 flex-auto">
                                         <div className="tab-content tab-space">
                                             <div className={openTab === 1 ? "block md:px-4" : "hidden"} id="link1">
-                                                <div className="relative bg-blue-50 pt-5">
+                                                <div className="relative bg-gray-100 pt-5">
                                                             <div className="px-4 md:px-10 mx-auto w-full">
                                                             <div>
                                                                 {/* Card stats */}
@@ -660,7 +660,7 @@ const ReportingUser = () => {
                                                 </div>
                                             </div>
                                             <div className={openTab === 2 ? "block bg-gray-50" : "hidden"} id="link2">
-                                            <div className=" relative bg-blue-50 p-5   ">
+                                            <div className=" relative bg-gray-100 p-5   ">
                                                         <div className="  bg-white  shadow-lg w-full rounded-lg w-full overflow-hidden">
                                                             {!cargando && /*console.log(userProgress)  */
                                                                 <div className="content-center pt-2 items-center w-full justify-center text-center">

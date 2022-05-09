@@ -288,7 +288,7 @@ const UnitPage = (props) => {
                             <div className="shadow-md">
                                 <div className=" ">
                                     <DataTable
-                                        title="Lista de Usuarios"
+                                        title="Lista de Preguntas"
                                         columns={columns}
                                         data={data}
                                         fixedHeader={true}

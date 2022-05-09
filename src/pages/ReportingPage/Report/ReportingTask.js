@@ -336,7 +336,7 @@ const ReportingTask = () => {
                                 <h3 className="text-xl  text-center text-gray-600 my-4">Seleccione la información</h3>
                             </div>
                         </div>
-                        : <div className=" md:flex bg-blue-50  gap-2">
+                        : <div className=" md:flex bg-gray-100  gap-2">
                             <div className="p-5 grid grid-cols-3 gap-4 " id="chartBar">
                             <div className=" border shadow-lg bg-white rounded-lg border-gray-200   grid grid-cols-1 gap-4 content-center ">
                                     <div className="text-center">
@@ -414,7 +414,7 @@ const ReportingTask = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className=" p-5  bg-blue-50 ">
+                            <div className=" p-5  bg-gray-50 ">
                                 <div className="border bg-white py-5  pb-12 rounded-lg border-gray-200">
                                     {grafica ? <div  className="object-contain h-80 w-80 mx-auto py-2 ">{grafica} </div>
                                         : <div className=" py-10 grid grid-cols-1 gap-4 content-center" >
