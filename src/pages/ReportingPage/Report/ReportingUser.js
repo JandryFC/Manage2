@@ -414,7 +414,7 @@ const ReportingUser = () => {
                         
                         <div className="p-10 bg-white mx-auto text-center content-center" id="chartBar">
                             <div className=" w-full ">
-                                <h3 className="text-md  text-center text-gray-600 my-4">Para observar toda la información presione en ver todo, posterior a ello en el botón generar</h3>
+                                <h3 className="text-md  text-center text-gray-600 my-4">Presione el botón generar para mostrar la información, puede emplear las fechas para generar información más específica</h3>
                                 <img src={image_cargando} width="375" />
                             </div>
                         </div>
