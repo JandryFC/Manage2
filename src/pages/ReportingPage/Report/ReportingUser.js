@@ -137,7 +137,7 @@ const ReportingUser = () => {
             })
 
         } catch (e) {
-            //mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
+            mostrarExitoEditar("Error", "No se encontró conexión con el servidor, vuelva a intentarlo", "error")
             //setCargando(false);
             return;
         }

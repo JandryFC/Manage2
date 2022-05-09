@@ -104,7 +104,7 @@ const PrivilegesPage = () => {
             })
 
         } catch (e) {
-            mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
+            mostrarExitoEditar("Error", "No se encontró conexión con el servidor, recargue la página", "error")
             setCargando(false);
             return;
         }

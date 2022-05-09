@@ -46,7 +46,7 @@ const NavLateral = (props) => {
       //console.log(_libros)
     } catch (e) {
 
-      mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
+      //mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
       return;
     }
     setLibros(_libros)
