@@ -25,6 +25,8 @@ const ReportingTask = () => {
     const [checked, setChecked] = useState(true);
     const [cargando, setCargando] = useState(true);
     const [grafica, setGrafica] = useState(null);
+    const [openTab2, setOpenTab2] = React.useState(0);
+
     var formData = new FormData();
     formData.set("mode", "NO_DATE");
 
@@ -125,7 +127,7 @@ const ReportingTask = () => {
 
 
     const graficando = (e) => {
-        let id = e.target.id;
+        let id = e
         switch (id) {
             case "graficaProgresso":
                 setGrafica(
@@ -168,7 +170,7 @@ const ReportingTask = () => {
                             plugins: {
                                 title: {
                                     display: true,
-                                    text: "Tipos de Tareas",
+                                    text: "Tipos de Actividades",
                                     fontSize: 25,
                                 },
                                 legend: {
@@ -327,7 +329,7 @@ const ReportingTask = () => {
                     <button type="button" onClick={generarReporte} className="inline-block px-6 py-2.5 bg-yellow-300 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-yellow-400 hover:shadow-lg focus:bg-yellow-400 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-400 active:shadow-lg transition duration-150 ease-in-out">Generar</button>
                 </div>
             </div>
-            <div className="static w-full md:w-5/6 md:p-5">
+            <div className="static w-full md:w-5/6 md:p-5 ">
                 <div className="shadow-lg bg-white rounded-lg  overflow-hidden">
                     {task.length == 0 ?
                         <div className="p-10 grid grid-cols-1 gap-4 content-center" id="chartBar">
@@ -336,30 +338,30 @@ const ReportingTask = () => {
                                 <h3 className="text-xl  text-center text-gray-600 my-4">Seleccione la información</h3>
                             </div>
                         </div>
-                        : <div className=" md:flex bg-gray-100  gap-2">
-                            <div className="p-5 grid grid-cols-3 gap-4 " id="chartBar">
-                            <div className=" border shadow-lg bg-white rounded-lg border-gray-200   grid grid-cols-1 gap-4 content-center ">
+                        : <div className=" bg-gray-100  pb-5 md:p-10  gap-2">
+                            <div className="p-5 grid col-span-2 grid-cols-3 gap-4 " id="chartBar">
+                            <div className="  shadow-lg bg-white rounded border-gray-200   grid grid-cols-1 gap-4 content-center ">
                                     <div className="text-center">
                                         <h3 className="text-2xl uppercase text-yellow-500">{(book.length) / 4} </h3>
-                                        <h3 className="uppercase text-sm text-gray-500">Libros</h3>
+                                        <h3 className="font-bold uppercase text-sm text-gray-500">Libros</h3>
                                     </div>
                                 </div>
-                                <div className=" border shadow-lg bg-white rounded-lg border-gray-200 h-24 grid grid-cols-1 gap-4 content-center ">
+                                <div className="  shadow-lg bg-white rounded border-gray-200   grid grid-cols-1 gap-4 content-center ">
                                     <div className="text-center">
-                                        <h3 className="text-2xl uppercase text-yellow-500">{nFormatter(task.length, 1)} </h3>
-                                        <h3 className="uppercase text-sm text-gray-500">Tareas</h3>
+                                        <h3 className="text-2xl uppercase text-yellow-500">{nFormatter(task.length, 1)}{(book.length) / 4} </h3>
+                                        <h3 className="font-bold uppercase text-sm text-gray-500">Tareas</h3>
                                     </div>
                                 </div>
-                                <div className=" border  shadow-lg bg-white rounded-lg border-gray-200  grid grid-cols-1 gap-4 content-center ">
+                                <div className="   h-28 shadow-lg bg-white rounded border-gray-200  grid grid-cols-1 gap-4 content-center ">
                                     <div className="text-center">
                                         <h3 className="text-2xl uppercase text-yellow-500">{question.length} </h3>
-                                        <h3 className="uppercase text-sm text-gray-500">Preguntas</h3>
+                                        <h3 className="font-bold uppercase text-sm text-gray-500">Preguntas</h3>
                                     </div>
                                 </div>
                                 
-                                <div className="col-span-2  border shadow-lg bg-white rounded-lg border-gray-200 py-2 grid grid-cols-1 gap-4 content-center ">
-                                    <div className="text-center text-gray-500">
-                                        <h3 className="text-md font-bold text-gray-500">Tipos de Tareas</h3>
+                                <div className="md:col-span-2 col-span-3  shadow-lg bg-white rounded border-gray-200 py-2 grid grid-cols-1 gap-4 content-center ">
+                                    <div className="text-center py-2 text-gray-500">
+                                        <h3 className="text-md font-bold text-gray-500">Tipos de Actividades</h3>
                                         <div className="grid grid-cols-2  px-3">
                                             <div>
                                                 <div className="text-sm  capitalize text-gray-500">reading <h3 className="font-bold  text-red-400">{nFormatter(task.filter(e => e.type === "reading").length, 1)}
@@ -376,18 +378,20 @@ const ReportingTask = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="  border  rounded-lg shadow-lg bg-white border-gray-200 grid grid-cols-1 gap-4 content-center ">
-                                    <div className="text-center">
-                                        <button type="button" onClick={graficando} id="graficaTipos"  className="inline-block font-bold  py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">Generar gráfica de tareas</button>
-                                    </div>
+                                <div className="  hidden md:block  bg-white rounded bg-white border-gray-200 grid grid-cols-1 gap-4 content-center ">
+
                                 </div>
-                                <div className="col-span-2 w-full border py-2 shadow-lg bg-white  rounded-lg border-gray-200  grid grid-cols-1 gap-4 content-center ">
-                                    <div className="text-center text-gray-500">
+                                <div className="md:col-span-2 col-span-3 w-full  py-2 shadow-lg bg-white  rounded border-gray-200  grid grid-cols-1 gap-4 content-center ">
+                                    <div className="text-center text-gray-500 py-2">
                                         <h3 className="text-md font-bold text-gray-500">Tipos de Preguntas</h3>
                                         <div className="grid grid-cols-3 gap-5 px-3">
                                             <div>
                                                 <h2 className="text-sm capitalize ">opción única <h1 className="font-bold text-green-500">{(question.filter(e => e.type === "opcion_correcta_1").length)}
                                                 </h1> </h2>
+                                                
+                                                <h2 className="md:hidden text-sm capitalize ">... <h1 className="font-bold text-green-500">
+                                                </h1> </h2>
+                                                
                                                 <h2 className="text-sm capitalize ">emparejar <h1 className="font-bold text-yellow-500">{question.filter(e => e.type === "emparejar").length + question.filter(e => e.type === "emparejar_img").length }
                                                 </h1> </h2>
                                             </div>
@@ -406,16 +410,62 @@ const ReportingTask = () => {
                                             </div>
                                         </div>
                                     </div>
+                                    
                                 </div>
-                                
-                                <div className="c border  rounded-lg border-gray-200 shadow-lg bg-white grid grid-cols-1 gap-4 content-center ">
-                                    <div className="text-center">
-                                        <button type="button" onClick={graficando} id="graficaPreguntas"  className="inline-block font-bold  py-2 text-green-500 font-medium text-xs leading-tight uppercase rounded-full hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">Generar gráfica de preguntas </button>
-                                    </div>
+                                <div className="  hidden md:block   rounded  bg-white border-gray-200 grid grid-cols-1 gap-4 content-center ">
+
                                 </div>
+
                             </div>
-                            <div className=" p-5  bg-gray-50 ">
+                            <div className="px-5 bg-gray-100 static ">
                                 <div className="border bg-white py-5  pb-12 rounded-lg border-gray-200">
+                                <ul
+                                    className="flex px-10"
+                                    role="tablist"
+                                    >
+                                    <li className="-mb-px mr-2 last:mr-0 flex-auto text-center ">
+                                        <a
+                                        className={
+                                            "text-xs font-bold uppercase md:px-5 py-3 shadow-md rounded block leading-normal " +
+                                            (openTab2 === 1
+                                            ? "text-yellow-500 bg-gray-100 bg-gradient-to-t from-gray-100"
+                                            : "text-gray-600 bg-white")
+                                        }
+                                        onClick={e => {
+                                            e.preventDefault();
+                                            setOpenTab2(1);
+                                            graficando('graficaTipos');
+                                        }}
+                                        data-toggle="tab"
+                                        href="#link1"
+                                        role="tablist"
+                                        >
+                                        <i className="fas fa-space-shuttle text-base mr-1"></i> ACTIVIDADES
+                                        </a>
+                                    </li>
+
+                                    <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                                        <a 
+                                        id="graficaRoles"
+                                        className={
+                                            "text-xs font-bold uppercase md:px-5 py-3 shadow-md rounded block leading-normal " +
+                                            (openTab2 === 2
+                                            ? "text-yellow-500 bg-gray-100 bg-gradient-to-t from-gray-100"
+                                            : "text-gray-600 bg-white")
+                                        }
+                                        onClick={e => {
+                                            e.preventDefault();
+                                            setOpenTab2(2);
+                                            graficando('graficaPreguntas');
+                                        }}
+                                        data-toggle="tab"
+                                        href="#link2"
+                                        role="tablist"
+                                        >
+                                        <i className="fas fa-cog text-base mr-1"></i>  PREGUNTAS
+                                        </a>
+                                    </li>
+                                    </ul>
                                     {grafica ? <div  className="object-contain h-80 w-80 mx-auto py-2 ">{grafica} </div>
                                         : <div className=" py-10 grid grid-cols-1 gap-4 content-center" >
                                             <div className="mx-auto">

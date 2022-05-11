@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import logo_utm from "../../assets/Logo_utm.png";
 import loading from "../../assets/loading.svg";
 import axios from "axios";
-import { mostrarAlertaSalir } from "../../components/Alert/Alert";
+import { mostrarAlertaSalir, mostrarExitoEditar } from "../../components/Alert/Alert";
 
 
 const Login = () => {
@@ -36,20 +36,28 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    let response = []
     setCargando(true);
-    let response = await axios.post(
-      `${process.env.REACT_APP_API_URL}user/signin`,
-      {
-        mail: form.mail,
-        password: form.password,
-      },
-      {
-        headers: {
-          token: process.env.REACT_APP_SECRET_TOKEN,
+    try {
+        response = await axios.post(
+        `${process.env.REACT_APP_API_URL}user/signin`,
+        {
+          mail: form.mail,
+          password: form.password,
         },
-      }
-    );
+        {
+          headers: {
+            token: process.env.REACT_APP_SECRET_TOKEN,
+          },
+        }
+      );
+      
+    } catch (error) {
+        mostrarExitoEditar("Error", "No se encontró conexión con el servidor, vuelva a intentarlo", "error")
+        setCargando(false);
+        return;
+    }
+    
     setCargando(false);
     let data = response.data;
       //console.log('data',data)
@@ -65,13 +73,23 @@ const Login = () => {
         "Usuario o contraseña incorrectas, por favor verificar."
       );
     } else {
-      let user = data.res;
-      if (user.rol.find(e => e === form.rol)) {
-        localStorage.setItem("user", JSON.stringify({"_id": user._id, "rol_select": form.rol,"rol":user.rol,"name": user.name,"lastname": user.lastname,"mail": user.mail}));
-          window.location.href = "./dashboard";
-      }else{
-        viewTextMessage(false, "Usuario no tiene rol " + form.rol);
+      let user = []
+      try {
+        user = data.res;
+        if (user.rol.find(e => e === form.rol)) {
+          localStorage.setItem("user", JSON.stringify({"_id": user._id, "rol_select": form.rol,"rol":user.rol,"name": user.name,"lastname": user.lastname,"mail": user.mail}));
+            window.location.href = "./dashboard";
+        }else{
+          viewTextMessage(false, "Usuario no tiene rol " + form.rol);
+        }
+      } catch (error) {
+        mostrarExitoEditar("Error", "No se encontró conexión con el servidor, vuelva a intentarlo", "error")
+        setCargando(false);
+        return;
       }
+      
+      
+
       
     }
   };

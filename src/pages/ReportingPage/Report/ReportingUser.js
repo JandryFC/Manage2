@@ -551,7 +551,7 @@ const ReportingUser = () => {
                                                                                     </span> </h3>
                                                                                 </div>
                                                                                 <div>
-                                                                                    <h3 className="text-1xl capitalize text-gray-500"> 26% - 50 % =  <span className="font-bold text-blue-500">{tabla.filter(e => e.progreso > 25 && e.progreso < 51 ).length}
+                                                                                    <h3 className="text-1xl capitalize text-gray-500"> 26 - 50 % =  <span className="font-bold text-blue-500">{tabla.filter(e => e.progreso > 25 && e.progreso < 51 ).length}
                                                                                     </span> </h3>
                                                                                 </div>
                                                                                 

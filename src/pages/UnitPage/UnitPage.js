@@ -38,7 +38,7 @@ const UnitPage = (props) => {
             setData(_task.task);
             setIdUnit(_task.id_unit)
         } catch (e) {
-            mostrarExitoEditar("Error", "No se encontró conexión con el servidor", "error")
+            mostrarExitoEditar("Error", "No se encontró conexión con el servidor, recargue la página", "error")
             return;
         }
 
